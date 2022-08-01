@@ -218,4 +218,37 @@
       sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectRolesByUserName" resultMap="BaseResultMap">
+    SELECT
+	umr.*
+    FROM
+      ums_role umr
+      LEFT JOIN ums_member_role_relation ummr ON umr.id = ummr.role_id
+      LEFT JOIN ums_member umsm ON umsm.id = ummr.memeber_id
+    WHERE umsm.username=#{username}
+  </select>
+
+  <select id="selectRolePermissionUrlByRoleIds" resultType="java.lang.String">
+    SELECT umsp.uri
+    FROM ums_permission umsp
+    LEFT JOIN ums_role_permission_relation umsrp ON umsrp.permission_id = umsp.id
+    LEFT JOIN ums_role umsr ON umsr.id = umsrp.role_id
+    WHERE umsr.id in
+    <foreach item="roleId"  collection="roleIds" open="(" separator="," close=")">
+      #{roleId}
+    </foreach>
+  </select>
+
+  <!--使用List报错 java.lang.UnsupportedOperationException-->
+  <select id="selectRolePermissionUrlByRoleName" resultType="java.lang.String">
+    SELECT umsp.uri
+    FROM ums_permission umsp
+    LEFT JOIN ums_role_permission_relation umsrp ON umsrp.permission_id = umsp.id
+    LEFT JOIN ums_role umsr ON umsr.id = umsrp.role_id
+    <if test="roleName != null">
+      WHERE umsr.name = #{roleName}
+    </if>
+
+  </select>
 </mapper>

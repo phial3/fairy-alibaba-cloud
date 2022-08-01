@@ -27,4 +27,8 @@ public interface UmsRoleMapper {
     int updateByPrimaryKeySelective(UmsRole record);
 
     int updateByPrimaryKey(UmsRole record);
+
+    List<UmsRole> selectRolesByUserName(@Param("username") String username);
+
+    List<String> selectRolePermissionUrlByRoleName(@Param("roleName") String roleName);
 }
