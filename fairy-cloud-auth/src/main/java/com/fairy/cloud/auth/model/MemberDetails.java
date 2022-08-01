@@ -1,12 +1,14 @@
 package com.fairy.cloud.auth.model;
 
 import com.fairy.cloud.mbg.model.UmsMember;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -16,8 +18,13 @@ import java.util.Collection;
  * @version 1.0
  * @date 2022/4/30 21:28
  */
+@Data
 public class MemberDetails implements UserDetails {
     private UmsMember umsMember;
+    /**
+     * 用户权限集合
+     */
+    private List<GrantedAuthority> authorities;
 
     public MemberDetails(UmsMember umsMember) {
         this.umsMember = umsMember;
@@ -26,7 +33,7 @@ public class MemberDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //返回当前用户的权限
-        return Arrays.asList(new SimpleGrantedAuthority("TEST"));
+        return authorities;
     }
 
     @Override

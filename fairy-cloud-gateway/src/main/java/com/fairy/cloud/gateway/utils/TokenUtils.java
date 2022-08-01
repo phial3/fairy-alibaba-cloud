@@ -38,7 +38,7 @@ public class TokenUtils {
     /**
      * 认证服务器暴露的获取token_key的地址
      */
-    private static final String AUTH_TOKEN_KEY_URL = "http://fairy-cloud-auth/oauth/token_key";
+    private static final String AUTH_TOKEN_KEY_URL = "http://fairy-cloud-auth/auth/oauth/token_key";
 
     /**
      * 请求头中的 token的开始
@@ -63,19 +63,12 @@ public class TokenUtils {
 
         //第二步:远程调用获取token_key
         try {
-
             ResponseEntity<Map> response = restTemplate.exchange(AUTH_TOKEN_KEY_URL, HttpMethod.GET, entity, Map.class);
-
             String tokenKey = response.getBody().get("value").toString();
-
             log.info("去认证服务器获取Token_Key:{}",tokenKey);
-
             return tokenKey;
-
         }catch (Exception e) {
-
             log.error("远程调用认证服务器获取Token_Key失败:{}",e.getMessage());
-
             throw new GateWayException(ResultEnums.GET_TOKEN_KEY_ERROR);
         }
     }
@@ -120,20 +113,13 @@ public class TokenUtils {
     public static Claims validateJwtToken(String authHeader, PublicKey publicKey) {
         String token =null ;
         try{
-            token = StringUtils.substringAfter(authHeader, AUTH_HEADER);
-
+            //带一个空格
+            token = StringUtils.substringAfter(authHeader, AUTH_HEADER+" ");
             Jwt<JwsHeader, Claims> parseClaimsJwt = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token);
-
             Claims claims = parseClaimsJwt.getBody();
-
-            //log.info("claims:{}",claims);
-
             return claims;
-
         }catch(Exception e){
-
             log.error("校验token异常:{},异常信息:{}",token,e.getMessage());
-
             throw new GateWayException(ResultEnums.JWT_TOKEN_EXPIRE);
         }
     }

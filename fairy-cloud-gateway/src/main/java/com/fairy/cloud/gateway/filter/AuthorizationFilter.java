@@ -2,6 +2,7 @@ package com.fairy.cloud.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.fairy.cloud.gateway.properties.NotAuthUrlProperties;
+import com.fairy.cloud.gateway.utils.KeyPairUtil;
 import com.fairy.cloud.gateway.utils.TokenUtils;
 import com.fairy.common.enums.ResultEnums;
 import com.fairy.common.exception.GateWayException;
@@ -42,6 +43,8 @@ public class AuthorizationFilter implements GlobalFilter,Ordered,InitializingBea
     @Qualifier("restTemplate")
     private RestTemplate restTemplate;
 
+    @Autowired
+    private KeyPairUtil keyPairUtil;
     /**
      * 请求各个微服务 不需要用户认证的URL
      */
@@ -160,7 +163,8 @@ public class AuthorizationFilter implements GlobalFilter,Ordered,InitializingBea
     @Override
     public void afterPropertiesSet() throws Exception {
         //初始化公钥
-        this.publicKey = TokenUtils.genPulicKey(restTemplate);
+//        this.publicKey = TokenUtils.genPulicKey(restTemplate);
+        this.publicKey = keyPairUtil.genPulicKey(restTemplate);
     }
 
 }

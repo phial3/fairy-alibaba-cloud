@@ -5,6 +5,8 @@ import com.fairy.cloud.mbg.model.UmsRoleExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import javax.management.relation.Role;
+
 public interface UmsRoleMapper {
     long countByExample(UmsRoleExample example);
 
@@ -27,4 +29,11 @@ public interface UmsRoleMapper {
     int updateByPrimaryKeySelective(UmsRole record);
 
     int updateByPrimaryKey(UmsRole record);
+
+    /**
+     * 根据用户名查询角色信息
+     * @param username
+     * @return
+     */
+    List<UmsRole> selectRolesByUserName(@Param("username") String username);
 }

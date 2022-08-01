@@ -2,10 +2,13 @@ package com.fairy.cloud.auth.config;
 
 import com.fairy.cloud.auth.model.MemberDetails;
 import com.fairy.cloud.mbg.mapper.UmsMemberMapper;
+import com.fairy.cloud.mbg.mapper.UmsRoleMapper;
 import com.fairy.cloud.mbg.model.UmsMember;
 import com.fairy.cloud.mbg.model.UmsMemberExample;
+import com.fairy.cloud.mbg.model.UmsRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -31,6 +35,8 @@ public class MyUserDetailServicer implements UserDetailsService {
     @Autowired
     private UmsMemberMapper memberMapper;
     @Autowired
+    private UmsRoleMapper umsRoleMapper;
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -45,6 +51,10 @@ public class MyUserDetailServicer implements UserDetailsService {
         }
         log.info("根据用户名:{}获取用户登陆信息:{}", userName, umsMember);
         MemberDetails memberDetails = new MemberDetails(umsMember);
+        //查看用户的权限
+        List<UmsRole> roles = umsRoleMapper.selectRolesByUserName(umsMember.getUsername());
+        String authorities = roles.stream().map(UmsRole::getName).collect(Collectors.joining(","));
+        memberDetails.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
         return memberDetails;
     }
 

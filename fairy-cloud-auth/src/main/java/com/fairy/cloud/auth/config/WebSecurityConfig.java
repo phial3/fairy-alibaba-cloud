@@ -1,5 +1,8 @@
 package com.fairy.cloud.auth.config;
 
+import com.fairy.cloud.auth.handler.SimpleAccessDeniedHandler;
+import com.fairy.cloud.auth.handler.SimpleAuthenticationFailureHandler;
+import com.fairy.cloud.auth.handler.SimpleLogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 设置前台静态资源不拦截
+     *
      * @param web 前端
      * @throws Exception 异常
      */
@@ -54,12 +58,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.formLogin().permitAll()
+                .failureHandler(new SimpleAuthenticationFailureHandler())
                 .and().authorizeRequests()
-                .antMatchers("/login","/oauth/**","/rsa/publicKey").permitAll()
+                .antMatchers("/login", "/oauth/**", "/rsa/publicKey").permitAll()
                 .anyRequest().authenticated()
                 .and().logout().permitAll()
+                .logoutSuccessHandler(new SimpleLogoutHandler())
                 .and().csrf().disable()
-                ;
+        ;
+        http.exceptionHandling().accessDeniedHandler(new SimpleAccessDeniedHandler());
     }
 }
 

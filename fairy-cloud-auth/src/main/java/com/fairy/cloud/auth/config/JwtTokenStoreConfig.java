@@ -3,10 +3,12 @@ package com.fairy.cloud.auth.config;
 import com.fairy.cloud.auth.enhance.JwtTokenEnhancer;
 import com.fairy.cloud.auth.properties.JwtCAProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.oauth2.provider.endpoint.TokenKeyEndpoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -52,4 +54,15 @@ public class JwtTokenStoreConfig {
     public JwtTokenEnhancer jwtTokenEnhancer() {
         return new JwtTokenEnhancer();
     }
+
+    /**
+     * /oauth/token_key 去认证服务获取token_key出错
+     * 需要配置
+     * @return
+     */
+  /*  @Bean
+    @ConditionalOnBean
+    public TokenKeyEndpoint tokenKeyEndpoint() {
+        return new TokenKeyEndpoint(jwtAccessTokenConverter());
+    }*/
 }

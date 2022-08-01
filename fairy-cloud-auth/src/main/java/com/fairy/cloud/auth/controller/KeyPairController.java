@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.KeyPair;
-import java.security.interfaces.RSAPrivateKey;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +32,10 @@ public class KeyPairController {
 
     @GetMapping("/rsa/publicKey")
     @ResponseBody
-    public Map<String, String > getKey() throws Exception {
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+    public Map<String, String> getKey() throws Exception {
         //将公私钥对象存入map中,PUBLIC_KEY和PRIVATE_KEY为你自动生成的公私钥
-        RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
+        PublicKey rsaPublicKey = keyPair.getPublic();
+        PrivateKey rsaPrivateKey = keyPair.getPrivate();
 
         Map<String, String> keyMap = new HashMap<>(2);
         keyMap.put("public", getPublicKey(rsaPublicKey));
@@ -43,17 +43,18 @@ public class KeyPairController {
         return keyMap;
     }
 
-    private String getPublicKey(RSAPublicKey rsaPublicKey) {
+    private String getPublicKey(PublicKey rsaPublicKey) {
         return Base64.encodeBase64String(rsaPublicKey.getEncoded());
     }
 
 
     /**
      * 将原始私钥进行处理，获取规范私钥
+     *
      * @return 返回规范私钥
      * @throws Exception
      */
-    public  String getPrivateKey(RSAPrivateKey privateKey) throws Exception {
+    public String getPrivateKey(PrivateKey privateKey) throws Exception {
         return Base64.encodeBase64String(privateKey.getEncoded());
     }
 }
