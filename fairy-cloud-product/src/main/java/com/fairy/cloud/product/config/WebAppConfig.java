@@ -1,5 +1,7 @@
 package com.fairy.cloud.product.config;
 
+import com.fairy.cloud.product.intercepter.BloomFilterInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebAppConfig implements WebMvcConfigurer {
 
+    @Autowired
+    private BloomFilterInterceptor bloomFilterInterceptor;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String path = new ApplicationHome().getDir().getParent() + "/";
@@ -25,17 +30,14 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
 
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        //注册拦截器
-//        registry.addInterceptor(bloomFilterInterceptor())
-//                .addPathPatterns("/pms/productInfo/**", "/pms/flashPromotion/**");
-//    }
-//
-//    @Bean
-//    public BloomFilterInterceptor bloomFilterInterceptor() {
-//        return new BloomFilterInterceptor();
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        //注册拦截器
+        registry.addInterceptor(bloomFilterInterceptor)
+                .addPathPatterns("/pms/productInfo/**");
+    }
+
+
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

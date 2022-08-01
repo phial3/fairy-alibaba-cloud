@@ -98,10 +98,14 @@ public class PmsProductServiceImpl implements PmsProductService {
                 /*缓存设置失效时间 写入redis缓存数据*/
                 redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
             } else {
-                //没有那到锁也没有走数据库查询 这样肯定是本身有数据但是拿不到  就算走缓存，但是缓存没有数据
-                Thread.sleep(5 * 1000);
-                //自旋
-                getProductInfo(id);
+//                //没有那到锁也没有走数据库查询 这样肯定是本身有数据但是拿不到  就算走缓存，但是缓存没有数据
+//                Thread.sleep(5 * 1000);
+//                //自旋
+//                getProductInfo(id);
+                value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
+                if (null != value) {
+                    productInfo = (PmsProductParam) value;
+                }
             }
         } catch (Exception e) {
             log.error("异常信息:{}", e.getMessage());
@@ -183,7 +187,6 @@ public class PmsProductServiceImpl implements PmsProductService {
             productInfo.setFlashPromotionStatus(promotion.getStatus());
         }
     }
-
 
 
     @Override
