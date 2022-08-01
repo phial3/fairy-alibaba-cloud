@@ -1,0 +1,26 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.alibaba.cloud.nacos.client: warn
+    com.fairy.cloud.mbg.mapper: DEBUG
+    org.springframework.cloud.gateway: debug
+  config: classpath:logback.xml
+cloud:
+  gateway:
+    shouldSkipUrls:
+      - /oauth/**
+      - /sso/**
+      - /home/**
+      - /portal/commentlist/**
+      - /order/paySuccess/**
+      - /pms/**
+      - /static/qrcode/**

@@ -1,6 +1,5 @@
 package com.fairy.cloud.gateway.config;
 
-import com.fairy.cloud.gateway.Component.CloudRestTemplate;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor;

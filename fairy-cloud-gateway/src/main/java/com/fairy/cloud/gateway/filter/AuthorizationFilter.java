@@ -1,9 +1,8 @@
 package com.fairy.cloud.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.fairy.cloud.gateway.Component.CloudRestTemplate;
 import com.fairy.cloud.gateway.properties.NotAuthUrlProperties;
-import com.fairy.cloud.gateway.utils.JwtUtils;
+import com.fairy.cloud.gateway.utils.TokenUtils;
 import com.fairy.common.enums.ResultEnums;
 import com.fairy.common.exception.GateWayException;
 import io.jsonwebtoken.Claims;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -19,6 +19,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -34,15 +35,13 @@ import java.util.Map;
 @EnableConfigurationProperties(value = NotAuthUrlProperties.class)
 public class AuthorizationFilter implements GlobalFilter,Ordered,InitializingBean {
 
-    @Autowired
-    private CloudRestTemplate restTemplate;
-
 /*    @Autowired
-    @Qualifier("restTemplate")
-    private RestTemplate restTemplate;*/
+    private CloudRestTemplate restTemplate;*/
 
     @Autowired
-    private JwtUtils jwtUtils;
+    @Qualifier("restTemplate")
+    private RestTemplate restTemplate;
+
     /**
      * 请求各个微服务 不需要用户认证的URL
      */
@@ -70,7 +69,7 @@ public class AuthorizationFilter implements GlobalFilter,Ordered,InitializingBea
             throw new GateWayException(ResultEnums.AUTHORIZATION_HEADER_IS_EMPTY);
         }
         //第三步 校验我们的jwt 若jwt不对或者超时都会抛出异常
-        Claims claims = jwtUtils.validateJwtToken(authHeader,publicKey);
+        Claims claims = TokenUtils.validateJwtToken(authHeader,publicKey);
         //第四步 把从jwt中解析出来的 用户登陆信息存储到请求头中
         ServerWebExchange webExchange = wrapHeader(exchange,claims);
         if(!hasPremisson(claims,exchange.getRequest().getURI().getPath())){
@@ -161,7 +160,7 @@ public class AuthorizationFilter implements GlobalFilter,Ordered,InitializingBea
     @Override
     public void afterPropertiesSet() throws Exception {
         //初始化公钥
-        this.publicKey = jwtUtils.genPulicKey(restTemplate);
+        this.publicKey = TokenUtils.genPulicKey(restTemplate);
     }
 
 }

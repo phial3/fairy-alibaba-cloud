@@ -4,8 +4,8 @@ import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.DefaultBlockRequestH
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.alibaba.fastjson.JSON;
-import com.fairy.cloud.common.api.CommonResponse;
-import com.fairy.cloud.common.constant.ResultEnums;
+import com.fairy.cloud.gateway.common.GateWayResult;
+import com.fairy.common.enums.ResultEnums;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
@@ -22,8 +22,6 @@ import static org.springframework.web.reactive.function.BodyInserters.fromObject
 @Component
 public class GatewayBlockExceptionHandler extends DefaultBlockRequestHandler {
 
-    private static final String DEFAULT_BLOCK_MSG_PREFIX = "Blocked by Sentinel: ";
-
     @Override
     public Mono<ServerResponse> handleRequest(ServerWebExchange exchange, Throwable ex) {
         if (acceptsHtml(exchange)) {
@@ -39,16 +37,19 @@ public class GatewayBlockExceptionHandler extends DefaultBlockRequestHandler {
 
         return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS)
                 .contentType(MediaType.TEXT_PLAIN)
-                .syncBody(new String(JSON.toJSONString(buildErrorResult(ex))));
+                .syncBody(JSON.toJSONString(buildErrorResult(ex)));
     }
 
-    private CommonResponse buildErrorResult(Throwable ex) {
-        if(ex instanceof ParamFlowException) {
-            return  CommonResponse.fail(ResultEnums.TOMANY_REQUEST_ERROR);
-        }else if (ex instanceof DegradeException) {
-            return CommonResponse.fail(ResultEnums.BACKGROUD_DEGRADE_ERROR);
-        }else{
-            return CommonResponse.fail(ResultEnums.BAD_GATEWAY);
+    private GateWayResult buildErrorResult(Throwable ex) {
+        if (ex instanceof ParamFlowException) {
+            return GateWayResult.builder().code(ResultEnums.TOMANY_REQUEST_ERROR.getResultCode()).succuess(false)
+                    .msg(ResultEnums.TOMANY_REQUEST_ERROR.getResultMsg()).build();
+        } else if (ex instanceof DegradeException) {
+            return GateWayResult.builder().code(ResultEnums.BACKGROUD_DEGRADE_ERROR.getResultCode()).succuess(false)
+                    .msg(ResultEnums.BACKGROUD_DEGRADE_ERROR.getResultMsg()).build();
+        } else {
+            return GateWayResult.builder().code(ResultEnums.BAD_GATEWAY.getResultCode()).succuess(false)
+                    .msg(ResultEnums.BAD_GATEWAY.getResultMsg()).build();
         }
     }
 
@@ -67,21 +68,4 @@ public class GatewayBlockExceptionHandler extends DefaultBlockRequestHandler {
         }
     }
 
-    private static class ErrorResult {
-        private final int code;
-        private final String message;
-
-        ErrorResult(int code, String message) {
-            this.code = code;
-            this.message = message;
-        }
-
-        public int getCode() {
-            return code;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-    }
 }

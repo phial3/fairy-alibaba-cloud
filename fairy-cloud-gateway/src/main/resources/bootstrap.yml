@@ -1,0 +1,80 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: node01:8848
+        namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+      config:
+        server-addr: node01:8848
+        file-extension: yml
+        namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+        refresh-enabled: true
+        enabled: true
+    sentinel:
+      transport:
+        port: 8720
+        dashboard: node01:8084
+      datasource:
+        # 名称随意
+        gw-flow:
+          nacos:
+            server-addr: node01:8848
+            dataId: ${spring.application.name}-flow
+            groupId: SENTINEL_GROUP
+            rule-type: gw-flow
+            namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+            #默认json格式
+            dataType: json
+            username: nacos
+            password: nacos
+        gw-api-group:
+          nacos:
+            server-addr: node01:8848
+            dataId: ${spring.application.name}-api
+            groupId: SENTINEL_GROUP
+            rule-type: gw-api-group
+            namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+            #默认json格式
+            dataType: json
+            username: nacos
+            password: nacos
+    gateway:
+      httpclient:
+        pool:
+          max-idle-time: 10000
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+      enabled: true
+      routes:
+        - id: fairy-cloud-auth
+          uri: lb://fairy-cloud-auth
+          predicates:
+            - Path=/oauth/**
+        - id: fairy-cloud-member
+          uri: lb://fairy-cloud-member
+          predicates:
+            - Path=/sso/**,/member/**
+        - id: fairy-cloud-order
+          uri: lb://fairy-cloud-order
+          predicates:
+            - Path=/cart/**,/order/**
+        - id: fairy-cloud-product
+          uri: lb://fairy-cloud-product
+          predicates:
+            - Path=/pms/**
+        - id: fairy-cloud-coupons
+          uri: lb://fairy-cloud-coupons
+          predicates:
+            - Path=/coupon/**
+        - id: fairy-cloud-portal
+          uri: lb://fairy-cloud-portal
+          predicates:
+            - Path=/home/**,/portal/**
+#是否开启@SentinelRestTemplate注解
+resttemplate:
+  sentinel:
+    enabled: true

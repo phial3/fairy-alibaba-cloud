@@ -3,7 +3,6 @@ package com.fairy.cloud.auth.config;
 import com.fairy.cloud.auth.enhance.JwtTokenEnhancer;
 import com.fairy.cloud.auth.properties.JwtCAProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,9 +1,7 @@
 package com.fairy.cloud.gateway.exception;
 
-
-
-import com.fairy.cloud.common.api.CommonResponse;
-import com.fairy.cloud.common.exception.GateWayException;
+import com.fairy.common.exception.GateWayException;
+import com.fairy.common.response.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

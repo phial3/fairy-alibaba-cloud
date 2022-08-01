@@ -1,4 +1,4 @@
-package com.fairy.cloud.gateway.Component;
+package com.fairy.cloud.gateway.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;

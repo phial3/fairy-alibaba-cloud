@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.fairy</groupId>
-    <artifactId>fairy-cloud</artifactId>
+    <artifactId>fairy-alibaba-cloud</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
     <description>电商微服务项目</description>
@@ -16,5 +16,7 @@
     </parent>
     <modules>
         <module>fairy-cloud-mbg</module>
+        <module>fairy-cloud-gateway</module>
+        <module>fairy-cloud-auth</module>
     </modules>
 </project>
