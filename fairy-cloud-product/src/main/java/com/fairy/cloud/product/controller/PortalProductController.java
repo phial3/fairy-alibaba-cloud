@@ -1,6 +1,6 @@
 package com.fairy.cloud.product.controller;
 
-import com.fairy.cloud.product.dao.PortalProductDao;
+import com.fairy.cloud.mbg.model.PmsProduct;
 import com.fairy.cloud.product.model.FlashPromotionProduct;
 import com.fairy.cloud.product.model.FlashPromotionSessionExt;
 import com.fairy.cloud.product.model.PmsProductParam;
@@ -23,9 +23,6 @@ public class PortalProductController {
     @Autowired
     private PmsProductService pmsProductService;
 
-    @Autowired
-    private PortalProductDao portalProductDao;
-
     /**
      * 只有通过过滤拦截请求后的 才可以访问接口
      *
@@ -39,7 +36,7 @@ public class PortalProductController {
     })
     @RequestMapping(value = "/productInfo/{id}", method = RequestMethod.GET)
     public CommonResponse getProductInfo(@PathVariable Long id) {
-        PmsProductParam pmsProductParam = pmsProductService.getProductInfo(id);
+        PmsProduct pmsProductParam = pmsProductService.getProductInfo(id);
         return CommonResponse.success(pmsProductParam);
     }
 

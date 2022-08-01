@@ -1,6 +1,6 @@
 package com.fairy.cloud.product.cache;
 
-import com.fairy.cloud.product.model.PmsProductParam;
+import com.fairy.cloud.mbg.model.PmsProduct;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class LocalCache {
 
-    private Cache<String, PmsProductParam> localCache;
+    private Cache<String, PmsProduct> localCache;
 
     @PostConstruct
     private void init() {
@@ -30,11 +30,11 @@ public class LocalCache {
                 .expireAfterWrite(60, TimeUnit.SECONDS).build();
     }
 
-    public synchronized void setLocalCache(String key, PmsProductParam object) {
+    public synchronized void setLocalCache(String key, PmsProduct object) {
         localCache.put(key, object);
     }
 
-    public synchronized PmsProductParam get(String key) {
+    public synchronized PmsProduct get(String key) {
         return localCache.getIfPresent(key);
     }
 

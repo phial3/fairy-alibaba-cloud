@@ -1,6 +1,7 @@
 package com.fairy.cloud.product.service;
 
 
+import com.fairy.cloud.mbg.model.PmsProduct;
 import com.fairy.cloud.product.model.*;
 
 import java.util.List;
@@ -15,8 +16,7 @@ public interface PmsProductService {
      * @author 鹿少年
      * @date 10:43 2022/5/5
      **/
-    PmsProductParam getProductInfo(Long id);
-
+    PmsProduct getProductInfo(Long id);
 
     /**
      * 获取秒杀商品

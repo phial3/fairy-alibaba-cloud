@@ -1,13 +1,11 @@
 package com.fairy.cloud.product.service.impl;
 
+import com.fairy.cloud.mbg.mapper.PmsProductMapper;
 import com.fairy.cloud.mbg.mapper.SmsFlashPromotionMapper;
 import com.fairy.cloud.mbg.mapper.SmsFlashPromotionSessionMapper;
-import com.fairy.cloud.mbg.model.SmsFlashPromotion;
-import com.fairy.cloud.mbg.model.SmsFlashPromotionExample;
-import com.fairy.cloud.mbg.model.SmsFlashPromotionSession;
+import com.fairy.cloud.mbg.model.*;
 import com.fairy.cloud.product.cache.LocalCache;
 import com.fairy.cloud.product.dao.FlashPromotionProductDao;
-import com.fairy.cloud.product.dao.PortalProductDao;
 import com.fairy.cloud.product.model.FlashPromotionParam;
 import com.fairy.cloud.product.model.FlashPromotionProduct;
 import com.fairy.cloud.product.model.FlashPromotionSessionExt;
@@ -25,7 +23,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class PmsProductServiceImpl implements PmsProductService {
 
     @Autowired
-    private PortalProductDao portalProductDao;
+    private PmsProductMapper pmsProductMapper;
     @Autowired
     private FlashPromotionProductDao flashPromotionProductDao;
     @Autowired
@@ -68,7 +65,7 @@ public class PmsProductServiceImpl implements PmsProductService {
      * @param id 产品ID
      */
     @Override
-    public PmsProductParam getProductInfo(Long id) {
+    public PmsProduct getProductInfo(Long id) {
         return getProductInfoRedis(id);
     }
 
@@ -78,9 +75,9 @@ public class PmsProductServiceImpl implements PmsProductService {
      *
      * @param id 产品ID
      */
-    private PmsProductParam getProductInfoRedis(Long id) {
+    private PmsProduct getProductInfoRedis(Long id) {
         //从jvm 本地缓存读取
-        PmsProductParam productInfo = null;
+        PmsProduct productInfo = null;
         //redis 读数据
         Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
         if (null != value) {
@@ -92,12 +89,11 @@ public class PmsProductServiceImpl implements PmsProductService {
         try {
             boolean rs = lock.tryLock(10, TimeUnit.SECONDS);
             if (rs) {
-                productInfo = portalProductDao.getProductInfo(id);
+                productInfo = pmsProductMapper.selectByPrimaryKey(id);
                 if (null == productInfo) {
                     log.error("数据库没有查询到商品信息,id:" + id);
                     return null;
                 }
-                gainProductInfo(id, productInfo);
                 /*缓存设置失效时间 写入redis缓存数据*/
                 redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
             } else {
@@ -126,8 +122,8 @@ public class PmsProductServiceImpl implements PmsProductService {
      *
      * @param id 产品ID
      */
-    private PmsProductParam getProductInfoZk(Long id) {
-        PmsProductParam productInfo;
+    private PmsProduct getProductInfoZk(Long id) {
+        PmsProduct productInfo = null;
         //使用一级本地缓存 jvm
         productInfo = cache.get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
         if (null != productInfo) {
@@ -145,12 +141,11 @@ public class PmsProductServiceImpl implements PmsProductService {
         try {
             //分布式锁
             if (zkLock.lock(lockPath + "_" + id)) {
-                productInfo = portalProductDao.getProductInfo(id);
+                productInfo = pmsProductMapper.selectByPrimaryKey(id);
                 if (null == productInfo) {
                     log.error("数据库没有查询到商品信息");
                     return null;
                 }
-                gainProductInfo(id, productInfo);
                 log.info("set db productInfo:" + productInfo);
                 //一级 二级缓存设置
                 redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
@@ -169,26 +164,6 @@ public class PmsProductServiceImpl implements PmsProductService {
             zkLock.unlock(lockPath + "_" + id);
         }
         return productInfo;
-    }
-
-    /**
-     * 查找所有的秒杀活动商品
-     *
-     * @param id          商品id
-     * @param productInfo 商品信息
-     */
-    private void gainProductInfo(Long id, PmsProductParam productInfo) {
-        //查找所有的秒杀活动商品
-        FlashPromotionParam promotion = flashPromotionProductDao.getFlashPromotion(id);
-        if (!ObjectUtils.isEmpty(promotion)) {
-            productInfo.setFlashPromotionCount(promotion.getRelation().get(0).getFlashPromotionCount());
-            productInfo.setFlashPromotionLimit(promotion.getRelation().get(0).getFlashPromotionLimit());
-            productInfo.setFlashPromotionPrice(promotion.getRelation().get(0).getFlashPromotionPrice());
-            productInfo.setFlashPromotionRelationId(promotion.getRelation().get(0).getId());
-            productInfo.setFlashPromotionEndDate(promotion.getEndDate());
-            productInfo.setFlashPromotionStartDate(promotion.getStartDate());
-            productInfo.setFlashPromotionStatus(promotion.getStatus());
-        }
     }
 
 
@@ -260,9 +235,8 @@ public class PmsProductServiceImpl implements PmsProductService {
     }
 
 
-
     @Override
     public List<Long> getAllProductId() {
-        return portalProductDao.getAllProductId();
+        return pmsProductMapper.getAllProductId();
     }
 }

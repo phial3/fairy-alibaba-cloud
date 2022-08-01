@@ -684,4 +684,8 @@
       brand_name = #{brandName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getAllProductId" resultType="java.lang.Long">
+      SELECT  p.id FROM pms_product p where p.delete_status=0
+  </select>
 </mapper>

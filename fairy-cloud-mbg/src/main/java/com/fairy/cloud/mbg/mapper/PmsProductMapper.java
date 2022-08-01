@@ -33,4 +33,10 @@ public interface PmsProductMapper {
     int updateByPrimaryKeyWithBLOBs(PmsProduct record);
 
     int updateByPrimaryKey(PmsProduct record);
+
+    /**
+     * 获取所以的 produceId
+     * @return
+     */
+    List<Long> getAllProductId();
 }
