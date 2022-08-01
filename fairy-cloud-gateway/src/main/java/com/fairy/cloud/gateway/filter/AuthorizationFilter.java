@@ -21,16 +21,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.security.PublicKey;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 认证过滤器,根据url判断用户请求是要经过认证 才能访问
@@ -121,8 +119,10 @@ public class AuthorizationFilter implements GlobalFilter, Ordered, InitializingB
         //5: 直接jwt拿到角色信息  根据角色 获取redis里面的权限信息 （本次采用这种）
         List<String> matchUrls = new LinkedList<>();
         for (String roleName : roleNames) {
-            Object value = Optional.ofNullable(redisTemplate.opsForValue().get(RedisKeyPrefixConst.USER_ROLE_PERMISSIOn+":"+roleName));
-            matchUrls.addAll(JSON.parseArray(String.valueOf(value), String.class));
+            Object value = Optional.ofNullable(redisTemplate.opsForValue().get(RedisKeyPrefixConst.USER_ROLE_PERMISSIOn+":"+roleName)).get();
+            if (!ObjectUtils.isEmpty(value)){
+                matchUrls.addAll((List<String>) value);
+            }
         }
         for (String url : matchUrls) {
             if (url.equalsIgnoreCase(currentUrl)) {

@@ -266,7 +266,7 @@
         FROM ums_permission umsp
         LEFT JOIN ums_role_permission_relation umsrp ON umsrp.permission_id = umsp.id
         LEFT JOIN ums_role umsr ON umsr.id = umsrp.role_id
-        <if test="roleId != null">
+        <if test="roleName != null">
             WHERE umsr.name = #{roleName}
         </if>
 
