@@ -1,3 +1,9 @@
+spring:
+  redis:
+    database: 0
+    password:
+    host: node01
+    port: 63379
 management:
   endpoints:
     web:
@@ -22,5 +28,4 @@ cloud:
       - /home/**
       - /portal/commentlist/**
       - /order/paySuccess/**
-      - /pms/**
       - /static/qrcode/**

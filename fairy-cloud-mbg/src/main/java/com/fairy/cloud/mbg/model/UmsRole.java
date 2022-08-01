@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 @Data
 public class UmsRole implements Serializable {
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value = "名称")
     private String name;

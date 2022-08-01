@@ -1,16 +1,17 @@
 package com.fairy.cloud.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.fairy.cloud.mbg.mapper.SmsFlashPromotionMapper;
 import com.fairy.cloud.mbg.mapper.SmsFlashPromotionSessionMapper;
 import com.fairy.cloud.mbg.model.SmsFlashPromotion;
 import com.fairy.cloud.mbg.model.SmsFlashPromotionExample;
 import com.fairy.cloud.mbg.model.SmsFlashPromotionSession;
 import com.fairy.cloud.product.cache.LocalCache;
-import com.fairy.cloud.product.component.zklock.ZKLock;
 import com.fairy.cloud.product.dao.FlashPromotionProductDao;
 import com.fairy.cloud.product.dao.PortalProductDao;
 import com.fairy.cloud.product.model.*;
 import com.fairy.cloud.product.service.PmsProductService;
+import com.fairy.cloud.product.zk.ZKLock;
 import com.fairy.common.constants.RedisKeyPrefixConst;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -42,15 +44,13 @@ public class PmsProductServiceImpl implements PmsProductService {
     @Autowired
     private SmsFlashPromotionSessionMapper promotionSessionMapper;
     @Autowired
-    private RedisOpsUtil redisOpsUtil;
+    private RedisTemplate redisTemplate;
     @Autowired
     private RedissonClient redissonClient;
 
 
     @Autowired
     private LocalCache cache;
-
-//    private Map<String, PmsProductParam> cacheMap = new ConcurrentHashMap<>();
 
     /*
      * zk分布式锁
@@ -101,29 +101,29 @@ public class PmsProductServiceImpl implements PmsProductService {
      */
     public PmsProductParam getProductInfoRedis(Long id) {
         //从缓存Redis里找
-        PmsProductParam productInfo = redisOpsUtil.get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, PmsProductParam.class);
-        if (null != productInfo) {
+        PmsProductParam productInfo = null;
+        Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
+        if (null != value) {
+            productInfo = JSON.parseObject(productInfo.toString(), PmsProductParam.class);
             return productInfo;
         }
         RLock lock = redissonClient.getLock(lockPath + id);
         try {
             boolean rs = lock.tryLock(10, TimeUnit.SECONDS);
             if (rs) {
-                /*查找数据库*/
                 productInfo = portalProductDao.getProductInfo(id);
                 if (null == productInfo) {
-                    log.warn("没有查询到商品信息,id:" + id);
+                    log.error("没有查询到商品信息,id:" + id);
                     return null;
                 }
                 checkFlash(id, productInfo);
                 /*缓存设置失效时间*/
-                redisOpsUtil.set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
             }/* else {
                 //没有那到锁也没有走数据库查询 这样肯定是本身有数据但是拿不到  就算走缓存，但是缓存没有数据
                 Thread.sleep(5 * 1000);
                 //自旋
                 getProductInfo(id);
-
             }*/
         } catch (Exception e) {
             log.error("异常信息:{}", e.getMessage());
@@ -138,8 +138,10 @@ public class PmsProductServiceImpl implements PmsProductService {
 
     public PmsProductParam getProductInfo2(Long id) {
         //从缓存Redis里找
-        PmsProductParam productInfo = redisOpsUtil.get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, PmsProductParam.class);
-        if (null != productInfo) {
+        PmsProductParam productInfo = null;
+        Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
+        if (null != value) {
+            productInfo = JSON.parseObject(productInfo.toString(), PmsProductParam.class);
             return productInfo;
         }
         /*查找数据库*/
@@ -150,7 +152,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         }
         checkFlash(id, productInfo);
         /*缓存设置失效时间*/
-        redisOpsUtil.set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
         return productInfo;
     }
 
@@ -165,8 +167,9 @@ public class PmsProductServiceImpl implements PmsProductService {
         if (null != productInfo) {
             return productInfo;
         }
-        productInfo = redisOpsUtil.get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, PmsProductParam.class);
-        if (productInfo != null) {
+        Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
+        if (value != null) {
+            productInfo = JSON.parseObject(productInfo.toString(), PmsProductParam.class);
             log.info("get redis productId:" + productInfo);
             cache.setLocalCache(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo);
             return productInfo;
@@ -179,11 +182,12 @@ public class PmsProductServiceImpl implements PmsProductService {
                 }
                 checkFlash(id, productInfo);
                 log.info("set db productId:" + productInfo);
-                redisOpsUtil.set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
                 cache.setLocalCache(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo);
             } else {
                 log.info("get redis2 productId:" + productInfo);
-                productInfo = redisOpsUtil.get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, PmsProductParam.class);
+                value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
+                productInfo = JSON.parseObject(productInfo.toString(), PmsProductParam.class);
                 if (productInfo != null) {
                     cache.setLocalCache(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo);
                 }
@@ -251,14 +255,13 @@ public class PmsProductServiceImpl implements PmsProductService {
                     FlashPromotionSessionExt ext = new FlashPromotionSessionExt();
                     BeanUtils.copyProperties(item, ext);
                     ext.setFlashPromotionId(promotion.getId());
-                    if (DateUtil.getTime(now).after(DateUtil.getTime(ext.getStartTime()))
-                            && DateUtil.getTime(now).before(DateUtil.getTime(ext.getEndTime()))) {
+                    if (now.after(ext.getStartTime()) && now.before(ext.getEndTime())) {
                         //活动进行中
                         ext.setSessionStatus(0);
-                    } else if (DateUtil.getTime(now).after(DateUtil.getTime(ext.getEndTime()))) {
+                    } else if (now.before(ext.getStartTime())) {
                         //活动即将开始
                         ext.setSessionStatus(1);
-                    } else if (DateUtil.getTime(now).before(DateUtil.getTime(ext.getStartTime()))) {
+                    } else if (now.after(ext.getEndTime())) {
                         //活动已结束
                         ext.setSessionStatus(2);
                     }
@@ -272,16 +275,16 @@ public class PmsProductServiceImpl implements PmsProductService {
 
     /**
      * 根据时间获取秒杀活动
+     *
      * @param date
      * @return
      */
     public SmsFlashPromotion getFlashPromotion(Date date) {
-        Date currDate = DateUtil.getDate(date);
         SmsFlashPromotionExample example = new SmsFlashPromotionExample();
         example.createCriteria()
                 .andStatusEqualTo(1)
-                .andStartDateLessThanOrEqualTo(currDate)
-                .andEndDateGreaterThanOrEqualTo(currDate);
+                .andStartDateLessThanOrEqualTo(date)
+                .andEndDateGreaterThanOrEqualTo(date);
         List<SmsFlashPromotion> flashPromotionList = flashPromotionMapper.selectByExample(example);
         if (!CollectionUtils.isEmpty(flashPromotionList)) {
             return flashPromotionList.get(0);

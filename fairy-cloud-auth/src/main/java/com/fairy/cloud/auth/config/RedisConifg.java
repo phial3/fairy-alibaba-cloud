@@ -1,13 +1,10 @@
-package com.fairy.cloud.product.config;
+package com.fairy.cloud.auth.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.redisson.Redisson;
-import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,28 +24,6 @@ public class RedisConifg {
     @Autowired
     private RedisConnectionFactory connectionFactory;
 
-    @Value("${spring.redis.password}")
-    private String password;
-    @Value("${spring.redis.host}")
-    private String host;
-    @Value("${spring.redis.database}")
-    private Integer database;
-    @Value("${spring.redis.port}")
-    private Integer port;
-
-    @Bean
-    public RedissonClient redissonClient() {
-        // 此为单机模式
-        Config config = new Config();
-        String address = "redis://" + host + ":" + port;
-        if (StringUtils.isNoneBlank(password)) {
-            config.useSingleServer().setAddress(address).setPassword(password).setDatabase(database);
-        } else {
-            config.useSingleServer().setAddress(address).setDatabase(database);
-        }
-        return Redisson.create(config);
-    }
-
     @Bean
     @Primary
     public RedisTemplate<String, Object> redisTemplate() {
@@ -67,7 +42,6 @@ public class RedisConifg {
 
         template.setHashKeySerializer(jackson2JsonRedisSerializer);
         template.setHashValueSerializer(jackson2JsonRedisSerializer);
-
         return template;
     }
 

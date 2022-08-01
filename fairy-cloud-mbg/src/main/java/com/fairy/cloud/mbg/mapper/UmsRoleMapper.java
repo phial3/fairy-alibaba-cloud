@@ -32,8 +32,17 @@ public interface UmsRoleMapper {
 
     /**
      * 根据用户名查询角色信息
-     * @param username
-     * @return
+     * @param username 用户名
+     * @return 角色集合
      */
     List<UmsRole> selectRolesByUserName(@Param("username") String username);
+
+    /**
+     * 查询用户的角色权限集合
+     * @param roleIds 角色Ids
+     * @return 权限信息
+     */
+    List<String> selectRolePermissionUrlByRoleIds(@Param("roleIds") List<Integer> roleIds);
+
+    List<String> selectRolePermissionUrlByRoleName(@Param("roleName") String roleName);
 }

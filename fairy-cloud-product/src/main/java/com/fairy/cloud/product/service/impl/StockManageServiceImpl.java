@@ -43,9 +43,6 @@ public class StockManageServiceImpl implements StockManageService {
     @Autowired
     private PmsProductService productService;
 
-    @Autowired
-    private RedisOpsUtil redisOpsUtil;
-
     @Override
     public Integer incrStock(Long productId, Long skuId, Integer quanlity, Integer miaosha, Long flashPromotionRelationId) {
         return null;

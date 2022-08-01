@@ -1,13 +1,16 @@
 package com.fairy.cloud.auth.config;
 
+import com.alibaba.fastjson.JSON;
 import com.fairy.cloud.auth.model.MemberDetails;
 import com.fairy.cloud.mbg.mapper.UmsMemberMapper;
 import com.fairy.cloud.mbg.mapper.UmsRoleMapper;
 import com.fairy.cloud.mbg.model.UmsMember;
 import com.fairy.cloud.mbg.model.UmsMemberExample;
 import com.fairy.cloud.mbg.model.UmsRole;
+import com.fairy.common.constants.RedisKeyPrefixConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,6 +41,8 @@ public class MyUserDetailServicer implements UserDetailsService {
     private UmsRoleMapper umsRoleMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RedisTemplate<String ,Object>redisTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -53,8 +58,15 @@ public class MyUserDetailServicer implements UserDetailsService {
         MemberDetails memberDetails = new MemberDetails(umsMember);
         //查看用户的权限
         List<UmsRole> roles = umsRoleMapper.selectRolesByUserName(umsMember.getUsername());
+        List<String> roleNames = roles.stream().map(UmsRole::getName).collect(Collectors.toList());
         String authorities = roles.stream().map(UmsRole::getName).collect(Collectors.joining(","));
         memberDetails.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
+        //查询出角色的权限 permission缓存到redis中  需要刷新 如果存在redis的读写  再加一个全局的easyJob定时任务补偿
+//        List<String> url = umsRoleMapper.selectRolePermissionUrlByRoleIds(roleIds);
+        for (String roleName:roleNames){
+            List<String> urls = umsRoleMapper.selectRolePermissionUrlByRoleName(roleName);
+            redisTemplate.opsForValue().set(RedisKeyPrefixConst.USER_ROLE_PERMISSIOn+":"+roleName, urls);
+        }
         return memberDetails;
     }
 

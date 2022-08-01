@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fairy.cloud.mbg.mapper.UmsMemberMapper">
   <resultMap id="BaseResultMap" type="com.fairy.cloud.mbg.model.UmsMember">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_level_id" jdbcType="INTEGER" property="memberLevelId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />

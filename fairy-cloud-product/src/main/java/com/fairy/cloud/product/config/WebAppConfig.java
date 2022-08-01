@@ -1,22 +1,12 @@
 package com.fairy.cloud.product.config;
 
-import com.fairy.cloud.product.intercepter.BloomFilterInterceptor;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
 
 /**
  * @author 鹿少年
@@ -35,16 +25,17 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
 
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //注册拦截器
-        registry.addInterceptor(bloomFilterInterceptor())
-                .addPathPatterns("/pms/productInfo/**","/pms/flashPromotion/**");
-    }
-    @Bean
-    public BloomFilterInterceptor bloomFilterInterceptor(){
-        return new BloomFilterInterceptor();
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        //注册拦截器
+//        registry.addInterceptor(bloomFilterInterceptor())
+//                .addPathPatterns("/pms/productInfo/**", "/pms/flashPromotion/**");
+//    }
+//
+//    @Bean
+//    public BloomFilterInterceptor bloomFilterInterceptor() {
+//        return new BloomFilterInterceptor();
+//    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

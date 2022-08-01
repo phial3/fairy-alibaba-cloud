@@ -16,7 +16,7 @@ public class GateWayExceptionHandlerAdvice {
     @ExceptionHandler(value = {GateWayException.class})
     public CommonResponse handle(GateWayException ex) {
         log.error("网关异常code:{},msg:{}", ex.getCode(),ex.getMessage());
-        return CommonResponse.fail(ex.getCode(),ex.getMessage());
+        return CommonResponse.fail(ex.getMsg(),ex.getMessage());
     }
 
     @ExceptionHandler(value = {Throwable.class})

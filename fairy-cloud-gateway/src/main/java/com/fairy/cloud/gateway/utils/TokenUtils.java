@@ -114,7 +114,7 @@ public class TokenUtils {
         String token =null ;
         try{
             //带一个空格
-            token = StringUtils.substringAfter(authHeader, AUTH_HEADER+" ");
+            token = StringUtils.substringAfter(authHeader, AUTH_HEADER);
             Jwt<JwsHeader, Claims> parseClaimsJwt = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token);
             Claims claims = parseClaimsJwt.getBody();
             return claims;
