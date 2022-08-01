@@ -163,8 +163,8 @@ public class AuthorizationFilter implements GlobalFilter,Ordered,InitializingBea
     @Override
     public void afterPropertiesSet() throws Exception {
         //初始化公钥
-//        this.publicKey = TokenUtils.genPulicKey(restTemplate);
-        this.publicKey = keyPairUtil.genPulicKey(restTemplate);
+        this.publicKey = TokenUtils.genPulicKey(restTemplate);
+//        this.publicKey = keyPairUtil.genPulicKey(restTemplate);
     }
 
 }

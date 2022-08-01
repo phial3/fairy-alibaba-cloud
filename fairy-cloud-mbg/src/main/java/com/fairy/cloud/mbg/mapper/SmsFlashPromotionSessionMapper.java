@@ -27,4 +27,10 @@ public interface SmsFlashPromotionSessionMapper {
     int updateByPrimaryKeySelective(SmsFlashPromotionSession record);
 
     int updateByPrimaryKey(SmsFlashPromotionSession record);
+
+    /**
+     * 查询秒杀信息
+     * @return
+     */
+    List<SmsFlashPromotionSession> getFlashPromotionSessionList();
 }

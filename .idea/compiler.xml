@@ -10,6 +10,7 @@
         <module name="fairy-cloud-mbg" />
         <module name="fairy-cloud-gateway" />
         <module name="fairy-cloud-auth" />
+        <module name="fairy-cloud-product" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,6 +18,7 @@
       <module name="fairy-cloud-auth" target="1.8" />
       <module name="fairy-cloud-gateway" target="1.8" />
       <module name="fairy-cloud-mbg" target="1.8" />
+      <module name="fairy-cloud-product" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -24,6 +26,7 @@
       <module name="fairy-cloud-auth" options="-parameters" />
       <module name="fairy-cloud-gateway" options="-parameters" />
       <module name="fairy-cloud-mbg" options="-parameters" />
+      <module name="fairy-cloud-product" options="-parameters" />
     </option>
   </component>
 </project>

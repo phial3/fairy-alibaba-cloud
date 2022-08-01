@@ -18,5 +18,6 @@
         <module>fairy-cloud-mbg</module>
         <module>fairy-cloud-gateway</module>
         <module>fairy-cloud-auth</module>
+        <module>fairy-cloud-product</module>
     </modules>
 </project>

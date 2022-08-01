@@ -1,0 +1,38 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: node01:8848
+        namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+      config:
+        server-addr: node01:8848
+        file-extension: yml
+        namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+        refresh-enabled: true
+        enabled: true
+seata:
+  application-id:  ${spring.application.name}
+  config:
+    nacos:
+      server-addr: node01:8848
+      namespace: seata3
+      group: SEATA_GROUP
+      password: nacos
+      username: nacos
+    type: nacos
+  registry:
+    type: nacos
+    nacos:
+      username: nacos
+      password: nacos
+      group: SEATA_GROUP
+      namespace: seata3
+      server-addr: node01:8848
+      application: seata-server
+  tx-service-group: my_test_tx_seata3_group
+  client:
+    support:
+      spring:
+        datasource-autoproxy: true
