@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class SmsFlashPromotionSession implements Serializable {
     @ApiModelProperty(value = "编号")
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value = "场次名称")
     private String name;
@@ -25,11 +25,11 @@ public class SmsFlashPromotionSession implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

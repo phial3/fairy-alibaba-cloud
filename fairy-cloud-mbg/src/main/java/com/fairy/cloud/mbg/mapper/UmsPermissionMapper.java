@@ -10,7 +10,7 @@ public interface UmsPermissionMapper {
 
     int deleteByExample(UmsPermissionExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(UmsPermission record);
 
@@ -18,7 +18,7 @@ public interface UmsPermissionMapper {
 
     List<UmsPermission> selectByExample(UmsPermissionExample example);
 
-    UmsPermission selectByPrimaryKey(Long id);
+    UmsPermission selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") UmsPermission record, @Param("example") UmsPermissionExample example);
 

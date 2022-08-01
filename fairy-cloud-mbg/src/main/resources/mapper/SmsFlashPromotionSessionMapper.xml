@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fairy.cloud.mbg.mapper.SmsFlashPromotionSessionMapper">
   <resultMap id="BaseResultMap" type="com.fairy.cloud.mbg.model.SmsFlashPromotionSession">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="start_time" jdbcType="TIME" property="startTime" />
     <result column="end_time" jdbcType="TIME" property="endTime" />
@@ -85,15 +85,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sms_flash_promotion_session
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sms_flash_promotion_session
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.fairy.cloud.mbg.model.SmsFlashPromotionSessionExample">
     delete from sms_flash_promotion_session
@@ -154,7 +154,7 @@
     update sms_flash_promotion_session
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -178,7 +178,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update sms_flash_promotion_session
-    set id = #{record.id,jdbcType=BIGINT},
+    set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIME},
       end_time = #{record.endTime,jdbcType=TIME},
@@ -207,7 +207,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fairy.cloud.mbg.model.SmsFlashPromotionSession">
     update sms_flash_promotion_session
@@ -216,14 +216,6 @@
       end_time = #{endTime,jdbcType=TIME},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="getFlashPromotionSessionList" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sms_flash_promotion_session
-    where status = 1 order by start_time asc
-
-  </select>
 </mapper>

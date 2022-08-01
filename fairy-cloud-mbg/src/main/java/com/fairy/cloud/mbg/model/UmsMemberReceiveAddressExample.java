@@ -114,52 +114,52 @@ public class UmsMemberReceiveAddressExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
+        public Criteria andIdEqualTo(Integer value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
+        public Criteria andIdNotEqualTo(Integer value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
+        public Criteria andIdGreaterThan(Integer value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
+        public Criteria andIdLessThan(Integer value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
+        public Criteria andIdIn(List<Integer> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
+        public Criteria andIdNotIn(List<Integer> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
+        public Criteria andIdBetween(Integer value1, Integer value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -174,52 +174,52 @@ public class UmsMemberReceiveAddressExample {
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdEqualTo(Long value) {
+        public Criteria andMemberIdEqualTo(Integer value) {
             addCriterion("member_id =", value, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdNotEqualTo(Long value) {
+        public Criteria andMemberIdNotEqualTo(Integer value) {
             addCriterion("member_id <>", value, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdGreaterThan(Long value) {
+        public Criteria andMemberIdGreaterThan(Integer value) {
             addCriterion("member_id >", value, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andMemberIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("member_id >=", value, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdLessThan(Long value) {
+        public Criteria andMemberIdLessThan(Integer value) {
             addCriterion("member_id <", value, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdLessThanOrEqualTo(Long value) {
+        public Criteria andMemberIdLessThanOrEqualTo(Integer value) {
             addCriterion("member_id <=", value, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdIn(List<Long> values) {
+        public Criteria andMemberIdIn(List<Integer> values) {
             addCriterion("member_id in", values, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdNotIn(List<Long> values) {
+        public Criteria andMemberIdNotIn(List<Integer> values) {
             addCriterion("member_id not in", values, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdBetween(Long value1, Long value2) {
+        public Criteria andMemberIdBetween(Integer value1, Integer value2) {
             addCriterion("member_id between", value1, value2, "memberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdNotBetween(Long value1, Long value2) {
+        public Criteria andMemberIdNotBetween(Integer value1, Integer value2) {
             addCriterion("member_id not between", value1, value2, "memberId");
             return (Criteria) this;
         }

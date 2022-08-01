@@ -10,7 +10,7 @@ public interface UmsMemberLoginLogMapper {
 
     int deleteByExample(UmsMemberLoginLogExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(UmsMemberLoginLog record);
 
@@ -18,7 +18,7 @@ public interface UmsMemberLoginLogMapper {
 
     List<UmsMemberLoginLog> selectByExample(UmsMemberLoginLogExample example);
 
-    UmsMemberLoginLog selectByPrimaryKey(Long id);
+    UmsMemberLoginLog selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") UmsMemberLoginLog record, @Param("example") UmsMemberLoginLogExample example);
 

@@ -10,7 +10,7 @@ public interface UmsMemberReceiveAddressMapper {
 
     int deleteByExample(UmsMemberReceiveAddressExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(UmsMemberReceiveAddress record);
 
@@ -18,7 +18,7 @@ public interface UmsMemberReceiveAddressMapper {
 
     List<UmsMemberReceiveAddress> selectByExample(UmsMemberReceiveAddressExample example);
 
-    UmsMemberReceiveAddress selectByPrimaryKey(Long id);
+    UmsMemberReceiveAddress selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") UmsMemberReceiveAddress record, @Param("example") UmsMemberReceiveAddressExample example);
 

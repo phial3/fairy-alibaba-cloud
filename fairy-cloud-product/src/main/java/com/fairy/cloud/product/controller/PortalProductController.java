@@ -27,7 +27,6 @@ public class PortalProductController {
     /**
      * 只有通过过滤拦截请求后的 才可以访问接口
      *
-     * @param request
      * @param id
      * @return
      */

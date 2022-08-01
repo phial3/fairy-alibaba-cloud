@@ -10,7 +10,7 @@ public interface SmsFlashPromotionSessionMapper {
 
     int deleteByExample(SmsFlashPromotionSessionExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(SmsFlashPromotionSession record);
 
@@ -18,7 +18,7 @@ public interface SmsFlashPromotionSessionMapper {
 
     List<SmsFlashPromotionSession> selectByExample(SmsFlashPromotionSessionExample example);
 
-    SmsFlashPromotionSession selectByPrimaryKey(Long id);
+    SmsFlashPromotionSession selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") SmsFlashPromotionSession record, @Param("example") SmsFlashPromotionSessionExample example);
 
@@ -27,10 +27,4 @@ public interface SmsFlashPromotionSessionMapper {
     int updateByPrimaryKeySelective(SmsFlashPromotionSession record);
 
     int updateByPrimaryKey(SmsFlashPromotionSession record);
-
-    /**
-     * 查询秒杀信息
-     * @return
-     */
-    List<SmsFlashPromotionSession> getFlashPromotionSessionList();
 }

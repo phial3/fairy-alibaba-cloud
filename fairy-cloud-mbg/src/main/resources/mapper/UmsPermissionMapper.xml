@@ -3,10 +3,8 @@
 <mapper namespace="com.fairy.cloud.mbg.mapper.UmsPermissionMapper">
   <resultMap id="BaseResultMap" type="com.fairy.cloud.mbg.model.UmsPermission">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="pid" jdbcType="INTEGER" property="pid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="value" jdbcType="VARCHAR" property="value" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="uri" jdbcType="VARCHAR" property="uri" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -72,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, pid, name, value, icon, type, uri, status, create_time, sort
+    id, name, value, type, uri, status, create_time, sort
   </sql>
   <select id="selectByExample" parameterType="com.fairy.cloud.mbg.model.UmsPermissionExample" resultMap="BaseResultMap">
     select
@@ -89,15 +87,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from ums_permission
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ums_permission
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.fairy.cloud.mbg.model.UmsPermissionExample">
     delete from ums_permission
@@ -106,27 +104,21 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.fairy.cloud.mbg.model.UmsPermission" useGeneratedKeys="true">
-    insert into ums_permission (pid, name, value, 
-      icon, type, uri, status, 
-      create_time, sort)
-    values (#{pid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
-      #{icon,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{sort,jdbcType=INTEGER})
+    insert into ums_permission (name, value, type, 
+      uri, status, create_time, 
+      sort)
+    values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{uri,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{sort,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.fairy.cloud.mbg.model.UmsPermission" useGeneratedKeys="true">
     insert into ums_permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="pid != null">
-        pid,
-      </if>
       <if test="name != null">
         name,
       </if>
       <if test="value != null">
         value,
-      </if>
-      <if test="icon != null">
-        icon,
       </if>
       <if test="type != null">
         type,
@@ -145,17 +137,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="pid != null">
-        #{pid,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
-      </if>
-      <if test="icon != null">
-        #{icon,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -184,19 +170,13 @@
     update ums_permission
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.pid != null">
-        pid = #{record.pid,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.value != null">
         value = #{record.value,jdbcType=VARCHAR},
-      </if>
-      <if test="record.icon != null">
-        icon = #{record.icon,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
@@ -220,11 +200,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update ums_permission
-    set id = #{record.id,jdbcType=BIGINT},
-      pid = #{record.pid,jdbcType=BIGINT},
+    set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       value = #{record.value,jdbcType=VARCHAR},
-      icon = #{record.icon,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       uri = #{record.uri,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
@@ -237,17 +215,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.fairy.cloud.mbg.model.UmsPermission">
     update ums_permission
     <set>
-      <if test="pid != null">
-        pid = #{pid,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
         value = #{value,jdbcType=VARCHAR},
-      </if>
-      <if test="icon != null">
-        icon = #{icon,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
@@ -265,19 +237,17 @@
         sort = #{sort,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fairy.cloud.mbg.model.UmsPermission">
     update ums_permission
-    set pid = #{pid,jdbcType=BIGINT},
-      name = #{name,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       value = #{value,jdbcType=VARCHAR},
-      icon = #{icon,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       uri = #{uri,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       sort = #{sort,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

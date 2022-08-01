@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fairy.cloud.mbg.mapper.UmsMemberLoginLogMapper">
   <resultMap id="BaseResultMap" type="com.fairy.cloud.mbg.model.UmsMemberLoginLog">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="city" jdbcType="VARCHAR" property="city" />
@@ -86,15 +86,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from ums_member_login_log
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ums_member_login_log
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.fairy.cloud.mbg.model.UmsMemberLoginLogExample">
     delete from ums_member_login_log
@@ -106,7 +106,7 @@
     insert into ums_member_login_log (member_id, create_time, ip, 
       city, login_type, province
       )
-    values (#{memberId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+    values (#{memberId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{loginType,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}
       )
   </insert>
@@ -134,7 +134,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="memberId != null">
-        #{memberId,jdbcType=BIGINT},
+        #{memberId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -163,10 +163,10 @@
     update ums_member_login_log
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.memberId != null">
-        member_id = #{record.memberId,jdbcType=BIGINT},
+        member_id = #{record.memberId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -190,8 +190,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update ums_member_login_log
-    set id = #{record.id,jdbcType=BIGINT},
-      member_id = #{record.memberId,jdbcType=BIGINT},
+    set id = #{record.id,jdbcType=INTEGER},
+      member_id = #{record.memberId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
@@ -205,7 +205,7 @@
     update ums_member_login_log
     <set>
       <if test="memberId != null">
-        member_id = #{memberId,jdbcType=BIGINT},
+        member_id = #{memberId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -223,16 +223,16 @@
         province = #{province,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fairy.cloud.mbg.model.UmsMemberLoginLog">
     update ums_member_login_log
-    set member_id = #{memberId,jdbcType=BIGINT},
+    set member_id = #{memberId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       login_type = #{loginType,jdbcType=INTEGER},
       province = #{province,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

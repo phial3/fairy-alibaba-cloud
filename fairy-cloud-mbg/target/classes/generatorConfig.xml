@@ -37,7 +37,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.fairy.cloud.mbg.mapper"
                              targetProject="fairy-cloud-mbg\src\main\java"/>
         <!--生成全部表tableName设为%,指定-->
-        <table tableName="ums_member_role_relation" enableCountByExample="true" enableUpdateByExample="true"
+        <table tableName="%" enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
             <!-- generatedKey用于生成生成主键的方法，

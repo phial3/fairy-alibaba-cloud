@@ -142,113 +142,53 @@ public class UmsMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
+        public Criteria andIdEqualTo(Integer value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
+        public Criteria andIdNotEqualTo(Integer value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
+        public Criteria andIdGreaterThan(Integer value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
+        public Criteria andIdLessThan(Integer value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
+        public Criteria andIdIn(List<Integer> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
+        public Criteria andIdNotIn(List<Integer> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
+        public Criteria andIdBetween(Integer value1, Integer value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdIsNull() {
-            addCriterion("member_level_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdIsNotNull() {
-            addCriterion("member_level_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdEqualTo(Long value) {
-            addCriterion("member_level_id =", value, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdNotEqualTo(Long value) {
-            addCriterion("member_level_id <>", value, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdGreaterThan(Long value) {
-            addCriterion("member_level_id >", value, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("member_level_id >=", value, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdLessThan(Long value) {
-            addCriterion("member_level_id <", value, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdLessThanOrEqualTo(Long value) {
-            addCriterion("member_level_id <=", value, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdIn(List<Long> values) {
-            addCriterion("member_level_id in", values, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdNotIn(List<Long> values) {
-            addCriterion("member_level_id not in", values, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdBetween(Long value1, Long value2) {
-            addCriterion("member_level_id between", value1, value2, "memberLevelId");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberLevelIdNotBetween(Long value1, Long value2) {
-            addCriterion("member_level_id not between", value1, value2, "memberLevelId");
             return (Criteria) this;
         }
 
@@ -1169,186 +1109,6 @@ public class UmsMemberExample {
 
         public Criteria andIntegrationNotBetween(Integer value1, Integer value2) {
             addCriterion("integration not between", value1, value2, "integration");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthIsNull() {
-            addCriterion("growth is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthIsNotNull() {
-            addCriterion("growth is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthEqualTo(Integer value) {
-            addCriterion("growth =", value, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthNotEqualTo(Integer value) {
-            addCriterion("growth <>", value, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthGreaterThan(Integer value) {
-            addCriterion("growth >", value, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthGreaterThanOrEqualTo(Integer value) {
-            addCriterion("growth >=", value, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthLessThan(Integer value) {
-            addCriterion("growth <", value, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthLessThanOrEqualTo(Integer value) {
-            addCriterion("growth <=", value, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthIn(List<Integer> values) {
-            addCriterion("growth in", values, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthNotIn(List<Integer> values) {
-            addCriterion("growth not in", values, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthBetween(Integer value1, Integer value2) {
-            addCriterion("growth between", value1, value2, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowthNotBetween(Integer value1, Integer value2) {
-            addCriterion("growth not between", value1, value2, "growth");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountIsNull() {
-            addCriterion("luckey_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountIsNotNull() {
-            addCriterion("luckey_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountEqualTo(Integer value) {
-            addCriterion("luckey_count =", value, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountNotEqualTo(Integer value) {
-            addCriterion("luckey_count <>", value, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountGreaterThan(Integer value) {
-            addCriterion("luckey_count >", value, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("luckey_count >=", value, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountLessThan(Integer value) {
-            addCriterion("luckey_count <", value, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountLessThanOrEqualTo(Integer value) {
-            addCriterion("luckey_count <=", value, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountIn(List<Integer> values) {
-            addCriterion("luckey_count in", values, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountNotIn(List<Integer> values) {
-            addCriterion("luckey_count not in", values, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountBetween(Integer value1, Integer value2) {
-            addCriterion("luckey_count between", value1, value2, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andLuckeyCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("luckey_count not between", value1, value2, "luckeyCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationIsNull() {
-            addCriterion("history_integration is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationIsNotNull() {
-            addCriterion("history_integration is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationEqualTo(Integer value) {
-            addCriterion("history_integration =", value, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationNotEqualTo(Integer value) {
-            addCriterion("history_integration <>", value, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationGreaterThan(Integer value) {
-            addCriterion("history_integration >", value, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationGreaterThanOrEqualTo(Integer value) {
-            addCriterion("history_integration >=", value, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationLessThan(Integer value) {
-            addCriterion("history_integration <", value, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationLessThanOrEqualTo(Integer value) {
-            addCriterion("history_integration <=", value, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationIn(List<Integer> values) {
-            addCriterion("history_integration in", values, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationNotIn(List<Integer> values) {
-            addCriterion("history_integration not in", values, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationBetween(Integer value1, Integer value2) {
-            addCriterion("history_integration between", value1, value2, "historyIntegration");
-            return (Criteria) this;
-        }
-
-        public Criteria andHistoryIntegrationNotBetween(Integer value1, Integer value2) {
-            addCriterion("history_integration not between", value1, value2, "historyIntegration");
             return (Criteria) this;
         }
     }

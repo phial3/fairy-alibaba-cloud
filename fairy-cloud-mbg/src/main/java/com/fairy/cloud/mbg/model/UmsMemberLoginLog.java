@@ -5,36 +5,41 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class UmsMemberLoginLog implements Serializable {
-    private Long id;
+    private Integer id;
 
-    private Long memberId;
+    @ApiModelProperty(value = "用户id")
+    private Integer memberId;
 
+    @ApiModelProperty(value = "登陆时间")
     private Date createTime;
 
+    @ApiModelProperty(value = "登陆ip")
     private String ip;
 
+    @ApiModelProperty(value = "登陆城市")
     private String city;
 
     @ApiModelProperty(value = "登录类型：0->PC；1->android;2->ios;3->小程序")
     private Integer loginType;
 
+    @ApiModelProperty(value = "登陆省份")
     private String province;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getMemberId() {
+    public Integer getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(Long memberId) {
+    public void setMemberId(Integer memberId) {
         this.memberId = memberId;
     }
 

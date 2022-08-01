@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fairy.cloud.mbg.mapper.UmsMemberReceiveAddressMapper">
   <resultMap id="BaseResultMap" type="com.fairy.cloud.mbg.model.UmsMemberReceiveAddress">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
     <result column="default_status" jdbcType="INTEGER" property="defaultStatus" />
@@ -90,15 +90,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from ums_member_receive_address
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ums_member_receive_address
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.fairy.cloud.mbg.model.UmsMemberReceiveAddressExample">
     delete from ums_member_receive_address
@@ -111,7 +111,7 @@
       default_status, post_code, province, 
       city, region, detail_address
       )
-    values (#{memberId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
+    values (#{memberId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
       #{defaultStatus,jdbcType=INTEGER}, #{postCode,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}
       )
@@ -149,7 +149,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="memberId != null">
-        #{memberId,jdbcType=BIGINT},
+        #{memberId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -187,10 +187,10 @@
     update ums_member_receive_address
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.memberId != null">
-        member_id = #{record.memberId,jdbcType=BIGINT},
+        member_id = #{record.memberId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -223,8 +223,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update ums_member_receive_address
-    set id = #{record.id,jdbcType=BIGINT},
-      member_id = #{record.memberId,jdbcType=BIGINT},
+    set id = #{record.id,jdbcType=INTEGER},
+      member_id = #{record.memberId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
       default_status = #{record.defaultStatus,jdbcType=INTEGER},
@@ -241,7 +241,7 @@
     update ums_member_receive_address
     <set>
       <if test="memberId != null">
-        member_id = #{memberId,jdbcType=BIGINT},
+        member_id = #{memberId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -268,11 +268,11 @@
         detail_address = #{detailAddress,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fairy.cloud.mbg.model.UmsMemberReceiveAddress">
     update ums_member_receive_address
-    set member_id = #{memberId,jdbcType=BIGINT},
+    set member_id = #{memberId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
       default_status = #{defaultStatus,jdbcType=INTEGER},
@@ -281,6 +281,6 @@
       city = #{city,jdbcType=VARCHAR},
       region = #{region,jdbcType=VARCHAR},
       detail_address = #{detailAddress,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

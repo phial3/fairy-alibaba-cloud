@@ -10,7 +10,7 @@ public interface SmsFlashPromotionMapper {
 
     int deleteByExample(SmsFlashPromotionExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(SmsFlashPromotion record);
 
@@ -18,7 +18,7 @@ public interface SmsFlashPromotionMapper {
 
     List<SmsFlashPromotion> selectByExample(SmsFlashPromotionExample example);
 
-    SmsFlashPromotion selectByPrimaryKey(Long id);
+    SmsFlashPromotion selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") SmsFlashPromotion record, @Param("example") SmsFlashPromotionExample example);
 

@@ -4,13 +4,15 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 public class UmsMemberReceiveAddress implements Serializable {
-    private Long id;
+    private Integer id;
 
-    private Long memberId;
+    @ApiModelProperty(value = "客户id")
+    private Integer memberId;
 
     @ApiModelProperty(value = "收货人名称")
     private String name;
 
+    @ApiModelProperty(value = "收人电话号码")
     private String phoneNumber;
 
     @ApiModelProperty(value = "是否为默认")
@@ -33,19 +35,19 @@ public class UmsMemberReceiveAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getMemberId() {
+    public Integer getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(Long memberId) {
+    public void setMemberId(Integer memberId) {
         this.memberId = memberId;
     }
 

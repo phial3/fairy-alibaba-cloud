@@ -10,7 +10,7 @@ public interface UmsRolePermissionRelationMapper {
 
     int deleteByExample(UmsRolePermissionRelationExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(UmsRolePermissionRelation record);
 
@@ -18,7 +18,7 @@ public interface UmsRolePermissionRelationMapper {
 
     List<UmsRolePermissionRelation> selectByExample(UmsRolePermissionRelationExample example);
 
-    UmsRolePermissionRelation selectByPrimaryKey(Long id);
+    UmsRolePermissionRelation selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") UmsRolePermissionRelation record, @Param("example") UmsRolePermissionRelationExample example);
 
