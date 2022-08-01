@@ -1,7 +1,9 @@
 package com.fairy.cloud.product.controller;
 
 import com.fairy.cloud.product.dao.PortalProductDao;
-import com.fairy.cloud.product.model.*;
+import com.fairy.cloud.product.model.FlashPromotionProduct;
+import com.fairy.cloud.product.model.FlashPromotionSessionExt;
+import com.fairy.cloud.product.model.PmsProductParam;
 import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.common.response.CommonResponse;
 import io.swagger.annotations.Api;
@@ -41,20 +43,6 @@ public class PortalProductController {
         return CommonResponse.success(pmsProductParam);
     }
 
-
-    @ApiOperation(value = "根据商品Id获取购物车商品的信息")
-    @RequestMapping(value = "/cartProduct/{productId}", method = RequestMethod.GET)
-    public CommonResponse<CartProduct> getCartProduct(@PathVariable("productId") Long productId) {
-        CartProduct cartProduct = portalProductDao.getCartProduct(productId);
-        return CommonResponse.success(cartProduct);
-    }
-
-    @ApiOperation(value = "根据商品Ids获取促销商品信息")
-    @RequestMapping(value = "/getPromotionProductList", method = RequestMethod.GET)
-    public CommonResponse<List<PromotionProduct>> getPromotionProductList(@RequestParam("productIds") List<Long> ids) {
-        List<PromotionProduct> promotionProducts = portalProductDao.getPromotionProductList(ids);
-        return CommonResponse.success(promotionProducts);
-    }
 
     @ApiOperation("当前秒杀活动场-产品列表#需要做QPS优化")
     @ApiImplicitParams({

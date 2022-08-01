@@ -39,19 +39,6 @@ public interface PmsProductService {
      */
     List<FlashPromotionProduct> getHomeSecKillProductList();
 
-    /**
-     * 查看商品購物信息
-     * @param productId
-     * @return CartProduct
-     */
-    CartProduct getCartProduct(Long productId);
-
-    /***
-     * 查看商品促销列表
-     * @param ids 商品ids
-     * @return List
-     */
-    List<PromotionProduct> getPromotionProductList(List<Long> ids);
 
     /**
      * 查找出所有的产品ID

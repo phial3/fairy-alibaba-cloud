@@ -1,7 +1,6 @@
 package com.fairy.cloud.product.service;
 
 
-import com.fairy.cloud.product.model.CartPromotionItem;
 import com.fairy.common.response.CommonResponse;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -38,11 +37,5 @@ public interface StockManageService {
      */
     CommonResponse<Integer> selectStock(Long productId, Long flashPromotionRelationId);
 
-    /**
-     * 方法实现说明:锁定库存
-     * @param
-     * @return:
-     * @exception:
-     */
-    CommonResponse lockStock(List<CartPromotionItem> cartPromotionItemList);
+
 }

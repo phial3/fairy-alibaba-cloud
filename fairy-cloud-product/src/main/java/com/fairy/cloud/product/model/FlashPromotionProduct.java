@@ -2,8 +2,6 @@ package com.fairy.cloud.product.model;
 
 import com.fairy.cloud.mbg.model.PmsProduct;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 

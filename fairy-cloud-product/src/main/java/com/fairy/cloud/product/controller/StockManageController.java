@@ -1,12 +1,12 @@
 package com.fairy.cloud.product.controller;
 
-import com.fairy.cloud.product.model.CartPromotionItem;
 import com.fairy.cloud.product.service.StockManageService;
 import com.fairy.common.response.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -60,13 +60,5 @@ public class StockManageController {
         return stockManageService.selectStock(productId,flashPromotionRelationId);
     }
 
-    /**
-    * @vlog: 高于生活，源于生活
-    * @desc: 类的描述:锁定库存
-    * @version: 1.0
-    */
-    @RequestMapping("/lockStock")
-    public CommonResponse lockStock(@RequestBody List<CartPromotionItem> cartPromotionItemList) {
-        return stockManageService.lockStock(cartPromotionItemList);
-    }
+
 }

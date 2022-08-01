@@ -1,13 +1,8 @@
 package com.fairy.cloud.product.service.impl;
 
-import com.fairy.cloud.mbg.mapper.PmsSkuStockMapper;
 import com.fairy.cloud.mbg.mapper.SmsFlashPromotionProductRelationMapper;
-import com.fairy.cloud.mbg.model.PmsSkuStock;
 import com.fairy.cloud.mbg.model.SmsFlashPromotionProductRelation;
-import com.fairy.cloud.product.dao.FlashPromotionProductDao;
-import com.fairy.cloud.product.model.CartPromotionItem;
 import com.fairy.cloud.product.model.PmsProductParam;
-import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.cloud.product.service.StockManageService;
 import com.fairy.common.response.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
-import java.util.List;
 
 
 
@@ -24,8 +18,6 @@ import java.util.List;
 @Slf4j
 public class StockManageServiceImpl implements StockManageService {
 
-    @Autowired
-    private PmsSkuStockMapper skuStockMapper;
 
     @Autowired
     private SmsFlashPromotionProductRelationMapper flashPromotionProductRelationMapper;
@@ -58,21 +50,6 @@ public class StockManageServiceImpl implements StockManageService {
         return CommonResponse.success(miaoshaStock.getFlashPromotionCount());
     }
 
-    @Override
-    public CommonResponse lockStock(List<CartPromotionItem> cartPromotionItemList) {
-        try {
-
-            for (CartPromotionItem cartPromotionItem : cartPromotionItemList) {
-                PmsSkuStock skuStock = skuStockMapper.selectByPrimaryKey(cartPromotionItem.getProductSkuId());
-                skuStock.setLockStock(skuStock.getLockStock() + cartPromotionItem.getQuantity());
-                skuStockMapper.updateByPrimaryKeySelective(skuStock);
-            }
-            return CommonResponse.success(true);
-        }catch (Exception e) {
-            log.error("锁定库存失败...");
-            return CommonResponse.fail();
-        }
-    }
 
     //验证秒杀时间
     private boolean volidateMiaoShaTime(PmsProductParam product) {

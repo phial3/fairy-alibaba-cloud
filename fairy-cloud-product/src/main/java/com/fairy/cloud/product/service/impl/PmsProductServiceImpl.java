@@ -8,7 +8,10 @@ import com.fairy.cloud.mbg.model.SmsFlashPromotionSession;
 import com.fairy.cloud.product.cache.LocalCache;
 import com.fairy.cloud.product.dao.FlashPromotionProductDao;
 import com.fairy.cloud.product.dao.PortalProductDao;
-import com.fairy.cloud.product.model.*;
+import com.fairy.cloud.product.model.FlashPromotionParam;
+import com.fairy.cloud.product.model.FlashPromotionProduct;
+import com.fairy.cloud.product.model.FlashPromotionSessionExt;
+import com.fairy.cloud.product.model.PmsProductParam;
 import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.cloud.product.zk.ZKLock;
 import com.fairy.common.constants.RedisKeyPrefixConst;
@@ -256,15 +259,6 @@ public class PmsProductServiceImpl implements PmsProductService {
         return flashPromotionProductDao.getHomePromotionProductList(promotionIds);
     }
 
-    @Override
-    public CartProduct getCartProduct(Long productId) {
-        return portalProductDao.getCartProduct(productId);
-    }
-
-    @Override
-    public List<PromotionProduct> getPromotionProductList(List<Long> ids) {
-        return portalProductDao.getPromotionProductList(ids);
-    }
 
 
     @Override
