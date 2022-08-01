@@ -1,4 +1,4 @@
-package com.fairy.cloud.product.component.zklock;
+package com.fairy.cloud.product.zk;
 
 public interface ZKLock {
 

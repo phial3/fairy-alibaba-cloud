@@ -1,6 +1,5 @@
-package com.fairy.cloud.product.config;
+package com.fairy.cloud.product.bloom;
 
-import com.fairy.cloud.product.component.BloomRedisService;
 import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.cloud.product.util.BloomFilterHelper;
 import com.fairy.common.constants.RedisKeyPrefixConst;

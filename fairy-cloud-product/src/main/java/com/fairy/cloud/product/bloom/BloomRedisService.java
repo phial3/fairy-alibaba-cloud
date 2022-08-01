@@ -1,4 +1,4 @@
-package com.fairy.cloud.product.component;
+package com.fairy.cloud.product.bloom;
 
 import com.fairy.cloud.product.util.BloomFilterHelper;
 import com.google.common.base.Preconditions;

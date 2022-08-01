@@ -1,6 +1,6 @@
-package com.fairy.cloud.product.component.zklock.impl;
+package com.fairy.cloud.product.zk.impl;
 
-import com.fairy.cloud.product.component.zklock.ZKLock;
+import com.fairy.cloud.product.zk.ZKLock;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;

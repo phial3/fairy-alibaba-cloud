@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @Api(tags = "PortalProductController", description = "商品查询查看")
-@RequestMapping("/pms")
 public class PortalProductController {
 
     @Autowired

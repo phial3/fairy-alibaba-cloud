@@ -1,4 +1,4 @@
-package com.fairy.cloud.product.component;
+package com.fairy.cloud.product.cache;
 
 import com.fairy.cloud.product.model.PmsProductParam;
 import com.google.common.cache.Cache;

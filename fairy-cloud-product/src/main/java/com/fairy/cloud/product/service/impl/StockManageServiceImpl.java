@@ -9,7 +9,6 @@ import com.fairy.cloud.product.model.CartPromotionItem;
 import com.fairy.cloud.product.model.PmsProductParam;
 import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.cloud.product.service.StockManageService;
-import com.fairy.cloud.product.util.RedisOpsUtil;
 import com.fairy.common.response.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

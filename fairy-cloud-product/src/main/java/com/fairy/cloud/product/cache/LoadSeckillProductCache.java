@@ -1,4 +1,4 @@
-package com.fairy.cloud.product.component;
+package com.fairy.cloud.product.cache;
 
 import com.fairy.cloud.mbg.model.SmsFlashPromotion;
 import com.fairy.cloud.product.dao.FlashPromotionProductDao;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
-public class LoadSeckillProduct2Cache implements InitializingBean {
+public class LoadSeckillProductCache implements InitializingBean {
 
     @Autowired
     private FlashPromotionProductDao dao;

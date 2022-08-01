@@ -1,7 +1,7 @@
 package com.fairy.cloud.product.config;
 
-import com.fairy.cloud.product.component.zklock.ZKLock;
-import com.fairy.cloud.product.component.zklock.impl.ZKLockImpl;
+import com.fairy.cloud.product.zk.ZKLock;
+import com.fairy.cloud.product.zk.impl.ZKLockImpl;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.RetryNTimes;

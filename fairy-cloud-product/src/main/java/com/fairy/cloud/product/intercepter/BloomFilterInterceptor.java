@@ -1,6 +1,6 @@
 package com.fairy.cloud.product.intercepter;
 
-import com.fairy.cloud.product.component.BloomRedisService;
+import com.fairy.cloud.product.bloom.BloomRedisService;
 import com.fairy.common.constants.RedisKeyPrefixConst;
 import com.fairy.common.response.CommonResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +48,6 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
         String result = new ObjectMapper().writeValueAsString(CommonResponse.fail("产品不存在!"));
         response.getWriter().print(result);
         return false;
-
     }
 
 }
