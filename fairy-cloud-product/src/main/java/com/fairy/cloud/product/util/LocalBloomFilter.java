@@ -22,7 +22,16 @@ public class LocalBloomFilter {
         return bloomFilter.mightContain(id);
     }
 
-    public static void put(Long id) {
+    public static void put(int id) {
         bloomFilter.put(id + "");
+    }
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 1000; i++) {
+            LocalBloomFilter.put(i);
+        }
+        boolean rs = LocalBloomFilter.match("2");
+        System.out.println(rs);
+
     }
 }

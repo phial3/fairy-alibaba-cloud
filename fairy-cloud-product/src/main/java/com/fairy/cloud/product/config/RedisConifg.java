@@ -37,7 +37,7 @@ public class RedisConifg {
     private Integer port;
 
     @Bean
-    public RedissonClient redissonClient() {
+    public RedissonClient redisClient() {
         // 此为单机模式
         Config config = new Config();
         String address = "redis://" + host + ":" + port;
@@ -46,7 +46,8 @@ public class RedisConifg {
         } else {
             config.useSingleServer().setAddress(address).setDatabase(database);
         }
-        return Redisson.create(config);
+        RedissonClient redisClient = Redisson.create(config);
+        return redisClient;
     }
 
     @Bean

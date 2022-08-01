@@ -19,14 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
- *
- * @author ：图灵学院
- * @date ：Created in 2020/2/25
- * @version: V1.0
- * @slogan: 天下风云出我辈，一入代码岁月催
- * @description:
- **/
+
 @Service
 @Slf4j
 public class StockManageServiceImpl implements StockManageService {
@@ -37,11 +30,6 @@ public class StockManageServiceImpl implements StockManageService {
     @Autowired
     private SmsFlashPromotionProductRelationMapper flashPromotionProductRelationMapper;
 
-    @Autowired
-    private FlashPromotionProductDao flashPromotionProductDao;
-
-    @Autowired
-    private PmsProductService productService;
 
     @Override
     public Integer incrStock(Long productId, Long skuId, Integer quanlity, Integer miaosha, Long flashPromotionRelationId) {

@@ -1,6 +1,5 @@
 package com.fairy.cloud.product.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.fairy.cloud.mbg.mapper.SmsFlashPromotionMapper;
 import com.fairy.cloud.mbg.mapper.SmsFlashPromotionSessionMapper;
 import com.fairy.cloud.mbg.model.SmsFlashPromotion;
@@ -67,30 +66,7 @@ public class PmsProductServiceImpl implements PmsProductService {
      */
     @Override
     public PmsProductParam getProductInfo(Long id) {
-        return getProductInfo1(id);
-    }
-
-    /***
-     * 直接访问数据库 获取商品详情信息
-     * @param id 商品id
-     * @return PmsProductParam
-     */
-    private PmsProductParam getProductInfo1(Long id) {
-        PmsProductParam productInfo = portalProductDao.getProductInfo(id);
-        if (null == productInfo) {
-            return null;
-        }
-        FlashPromotionParam promotion = flashPromotionProductDao.getFlashPromotion(id);
-        if (!ObjectUtils.isEmpty(promotion)) {
-            productInfo.setFlashPromotionCount(promotion.getRelation().get(0).getFlashPromotionCount());
-            productInfo.setFlashPromotionLimit(promotion.getRelation().get(0).getFlashPromotionLimit());
-            productInfo.setFlashPromotionPrice(promotion.getRelation().get(0).getFlashPromotionPrice());
-            productInfo.setFlashPromotionRelationId(promotion.getRelation().get(0).getId());
-            productInfo.setFlashPromotionEndDate(promotion.getEndDate());
-            productInfo.setFlashPromotionStartDate(promotion.getStartDate());
-            productInfo.setFlashPromotionStatus(promotion.getStatus());
-        }
-        return productInfo;
+        return getProductInfoRedis(id);
     }
 
     /**
@@ -99,32 +75,34 @@ public class PmsProductServiceImpl implements PmsProductService {
      *
      * @param id 产品ID
      */
-    public PmsProductParam getProductInfoRedis(Long id) {
-        //从缓存Redis里找
+    private PmsProductParam getProductInfoRedis(Long id) {
+        //从jvm 本地缓存读取
         PmsProductParam productInfo = null;
+        //redis 读数据
         Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
         if (null != value) {
-            productInfo = JSON.parseObject(productInfo.toString(), PmsProductParam.class);
+            productInfo = (PmsProductParam) value;
             return productInfo;
         }
+        //redis加锁的方式
         RLock lock = redissonClient.getLock(lockPath + id);
         try {
             boolean rs = lock.tryLock(10, TimeUnit.SECONDS);
             if (rs) {
                 productInfo = portalProductDao.getProductInfo(id);
                 if (null == productInfo) {
-                    log.error("没有查询到商品信息,id:" + id);
+                    log.error("数据库没有查询到商品信息,id:" + id);
                     return null;
                 }
-                checkFlash(id, productInfo);
-                /*缓存设置失效时间*/
+                gainProductInfo(id, productInfo);
+                /*缓存设置失效时间 写入redis缓存数据*/
                 redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
-            }/* else {
+            } else {
                 //没有那到锁也没有走数据库查询 这样肯定是本身有数据但是拿不到  就算走缓存，但是缓存没有数据
                 Thread.sleep(5 * 1000);
                 //自旋
                 getProductInfo(id);
-            }*/
+            }
         } catch (Exception e) {
             log.error("异常信息:{}", e.getMessage());
         } finally {
@@ -136,59 +114,46 @@ public class PmsProductServiceImpl implements PmsProductService {
         return productInfo;
     }
 
-    public PmsProductParam getProductInfo2(Long id) {
-        //从缓存Redis里找
-        PmsProductParam productInfo = null;
-        Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
-        if (null != value) {
-            productInfo = JSON.parseObject(productInfo.toString(), PmsProductParam.class);
-            return productInfo;
-        }
-        /*查找数据库*/
-        productInfo = portalProductDao.getProductInfo(id);
-        if (null == productInfo) {
-            log.warn("没有查询到商品信息,id:" + id);
-            return null;
-        }
-        checkFlash(id, productInfo);
-        /*缓存设置失效时间*/
-        redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
-        return productInfo;
-    }
-
     /**
-     * 获取商品详情信息 分布式锁、 本地缓存、redis缓存
+     * 获取商品详情信息 分布式锁、 本地缓存、redis缓存 使用zk锁
      *
      * @param id 产品ID
      */
-    public PmsProductParam getProductInfo3(Long id) {
-        PmsProductParam productInfo = null;
+    private PmsProductParam getProductInfoZk(Long id) {
+        PmsProductParam productInfo;
+        //使用一级本地缓存 jvm
         productInfo = cache.get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
         if (null != productInfo) {
+            log.info("get jvm cache productInfo:" + productInfo);
             return productInfo;
         }
+        //二级缓存 redis存储
         Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
         if (value != null) {
-            productInfo = JSON.parseObject(productInfo.toString(), PmsProductParam.class);
-            log.info("get redis productId:" + productInfo);
+            productInfo = (PmsProductParam) value;
+            log.info("get redis productInfo:" + productInfo);
             cache.setLocalCache(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo);
             return productInfo;
         }
         try {
+            //分布式锁
             if (zkLock.lock(lockPath + "_" + id)) {
                 productInfo = portalProductDao.getProductInfo(id);
                 if (null == productInfo) {
+                    log.error("数据库没有查询到商品信息");
                     return null;
                 }
-                checkFlash(id, productInfo);
-                log.info("set db productId:" + productInfo);
+                gainProductInfo(id, productInfo);
+                log.info("set db productInfo:" + productInfo);
+                //一级 二级缓存设置
                 redisTemplate.opsForValue().set(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo, 3600, TimeUnit.SECONDS);
                 cache.setLocalCache(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo);
             } else {
-                log.info("get redis2 productId:" + productInfo);
+                log.info(Thread.currentThread().getName() + "没有获取到锁");
                 value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
-                productInfo = JSON.parseObject(productInfo.toString(), PmsProductParam.class);
-                if (productInfo != null) {
+                if (value != null) {
+                    //redis 存在数据 写入到jvm Cache
+                    productInfo = (PmsProductParam) value;
                     cache.setLocalCache(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo);
                 }
             }
@@ -205,7 +170,8 @@ public class PmsProductServiceImpl implements PmsProductService {
      * @param id          商品id
      * @param productInfo 商品信息
      */
-    private void checkFlash(Long id, PmsProductParam productInfo) {
+    private void gainProductInfo(Long id, PmsProductParam productInfo) {
+        //查找所有的秒杀活动商品
         FlashPromotionParam promotion = flashPromotionProductDao.getFlashPromotion(id);
         if (!ObjectUtils.isEmpty(promotion)) {
             productInfo.setFlashPromotionCount(promotion.getRelation().get(0).getFlashPromotionCount());
@@ -219,13 +185,6 @@ public class PmsProductServiceImpl implements PmsProductService {
     }
 
 
-    /**
-     * add by yangguo
-     * 获取秒杀商品列表
-     *
-     * @param flashPromotionId 秒杀活动ID，关联秒杀活动设置
-     * @param sessionId        场次活动ID，for example：13:00-14:00场等
-     */
 
     @Override
     public List<FlashPromotionProduct> getFlashProductList(Integer pageSize, Integer pageNum, Long flashPromotionId, Long sessionId) {
@@ -233,21 +192,12 @@ public class PmsProductServiceImpl implements PmsProductService {
         return flashPromotionProductDao.getFlashProductList(flashPromotionId, sessionId);
     }
 
-    /**
-     * 获取当前日期秒杀活动所有场次
-     *
-     * @return
-     */
+
     @Override
     public List<FlashPromotionSessionExt> getFlashPromotionSessionList() {
         Date now = new Date();
         SmsFlashPromotion promotion = getFlashPromotion(now);
         if (promotion != null) {
-//            SmsFlashPromotionSessionExample sessionExample = new SmsFlashPromotionSessionExample();
-//            //获取时间段内的秒杀场次 启用状态
-//            sessionExample.createCriteria().andStatusEqualTo(1);
-//            sessionExample.setOrderByClause("start_time asc");
-//            List<SmsFlashPromotionSession> promotionSessionList = promotionSessionMapper.selectByExample(sessionExample);
             List<SmsFlashPromotionSession> promotionSessionList = promotionSessionMapper.getFlashPromotionSessionList();
             List<FlashPromotionSessionExt> extList = new ArrayList<>();
             if (!CollectionUtils.isEmpty(promotionSessionList)) {
@@ -273,13 +223,8 @@ public class PmsProductServiceImpl implements PmsProductService {
         return null;
     }
 
-    /**
-     * 根据时间获取秒杀活动
-     *
-     * @param date
-     * @return
-     */
-    public SmsFlashPromotion getFlashPromotion(Date date) {
+
+    private SmsFlashPromotion getFlashPromotion(Date date) {
         SmsFlashPromotionExample example = new SmsFlashPromotionExample();
         example.createCriteria()
                 .andStatusEqualTo(1)

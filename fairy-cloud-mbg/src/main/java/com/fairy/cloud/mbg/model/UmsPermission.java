@@ -11,9 +11,6 @@ import java.util.Date;
 public class UmsPermission implements Serializable {
     private Integer id;
 
-    @ApiModelProperty(value = "父级权限id")
-    private Integer pid;
-
     @ApiModelProperty(value = "名称")
     private String name;
 

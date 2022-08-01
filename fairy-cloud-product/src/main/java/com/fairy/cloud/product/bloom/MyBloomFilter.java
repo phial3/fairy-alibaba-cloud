@@ -1,5 +1,6 @@
-package com.fairy.cloud.product.util;
+package com.fairy.cloud.product.bloom;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Hashing;
@@ -10,16 +11,15 @@ import com.google.common.hash.Hashing;
  * 2. 初始化时，需要一个长度为n比特的数组，每个比特位初始化为0
  * 3. 某个key加入集合时，用k个hash函数计算出k个散列值，并把数组中对应的比特位置为1
  * 4. 判断某个key是否在集合时，用k个hash函数计算出k个散列值，并查询数组中对应的比特位，如果所有的比特位都是1，认为在集合中。
- *
  **/
-public class BloomFilterHelper<T> {
+public class MyBloomFilter<T> {
     private int numHashFunctions;
 
     private int bitSize;
 
     private Funnel<T> funnel;
 
-    public BloomFilterHelper(Funnel<T> funnel, int expectedInsertions, double fpp) {
+    public MyBloomFilter(Funnel<T> funnel, int expectedInsertions, double fpp) {
         Preconditions.checkArgument(funnel != null, "funnel不能为空");
         this.funnel = funnel;
         // 计算bit数组长度
@@ -53,13 +53,17 @@ public class BloomFilterHelper<T> {
             // 设定最小期望长度
             p = Double.MIN_VALUE;
         }
-        return (int) (-n * Math.log(p) / (Math.log(2) * Math.log(2)));
+        int sizeOfBitArray = (int) (-n * Math.log(p) / (Math.log(2) * Math.log(2)));
+        return sizeOfBitArray;
     }
 
     /**
      * 计算hash方法执行次数
      */
     private int optimalNumOfHashFunctions(long n, long m) {
-        return Math.max(1, (int) Math.round((double) m / n * Math.log(2)));
+        int countOfHash = Math.max(1, (int) Math.round((double) m / n * Math.log(2)));
+        return countOfHash;
     }
+
+
 }

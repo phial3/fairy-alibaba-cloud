@@ -43,12 +43,12 @@ public class ZKLockImpl implements ZKLock,InitializingBean {
         } catch (Exception e) {
             log.info("Thread:{};failed to acquire mutex lock for path:{}",Thread.currentThread().getName(),keyPath);
             if(!concurrentMap.containsKey(lockpath)){
+                lock.lock();
                 try {
                     /*
                      * 这里考虑到高并发场景,必须保证对同一个节点加锁的线程失败后是落在同一个countdown对象上
                      * ,否则有的线程永远没有办法唤醒了
                      */
-                    lock.lock();
                     //双重校验,考虑高并发问题
                     if(!concurrentMap.containsKey(lockpath)){
                         concurrentMap.put(lockpath,new CountDownLatch(1));
@@ -59,7 +59,7 @@ public class ZKLockImpl implements ZKLock,InitializingBean {
             }
             try {
                 CountDownLatch countDownLatch = concurrentMap.get(lockpath);
-                //这里为什么要判断呢？大家可以思考一下,高并发场景
+                //高并发场景判断
                 if(countDownLatch != null){
                     countDownLatch.await();
                 }
