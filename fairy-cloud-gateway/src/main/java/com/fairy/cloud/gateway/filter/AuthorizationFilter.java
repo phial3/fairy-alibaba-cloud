@@ -1,6 +1,5 @@
 package com.fairy.cloud.gateway.filter;
 
-import com.alibaba.fastjson.JSON;
 import com.fairy.cloud.gateway.properties.NotAuthUrlProperties;
 import com.fairy.cloud.gateway.utils.KeyPairUtil;
 import com.fairy.cloud.gateway.utils.TokenUtils;
@@ -28,7 +27,10 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.security.PublicKey;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 认证过滤器,根据url判断用户请求是要经过认证 才能访问
@@ -45,6 +47,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered, InitializingB
     @Qualifier("restTemplate")
     private RestTemplate restTemplate;
 
+    private AntPathMatcher pathMatcher = new AntPathMatcher();
     @Autowired
     private KeyPairUtil keyPairUtil;
     /**
@@ -119,13 +122,14 @@ public class AuthorizationFilter implements GlobalFilter, Ordered, InitializingB
         //5: 直接jwt拿到角色信息  根据角色 获取redis里面的权限信息 （本次采用这种）
         List<String> matchUrls = new LinkedList<>();
         for (String roleName : roleNames) {
-            Object value = Optional.ofNullable(redisTemplate.opsForValue().get(RedisKeyPrefixConst.USER_ROLE_PERMISSIOn+":"+roleName)).get();
-            if (!ObjectUtils.isEmpty(value)){
+            Object value = Optional.ofNullable(redisTemplate.opsForValue().get(RedisKeyPrefixConst.USER_ROLE_PERMISSIOn + ":" + roleName)).get();
+            if (!ObjectUtils.isEmpty(value)) {
                 matchUrls.addAll((List<String>) value);
             }
         }
+        //也可以采用逐步解析查看上次是否存在权限 如存在权限 /pms/
         for (String url : matchUrls) {
-            if (url.equalsIgnoreCase(currentUrl)) {
+            if (url.equalsIgnoreCase(currentUrl)||  pathMatcher.match(url, currentUrl)) {
                 return true;
             }
         }
