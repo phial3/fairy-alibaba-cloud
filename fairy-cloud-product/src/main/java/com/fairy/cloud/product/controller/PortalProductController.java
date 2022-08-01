@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -30,7 +31,7 @@ public class PortalProductController {
             @ApiImplicitParam(name = "flashPromotionSessionId",value = "活动场次ID,例如:12点场",paramType = "query",dataType = "long")
     })
     @RequestMapping(value = "/productInfo/{id}", method = RequestMethod.GET)
-    public CommonResponse getProductInfo(@PathVariable Long id) {
+    public CommonResponse getProductInfo(HttpServletRequest request, @PathVariable Long id) {
         PmsProductParam pmsProductParam=pmsProductService.getProductInfo(id);
         return CommonResponse.success(pmsProductParam);
     }

@@ -40,7 +40,7 @@ public class BloomFilterConfig implements InitializingBean{
         log.info("加载产品到布隆过滤器当中,size:{}",list.size());
         if(!CollectionUtils.isEmpty(list)){
             list.stream().forEach(item->{
-                bloomRedisService.addByBloomFilter(RedisKeyPrefixConst.PRODUCT_REDIS_BLOOM_FILTER,item);
+                bloomRedisService.addByBloomFilter(RedisKeyPrefixConst.PRODUCT_REDIS_BLOOM_FILTER,String.valueOf(item));
             });
         }
     }

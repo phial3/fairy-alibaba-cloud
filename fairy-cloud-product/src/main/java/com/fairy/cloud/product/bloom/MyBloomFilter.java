@@ -1,6 +1,5 @@
 package com.fairy.cloud.product.bloom;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Hashing;
@@ -30,7 +29,7 @@ public class MyBloomFilter<T> {
 
     public int[] murmurHashOffset(T value) {
         int[] offset = new int[numHashFunctions];
-
+        //需要对类型进行一个转换 标准为String
         long hash64 = Hashing.murmur3_128().hashObject(value, funnel).asLong();
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);

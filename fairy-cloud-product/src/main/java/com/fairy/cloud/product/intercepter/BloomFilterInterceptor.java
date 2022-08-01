@@ -1,6 +1,7 @@
 package com.fairy.cloud.product.intercepter;
 
 import com.fairy.cloud.product.bloom.BloomRedisService;
+import com.fairy.cloud.product.util.LocalBloomFilter;
 import com.fairy.common.constants.RedisKeyPrefixConst;
 import com.fairy.common.response.CommonResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,12 +34,6 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        /**
-         * 存储在本地jvm布隆过滤器中
-         */
-        /*if(LocalBloomFilter.match(pathVariable.get("id"))){
-            return true;
-        }*/
 
         /*
          * 不在本地布隆过滤器当中，直接返回验证失败

@@ -34,7 +34,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         //注册拦截器
         registry.addInterceptor(bloomFilterInterceptor)
-                .addPathPatterns("/pms/productInfo/**");
+                .addPathPatterns("/productInfo/**");
     }
 
 
