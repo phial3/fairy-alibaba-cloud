@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: node01:8848
+        namespace: fairy
+      config:
+        server-addr: node01:8848
+        file-extension: yml
+        namespace: fairy
+        refresh-enabled: true
+        enabled: true
+        #自定义的dataId 是制定的 不需要关注 file-extension以及group
+#        shared-configs: #优先级最低  这里不需要受上面yaml配置约束
+#          - data-id: com.fairy.nacos.shared01.
+#            group: fairy-nacos
+#            refresh: true #动态感知，默认为false
+#          #多个相同配置后面配置的后覆盖前面的
+#          - dataId: com.fairy.nacos-shared02  #命名注意不需要使用-需要用.
+#        extension-configs[0]: #优先级大于shared 下标越大优先级越大
+#          data-id: com.fairy.nacos.extension01.yaml
+#          group: fairy-nacos
+#          refresh: true

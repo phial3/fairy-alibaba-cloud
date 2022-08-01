@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://node01:33306/fairy-cloud?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: root
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: druid
+        login-password: druid
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:mapper/**/*.xml
+logging:
+  level:
+    root: INFO
+    com.alibaba.cloud.nacos.client: warn
+    com.fairy.cloud.mbg.mapper: DEBUG
+  config: classpath:logback.xml
+
+
+
