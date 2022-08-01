@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -25,30 +24,35 @@ public class PortalProductController {
     @Autowired
     private PortalProductDao portalProductDao;
 
+    /**
+     * 只有通过过滤拦截请求后的 才可以访问接口
+     *
+     * @param request
+     * @param id
+     * @return
+     */
     @ApiOperation(value = "根据商品id获取商品详情#功能需要做QPS优化")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "flashPromotionId",value = "秒杀活动ID",paramType = "query",dataType = "long"),
-            @ApiImplicitParam(name = "flashPromotionSessionId",value = "活动场次ID,例如:12点场",paramType = "query",dataType = "long")
+            @ApiImplicitParam(name = "flashPromotionId", value = "秒杀活动ID", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "flashPromotionSessionId", value = "活动场次ID,例如:12点场", paramType = "query", dataType = "long")
     })
     @RequestMapping(value = "/productInfo/{id}", method = RequestMethod.GET)
-    public CommonResponse getProductInfo(HttpServletRequest request, @PathVariable Long id) {
-        PmsProductParam pmsProductParam=pmsProductService.getProductInfo(id);
+    public CommonResponse getProductInfo(@PathVariable Long id) {
+        PmsProductParam pmsProductParam = pmsProductService.getProductInfo(id);
         return CommonResponse.success(pmsProductParam);
     }
 
 
-
-
     @ApiOperation(value = "根据商品Id获取购物车商品的信息")
     @RequestMapping(value = "/cartProduct/{productId}", method = RequestMethod.GET)
-    public CommonResponse<CartProduct> getCartProduct(@PathVariable("productId") Long productId){
+    public CommonResponse<CartProduct> getCartProduct(@PathVariable("productId") Long productId) {
         CartProduct cartProduct = portalProductDao.getCartProduct(productId);
         return CommonResponse.success(cartProduct);
     }
 
     @ApiOperation(value = "根据商品Ids获取促销商品信息")
     @RequestMapping(value = "/getPromotionProductList", method = RequestMethod.GET)
-    public CommonResponse<List<PromotionProduct>> getPromotionProductList(@RequestParam("productIds") List<Long> ids){
+    public CommonResponse<List<PromotionProduct>> getPromotionProductList(@RequestParam("productIds") List<Long> ids) {
         List<PromotionProduct> promotionProducts = portalProductDao.getPromotionProductList(ids);
         return CommonResponse.success(promotionProducts);
     }
@@ -64,12 +68,12 @@ public class PortalProductController {
             //当前秒杀活动主题ID
             @RequestParam(value = "flashPromotionId") Long flashPromotionId,
             //当前秒杀活动场次ID
-            @RequestParam(value = "flashPromotionSessionId") Long flashPromotionSessionId){
-        return CommonResponse.success(pmsProductService.getFlashProductList(pageSize,pageNum,flashPromotionId,flashPromotionSessionId));
+            @RequestParam(value = "flashPromotionSessionId") Long flashPromotionSessionId) {
+        return CommonResponse.success(pmsProductService.getFlashProductList(pageSize, pageNum, flashPromotionId, flashPromotionSessionId));
     }
 
 
-    @ApiOperation(value = "获取当前日期所有活动场次#需要做QPS优化",notes = "示例：10:00场,13:00场")
+    @ApiOperation(value = "获取当前日期所有活动场次#需要做QPS优化", notes = "示例：10:00场,13:00场")
     @GetMapping("/flashPromotion/getSessionTimeList")
     public CommonResponse<List<FlashPromotionSessionExt>> getSessionTimeList() {
         return CommonResponse.success(pmsProductService.getFlashPromotionSessionList());
@@ -77,7 +81,7 @@ public class PortalProductController {
 
     @ApiOperation("获取首页秒杀商品")
     @GetMapping("/flashPromotion/getHomeSecKillProductList")
-    public CommonResponse<List<FlashPromotionProduct>> getHomeSecKillProductList(){
+    public CommonResponse<List<FlashPromotionProduct>> getHomeSecKillProductList() {
         return CommonResponse.success(pmsProductService.getHomeSecKillProductList());
     }
 
