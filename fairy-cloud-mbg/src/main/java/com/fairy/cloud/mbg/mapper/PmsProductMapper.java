@@ -1,42 +1,20 @@
 package com.fairy.cloud.mbg.mapper;
 
-import com.fairy.cloud.mbg.model.PmsProduct;
-import com.fairy.cloud.mbg.model.PmsProductExample;
+import com.fairy.cloud.mbg.model.pojo.PmsProductPO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
-public interface PmsProductMapper {
-    long countByExample(PmsProductExample example);
+/**
+ * 商品信息
+ * 
+ * @author é¹¿å°å¹´
+ * @email 
+ * @date 2022-08-02 21:00:44
+ */
+@Mapper
+public interface PmsProductMapper extends BaseMapper<PmsProductPO> {
 
-    int deleteByExample(PmsProductExample example);
-
-    int deleteByPrimaryKey(Long id);
-
-    int insert(PmsProduct record);
-
-    int insertSelective(PmsProduct record);
-
-    List<PmsProduct> selectByExampleWithBLOBs(PmsProductExample example);
-
-    List<PmsProduct> selectByExample(PmsProductExample example);
-
-    PmsProduct selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("record") PmsProduct record, @Param("example") PmsProductExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") PmsProduct record, @Param("example") PmsProductExample example);
-
-    int updateByExample(@Param("record") PmsProduct record, @Param("example") PmsProductExample example);
-
-    int updateByPrimaryKeySelective(PmsProduct record);
-
-    int updateByPrimaryKeyWithBLOBs(PmsProduct record);
-
-    int updateByPrimaryKey(PmsProduct record);
-
-    /**
-     * 获取所以的 produceId
-     * @return
-     */
-    List<Long> getAllProductId();
+    List<Integer> getAllProductId();
 }

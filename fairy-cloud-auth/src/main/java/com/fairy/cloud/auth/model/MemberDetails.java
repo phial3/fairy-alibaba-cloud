@@ -1,12 +1,10 @@
 package com.fairy.cloud.auth.model;
 
-import com.fairy.cloud.mbg.model.UmsMember;
+import com.fairy.cloud.mbg.model.pojo.UmsMemberPO;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,13 +18,13 @@ import java.util.List;
  */
 @Data
 public class MemberDetails implements UserDetails {
-    private UmsMember umsMember;
+    private UmsMemberPO umsMember;
     /**
      * 用户权限集合
      */
     private List<GrantedAuthority> authorities;
 
-    public MemberDetails(UmsMember umsMember) {
+    public MemberDetails(UmsMemberPO umsMember) {
         this.umsMember = umsMember;
     }
 
@@ -66,7 +64,7 @@ public class MemberDetails implements UserDetails {
         return umsMember.getStatus() == 1;
     }
 
-    public UmsMember getUmsMember() {
+    public UmsMemberPO getUmsMember() {
         return umsMember;
     }
 }

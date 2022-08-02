@@ -1,31 +1,19 @@
 package com.fairy.cloud.product.service.impl;
 
 import com.fairy.cloud.mbg.mapper.PmsProductMapper;
-import com.fairy.cloud.mbg.mapper.SmsFlashPromotionMapper;
-import com.fairy.cloud.mbg.mapper.SmsFlashPromotionSessionMapper;
-import com.fairy.cloud.mbg.model.*;
+import com.fairy.cloud.mbg.model.pojo.PmsProductPO;
 import com.fairy.cloud.product.cache.LocalCache;
-import com.fairy.cloud.product.dao.FlashPromotionProductDao;
-import com.fairy.cloud.product.model.FlashPromotionParam;
-import com.fairy.cloud.product.model.FlashPromotionProduct;
-import com.fairy.cloud.product.model.FlashPromotionSessionExt;
-import com.fairy.cloud.product.model.PmsProductParam;
 import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.cloud.product.zk.ZKLock;
 import com.fairy.common.constants.RedisKeyPrefixConst;
-import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,12 +24,6 @@ public class PmsProductServiceImpl implements PmsProductService {
 
     @Autowired
     private PmsProductMapper pmsProductMapper;
-    @Autowired
-    private FlashPromotionProductDao flashPromotionProductDao;
-    @Autowired
-    private SmsFlashPromotionMapper flashPromotionMapper;
-    @Autowired
-    private SmsFlashPromotionSessionMapper promotionSessionMapper;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
@@ -65,7 +47,7 @@ public class PmsProductServiceImpl implements PmsProductService {
      * @param id 产品ID
      */
     @Override
-    public PmsProduct getProductInfo(Long id) {
+    public PmsProductPO getProductInfo(Long id) {
         return getProductInfoRedis(id);
     }
 
@@ -75,13 +57,13 @@ public class PmsProductServiceImpl implements PmsProductService {
      *
      * @param id 产品ID
      */
-    private PmsProduct getProductInfoRedis(Long id) {
+    private PmsProductPO getProductInfoRedis(Long id) {
         //从jvm 本地缓存读取
-        PmsProduct productInfo = null;
+        PmsProductPO productInfo = null;
         //redis 读数据
         Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
         if (null != value) {
-            productInfo = (PmsProductParam) value;
+            productInfo = (PmsProductPO) value;
             return productInfo;
         }
         //redis加锁的方式
@@ -89,7 +71,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         try {
             boolean rs = lock.tryLock(10, TimeUnit.SECONDS);
             if (rs) {
-                productInfo = pmsProductMapper.selectByPrimaryKey(id);
+                productInfo = pmsProductMapper.selectById(id);
                 if (null == productInfo) {
                     log.error("数据库没有查询到商品信息,id:" + id);
                     return null;
@@ -103,7 +85,7 @@ public class PmsProductServiceImpl implements PmsProductService {
 //                getProductInfo(id);
                 value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
                 if (null != value) {
-                    productInfo = (PmsProductParam) value;
+                    productInfo = (PmsProductPO) value;
                 }
             }
         } catch (Exception e) {
@@ -122,8 +104,8 @@ public class PmsProductServiceImpl implements PmsProductService {
      *
      * @param id 产品ID
      */
-    private PmsProduct getProductInfoZk(Long id) {
-        PmsProduct productInfo = null;
+    private PmsProductPO getProductInfoZk(Long id) {
+        PmsProductPO productInfo = null;
         //使用一级本地缓存 jvm
         productInfo = cache.get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
         if (null != productInfo) {
@@ -133,7 +115,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         //二级缓存 redis存储
         Object value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
         if (value != null) {
-            productInfo = (PmsProductParam) value;
+            productInfo = (PmsProductPO) value;
             log.info("get redis productInfo:" + productInfo);
             cache.setLocalCache(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo);
             return productInfo;
@@ -141,7 +123,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         try {
             //分布式锁
             if (zkLock.lock(lockPath + "_" + id)) {
-                productInfo = pmsProductMapper.selectByPrimaryKey(id);
+                productInfo = pmsProductMapper.selectById(id);
                 if (null == productInfo) {
                     log.error("数据库没有查询到商品信息");
                     return null;
@@ -155,7 +137,7 @@ public class PmsProductServiceImpl implements PmsProductService {
                 value = redisTemplate.opsForValue().get(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id);
                 if (value != null) {
                     //redis 存在数据 写入到jvm Cache
-                    productInfo = (PmsProductParam) value;
+                    productInfo = (PmsProductPO) value;
                     cache.setLocalCache(RedisKeyPrefixConst.PRODUCT_DETAIL_CACHE + id, productInfo);
                 }
             }
@@ -168,75 +150,7 @@ public class PmsProductServiceImpl implements PmsProductService {
 
 
     @Override
-    public List<FlashPromotionProduct> getFlashProductList(Integer pageSize, Integer pageNum, Long flashPromotionId, Long sessionId) {
-        PageHelper.startPage(pageNum, pageSize, "sort desc");
-        return flashPromotionProductDao.getFlashProductList(flashPromotionId, sessionId);
-    }
-
-
-    @Override
-    public List<FlashPromotionSessionExt> getFlashPromotionSessionList() {
-        Date now = new Date();
-        SmsFlashPromotion promotion = getFlashPromotion(now);
-        if (promotion != null) {
-            List<SmsFlashPromotionSession> promotionSessionList = promotionSessionMapper.getFlashPromotionSessionList();
-            List<FlashPromotionSessionExt> extList = new ArrayList<>();
-            if (!CollectionUtils.isEmpty(promotionSessionList)) {
-                promotionSessionList.stream().forEach((item) -> {
-                    FlashPromotionSessionExt ext = new FlashPromotionSessionExt();
-                    BeanUtils.copyProperties(item, ext);
-                    ext.setFlashPromotionId(promotion.getId());
-                    if (now.after(ext.getStartTime()) && now.before(ext.getEndTime())) {
-                        //活动进行中
-                        ext.setSessionStatus(0);
-                    } else if (now.before(ext.getStartTime())) {
-                        //活动即将开始
-                        ext.setSessionStatus(1);
-                    } else if (now.after(ext.getEndTime())) {
-                        //活动已结束
-                        ext.setSessionStatus(2);
-                    }
-                    extList.add(ext);
-                });
-                return extList;
-            }
-        }
-        return null;
-    }
-
-
-    private SmsFlashPromotion getFlashPromotion(Date date) {
-        SmsFlashPromotionExample example = new SmsFlashPromotionExample();
-        example.createCriteria()
-                .andStatusEqualTo(1)
-                .andStartDateLessThanOrEqualTo(date)
-                .andEndDateGreaterThanOrEqualTo(date);
-        List<SmsFlashPromotion> flashPromotionList = flashPromotionMapper.selectByExample(example);
-        if (!CollectionUtils.isEmpty(flashPromotionList)) {
-            return flashPromotionList.get(0);
-        }
-        return null;
-    }
-
-
-    @Override
-    public List<FlashPromotionProduct> getHomeSecKillProductList() {
-        PageHelper.startPage(1, 8, "sort desc");
-        FlashPromotionParam flashPromotionParam = flashPromotionProductDao.getFlashPromotion(null);
-        if (flashPromotionParam == null || CollectionUtils.isEmpty(flashPromotionParam.getRelation())) {
-            return null;
-        }
-        List<Long> promotionIds = new ArrayList<>();
-        flashPromotionParam.getRelation().stream().forEach(item -> {
-            promotionIds.add(item.getId());
-        });
-        PageHelper.clearPage();
-        return flashPromotionProductDao.getHomePromotionProductList(promotionIds);
-    }
-
-
-    @Override
-    public List<Long> getAllProductId() {
+    public List<Integer> getAllProductId() {
         return pmsProductMapper.getAllProductId();
     }
 }

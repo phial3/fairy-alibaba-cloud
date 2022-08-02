@@ -1,30 +1,17 @@
 package com.fairy.cloud.mbg.mapper;
 
-import com.fairy.cloud.mbg.model.UmsPermission;
-import com.fairy.cloud.mbg.model.UmsPermissionExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.fairy.cloud.mbg.model.pojo.UmsPermissionPO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface UmsPermissionMapper {
-    long countByExample(UmsPermissionExample example);
-
-    int deleteByExample(UmsPermissionExample example);
-
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(UmsPermission record);
-
-    int insertSelective(UmsPermission record);
-
-    List<UmsPermission> selectByExample(UmsPermissionExample example);
-
-    UmsPermission selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") UmsPermission record, @Param("example") UmsPermissionExample example);
-
-    int updateByExample(@Param("record") UmsPermission record, @Param("example") UmsPermissionExample example);
-
-    int updateByPrimaryKeySelective(UmsPermission record);
-
-    int updateByPrimaryKey(UmsPermission record);
+/**
+ * 后台用户权限表
+ * 
+ * @author é¹¿å°å¹´
+ * @email 
+ * @date 2022-08-02 21:07:38
+ */
+@Mapper
+public interface UmsPermissionMapper extends BaseMapper<UmsPermissionPO> {
+	
 }

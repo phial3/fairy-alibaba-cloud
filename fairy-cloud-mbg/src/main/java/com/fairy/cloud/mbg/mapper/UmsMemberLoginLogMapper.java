@@ -1,30 +1,17 @@
 package com.fairy.cloud.mbg.mapper;
 
-import com.fairy.cloud.mbg.model.UmsMemberLoginLog;
-import com.fairy.cloud.mbg.model.UmsMemberLoginLogExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.fairy.cloud.mbg.model.pojo.UmsMemberLoginLogPO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface UmsMemberLoginLogMapper {
-    long countByExample(UmsMemberLoginLogExample example);
-
-    int deleteByExample(UmsMemberLoginLogExample example);
-
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(UmsMemberLoginLog record);
-
-    int insertSelective(UmsMemberLoginLog record);
-
-    List<UmsMemberLoginLog> selectByExample(UmsMemberLoginLogExample example);
-
-    UmsMemberLoginLog selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") UmsMemberLoginLog record, @Param("example") UmsMemberLoginLogExample example);
-
-    int updateByExample(@Param("record") UmsMemberLoginLog record, @Param("example") UmsMemberLoginLogExample example);
-
-    int updateByPrimaryKeySelective(UmsMemberLoginLog record);
-
-    int updateByPrimaryKey(UmsMemberLoginLog record);
+/**
+ * 会员登录记录
+ * 
+ * @author é¹¿å°å¹´
+ * @email 
+ * @date 2022-08-02 21:00:44
+ */
+@Mapper
+public interface UmsMemberLoginLogMapper extends BaseMapper<UmsMemberLoginLogPO> {
+	
 }

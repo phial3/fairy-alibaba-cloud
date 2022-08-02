@@ -1,30 +1,17 @@
 package com.fairy.cloud.mbg.mapper;
 
-import com.fairy.cloud.mbg.model.UmsMemberReceiveAddress;
-import com.fairy.cloud.mbg.model.UmsMemberReceiveAddressExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.fairy.cloud.mbg.model.pojo.UmsMemberReceiveAddressPO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface UmsMemberReceiveAddressMapper {
-    long countByExample(UmsMemberReceiveAddressExample example);
-
-    int deleteByExample(UmsMemberReceiveAddressExample example);
-
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(UmsMemberReceiveAddress record);
-
-    int insertSelective(UmsMemberReceiveAddress record);
-
-    List<UmsMemberReceiveAddress> selectByExample(UmsMemberReceiveAddressExample example);
-
-    UmsMemberReceiveAddress selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") UmsMemberReceiveAddress record, @Param("example") UmsMemberReceiveAddressExample example);
-
-    int updateByExample(@Param("record") UmsMemberReceiveAddress record, @Param("example") UmsMemberReceiveAddressExample example);
-
-    int updateByPrimaryKeySelective(UmsMemberReceiveAddress record);
-
-    int updateByPrimaryKey(UmsMemberReceiveAddress record);
+/**
+ * 会员收货地址表
+ * 
+ * @author é¹¿å°å¹´
+ * @email 
+ * @date 2022-08-02 21:00:44
+ */
+@Mapper
+public interface UmsMemberReceiveAddressMapper extends BaseMapper<UmsMemberReceiveAddressPO> {
+	
 }

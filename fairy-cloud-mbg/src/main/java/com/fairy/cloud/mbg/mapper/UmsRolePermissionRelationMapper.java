@@ -1,30 +1,17 @@
 package com.fairy.cloud.mbg.mapper;
 
-import com.fairy.cloud.mbg.model.UmsRolePermissionRelation;
-import com.fairy.cloud.mbg.model.UmsRolePermissionRelationExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.fairy.cloud.mbg.model.pojo.UmsRolePermissionRelationPO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface UmsRolePermissionRelationMapper {
-    long countByExample(UmsRolePermissionRelationExample example);
-
-    int deleteByExample(UmsRolePermissionRelationExample example);
-
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(UmsRolePermissionRelation record);
-
-    int insertSelective(UmsRolePermissionRelation record);
-
-    List<UmsRolePermissionRelation> selectByExample(UmsRolePermissionRelationExample example);
-
-    UmsRolePermissionRelation selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") UmsRolePermissionRelation record, @Param("example") UmsRolePermissionRelationExample example);
-
-    int updateByExample(@Param("record") UmsRolePermissionRelation record, @Param("example") UmsRolePermissionRelationExample example);
-
-    int updateByPrimaryKeySelective(UmsRolePermissionRelation record);
-
-    int updateByPrimaryKey(UmsRolePermissionRelation record);
+/**
+ * 后台用户角色和权限关系表
+ * 
+ * @author é¹¿å°å¹´
+ * @email 
+ * @date 2022-08-02 21:00:44
+ */
+@Mapper
+public interface UmsRolePermissionRelationMapper extends BaseMapper<UmsRolePermissionRelationPO> {
+	
 }

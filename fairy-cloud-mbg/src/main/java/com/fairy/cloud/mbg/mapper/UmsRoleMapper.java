@@ -1,34 +1,23 @@
 package com.fairy.cloud.mbg.mapper;
 
-import com.fairy.cloud.mbg.model.UmsRole;
-import com.fairy.cloud.mbg.model.UmsRoleExample;
-import java.util.List;
+import com.fairy.cloud.mbg.model.pojo.UmsRolePO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-public interface UmsRoleMapper {
-    long countByExample(UmsRoleExample example);
+import java.util.List;
 
-    int deleteByExample(UmsRoleExample example);
-
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(UmsRole record);
-
-    int insertSelective(UmsRole record);
-
-    List<UmsRole> selectByExample(UmsRoleExample example);
-
-    UmsRole selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") UmsRole record, @Param("example") UmsRoleExample example);
-
-    int updateByExample(@Param("record") UmsRole record, @Param("example") UmsRoleExample example);
-
-    int updateByPrimaryKeySelective(UmsRole record);
-
-    int updateByPrimaryKey(UmsRole record);
-
-    List<UmsRole> selectRolesByUserName(@Param("username") String username);
+/**
+ * 后台用户角色表
+ * 
+ * @author é¹¿å°å¹´
+ * @email 
+ * @date 2022-08-02 21:00:44
+ */
+@Mapper
+public interface UmsRoleMapper extends BaseMapper<UmsRolePO> {
 
     List<String> selectRolePermissionUrlByRoleName(@Param("roleName") String roleName);
+
+    List<UmsRolePO> selectRolesByUserName(@Param("username") String username);
 }

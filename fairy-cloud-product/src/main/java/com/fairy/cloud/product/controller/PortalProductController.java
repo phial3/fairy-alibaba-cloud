@@ -1,9 +1,6 @@
 package com.fairy.cloud.product.controller;
 
-import com.fairy.cloud.mbg.model.PmsProduct;
-import com.fairy.cloud.product.model.FlashPromotionProduct;
-import com.fairy.cloud.product.model.FlashPromotionSessionExt;
-import com.fairy.cloud.product.model.PmsProductParam;
+import com.fairy.cloud.mbg.model.pojo.PmsProductPO;
 import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.common.response.CommonResponse;
 import io.swagger.annotations.Api;
@@ -36,37 +33,11 @@ public class PortalProductController {
     })
     @RequestMapping(value = "/productInfo/{id}", method = RequestMethod.GET)
     public CommonResponse getProductInfo(@PathVariable Long id) {
-        PmsProduct pmsProductParam = pmsProductService.getProductInfo(id);
-        return CommonResponse.success(pmsProductParam);
+        PmsProductPO pmsProduct = pmsProductService.getProductInfo(id);
+        return CommonResponse.success(pmsProduct);
     }
 
 
-    @ApiOperation("当前秒杀活动场-产品列表#需要做QPS优化")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "flashPromotionId", value = "秒杀活动ID", required = true, paramType = "query", dataType = "integer"),
-            @ApiImplicitParam(name = "flashPromotionSessionId", value = "秒杀活动时间段ID", required = true, paramType = "query", dataType = "integer")})
-    @GetMapping("/flashPromotion/productList")
-    public CommonResponse<List<FlashPromotionProduct>> getProduct(
-            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-            //当前秒杀活动主题ID
-            @RequestParam(value = "flashPromotionId") Long flashPromotionId,
-            //当前秒杀活动场次ID
-            @RequestParam(value = "flashPromotionSessionId") Long flashPromotionSessionId) {
-        return CommonResponse.success(pmsProductService.getFlashProductList(pageSize, pageNum, flashPromotionId, flashPromotionSessionId));
-    }
 
-
-    @ApiOperation(value = "获取当前日期所有活动场次#需要做QPS优化", notes = "示例：10:00场,13:00场")
-    @GetMapping("/flashPromotion/getSessionTimeList")
-    public CommonResponse<List<FlashPromotionSessionExt>> getSessionTimeList() {
-        return CommonResponse.success(pmsProductService.getFlashPromotionSessionList());
-    }
-
-    @ApiOperation("获取首页秒杀商品")
-    @GetMapping("/flashPromotion/getHomeSecKillProductList")
-    public CommonResponse<List<FlashPromotionProduct>> getHomeSecKillProductList() {
-        return CommonResponse.success(pmsProductService.getHomeSecKillProductList());
-    }
 
 }
