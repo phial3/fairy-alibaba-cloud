@@ -16,6 +16,11 @@ mybatis-plus:
   mapper-locations:
     - classpath:dao/*.xml
     - classpath:mapper/*.xml
+  configuration:
+    use-generated-keys: true
+  global-config:
+    db-config:
+      id-type: auto
 
 logging:
   level:

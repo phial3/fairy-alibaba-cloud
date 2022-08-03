@@ -27,11 +27,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OmsOrderPO createOrder(OmsOrderItemPO orderParam) {
+    public OmsOrderPO createOrder(OmsOrderItemPO orderParam,String userName,Integer memberId) {
         omsOrderItemMapper.insert(orderParam);
         OmsOrderPO omsOrderPO = new OmsOrderPO();
         omsOrderPO.setCreateTime(new Date());
         //用户id
+        omsOrderPO.setMemberUsername(userName);
+        omsOrderPO.setMemberId(memberId);
         //用户名
         omsOrderPO.setOrderSn(omsOrderPO.getOrderSn());
         omsOrderPO.setPayAmount(orderParam.getProductPrice().multiply(BigDecimal.valueOf(orderParam.getProductQuantity())));

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author 鹿少年
  * @date 2022/8/3 18:02
@@ -21,8 +23,10 @@ public class OrderController {
 
 
     @PutMapping("/create")
-    public CommonResponse createOrder(@RequestBody OmsOrderItemPO orderParam) {
-        OmsOrderPO omsOrderPO = orderService.createOrder(orderParam);
+    public CommonResponse createOrder(HttpServletRequest request,  @RequestBody OmsOrderItemPO orderParam) {
+        String userName = request.getHeader("username");
+        Integer memberId = Integer.parseInt(request.getHeader("memberId"));
+        OmsOrderPO omsOrderPO = orderService.createOrder(orderParam,userName,memberId);
         return CommonResponse.success(omsOrderPO);
     }
 }

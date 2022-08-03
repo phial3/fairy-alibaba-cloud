@@ -49,8 +49,8 @@ mybatis:
 logging:
   level:
     root: INFO
-    org.springframework.security: DEBUG
-    com.alibaba.cloud.nacos.client: warn
+#    org.springframework.security: DEBUG
+    com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
   config: classpath:logback.xml
 

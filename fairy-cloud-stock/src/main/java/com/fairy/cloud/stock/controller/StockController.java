@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author 鹿少年
  * @date 2022/8/3 18:04
@@ -19,7 +21,7 @@ public class StockController {
     private StockService stockService;
 
     @GetMapping("/deduce")
-    public CommonResponse deduceStock(Integer productId ) {
+    public CommonResponse deduceStock(HttpServletRequest request, Integer productId ) {
       PmsStockPO stockPO= stockService.deduceStock(productId);
       return CommonResponse.success(stockPO);
 

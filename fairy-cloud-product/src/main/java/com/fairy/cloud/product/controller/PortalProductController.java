@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+
 
 @RestController
 @Api(tags = "PortalProductController", description = "商品查询查看")
@@ -59,7 +62,9 @@ public class PortalProductController {
      * @return
      */
     @RequestMapping(value = "/sale/{productId}", method = RequestMethod.GET)
-    public CommonResponse saleProduct(@PathVariable Integer productId) {
+    public CommonResponse saleProduct(HttpServletRequest request, Principal principal, @PathVariable Integer productId) {
+        String userName = request.getHeader("username");
+        Integer memberId = Integer.parseInt(request.getHeader("memberId"));
         //新增一条订单
         OmsOrderItemPO omsOrderItemPO = new OmsOrderItemPO();
         PmsProductPO productPO = pmsProductService.getProductInfo(productId);
@@ -68,9 +73,10 @@ public class PortalProductController {
         //品牌
         PmsBrandPO pmsBrandPO = pmsBrandMapper.selectById(productPO.getBrandId());
         omsOrderItemPO.setProductBrand(pmsBrandPO.getName());
-        Integer userId=0;
-        omsOrderItemPO.setOrderSn(Constants.getOrderSn(productId,userId));
+        omsOrderItemPO.setProductQuantity(2);
+        omsOrderItemPO.setOrderSn(Constants.getOrderSn(productId, memberId));
         omsOrderItemPO.setProductName(productPO.getName());
+        omsOrderItemPO.setProductSn(productPO.getProductSn());
         orderFeign.createOrder(omsOrderItemPO);
         //库存减少
         stockFeign.deduceStock(productId);

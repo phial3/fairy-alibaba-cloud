@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Data
 public class GateWayResult implements Serializable {
     private boolean succuess;
-    private String code;
+    private Integer code;
     private String msg;
     private String body;
 }

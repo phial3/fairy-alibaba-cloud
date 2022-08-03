@@ -16,7 +16,9 @@ mybatis-plus:
   mapper-locations:
     - classpath:dao/*.xml
     - classpath:mapper/*.xml
-
+  global-config:
+    db-config:
+      id-type: auto
 logging:
   level:
     root: INFO

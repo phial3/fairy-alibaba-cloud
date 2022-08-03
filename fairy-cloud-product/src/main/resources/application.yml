@@ -28,11 +28,13 @@ mybatis-plus:
   mapper-locations:
     - classpath:dao/*.xml
     - classpath:mapper/*.xml
-
+  global-config:
+    db-config:
+      id-type: auto
 logging:
   level:
     root: INFO
-    com.alibaba.cloud.nacos.client: warn
+    com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
   config: classpath:logback.xml
 

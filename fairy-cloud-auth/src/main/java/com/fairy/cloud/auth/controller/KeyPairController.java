@@ -3,6 +3,7 @@ package com.fairy.cloud.auth.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +33,7 @@ public class KeyPairController {
 
     @GetMapping("/rsa/publicKey")
     @ResponseBody
-    public Map<String, String> getKey() throws Exception {
+    public Map<String, String> getKey(Authentication authentication) throws Exception {
         //将公私钥对象存入map中,PUBLIC_KEY和PRIVATE_KEY为你自动生成的公私钥
         PublicKey rsaPublicKey = keyPair.getPublic();
         PrivateKey rsaPrivateKey = keyPair.getPrivate();
