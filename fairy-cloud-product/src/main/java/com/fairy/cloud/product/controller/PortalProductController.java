@@ -7,6 +7,7 @@ import com.fairy.cloud.mbg.model.pojo.PmsProductPO;
 import com.fairy.cloud.product.constant.Constants;
 import com.fairy.cloud.product.feign.OrderFeign;
 import com.fairy.cloud.product.feign.StockFeign;
+import com.fairy.cloud.product.model.dto.OmsOrderParamDTO;
 import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.common.response.CommonResponse;
 import io.swagger.annotations.Api;
@@ -66,7 +67,7 @@ public class PortalProductController {
         String userName = request.getHeader("username");
         Integer memberId = Integer.parseInt(request.getHeader("memberId"));
         //新增一条订单
-        OmsOrderItemPO omsOrderItemPO = new OmsOrderItemPO();
+        OmsOrderParamDTO omsOrderItemPO = new OmsOrderParamDTO();
         PmsProductPO productPO = pmsProductService.getProductInfo(productId);
         omsOrderItemPO.setProductPrice(productPO.getPrice());
         omsOrderItemPO.setProductPic(productPO.getPic());
@@ -77,6 +78,8 @@ public class PortalProductController {
         omsOrderItemPO.setOrderSn(Constants.getOrderSn(productId, memberId));
         omsOrderItemPO.setProductName(productPO.getName());
         omsOrderItemPO.setProductSn(productPO.getProductSn());
+        omsOrderItemPO.setMemeberId(memberId);
+        omsOrderItemPO.setUserName(userName);
         orderFeign.createOrder(omsOrderItemPO);
         //库存减少
         stockFeign.deduceStock(productId);

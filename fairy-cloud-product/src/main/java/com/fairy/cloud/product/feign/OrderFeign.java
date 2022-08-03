@@ -1,7 +1,7 @@
 package com.fairy.cloud.product.feign;
 
-import com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderPO;
+import com.fairy.cloud.product.model.dto.OmsOrderParamDTO;
 import com.fairy.common.response.CommonResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,5 +19,5 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public interface OrderFeign {
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     @ResponseBody
-    CommonResponse<OmsOrderPO> createOrder(@RequestBody OmsOrderItemPO omsOrderItemPO);
+    CommonResponse<OmsOrderPO> createOrder(@RequestBody OmsOrderParamDTO omsOrderItemPO);
 }

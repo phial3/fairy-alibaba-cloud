@@ -2,6 +2,7 @@ package com.fairy.cloud.order.controller;
 
 import com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderPO;
+import com.fairy.cloud.order.model.dto.OmsOrderParamDTO;
 import com.fairy.cloud.order.service.OrderService;
 import com.fairy.common.response.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,8 @@ public class OrderController {
 
 
     @PutMapping("/create")
-    public CommonResponse createOrder(HttpServletRequest request,  @RequestBody OmsOrderItemPO orderParam) {
-        String userName = request.getHeader("username");
-        Integer memberId = Integer.parseInt(request.getHeader("memberId"));
-        OmsOrderPO omsOrderPO = orderService.createOrder(orderParam,userName,memberId);
+    public CommonResponse createOrder(HttpServletRequest request,  @RequestBody OmsOrderParamDTO orderParam) {
+        OmsOrderPO omsOrderPO = orderService.createOrder(orderParam);
         return CommonResponse.success(omsOrderPO);
     }
 }

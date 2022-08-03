@@ -4,8 +4,10 @@ import com.fairy.cloud.mbg.mapper.OmsOrderItemMapper;
 import com.fairy.cloud.mbg.mapper.OmsOrderMapper;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderPO;
+import com.fairy.cloud.order.model.dto.OmsOrderParamDTO;
 import com.fairy.cloud.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +29,15 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OmsOrderPO createOrder(OmsOrderItemPO orderParam,String userName,Integer memberId) {
-        omsOrderItemMapper.insert(orderParam);
+    public OmsOrderPO createOrder(OmsOrderParamDTO orderParam) {
+        OmsOrderItemPO itemPO = new OmsOrderItemPO();
+        BeanUtils.copyProperties(orderParam,itemPO);
+        omsOrderItemMapper.insert(itemPO);
         OmsOrderPO omsOrderPO = new OmsOrderPO();
         omsOrderPO.setCreateTime(new Date());
         //用户id
-        omsOrderPO.setMemberUsername(userName);
-        omsOrderPO.setMemberId(memberId);
+        omsOrderPO.setMemberUsername(orderParam.getUserName());
+        omsOrderPO.setMemberId(orderParam.getMemeberId());
         //用户名
         omsOrderPO.setOrderSn(omsOrderPO.getOrderSn());
         omsOrderPO.setPayAmount(orderParam.getProductPrice().multiply(BigDecimal.valueOf(orderParam.getProductQuantity())));
