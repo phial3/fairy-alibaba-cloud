@@ -3,16 +3,7 @@
 
 <mapper namespace="com.fairy.cloud.mbg.mapper.UmsMemberLoginLogMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.fairy.cloud.mbg.model.pojo.UmsMemberLoginLogPO" id="BaseResultMap">
-        <result property="id" column="id"/>
-        <result property="memberId" column="member_id"/>
-        <result property="createTime" column="create_time"/>
-        <result property="ip" column="ip"/>
-        <result property="city" column="city"/>
-        <result property="loginType" column="login_type"/>
-        <result property="province" column="province"/>
-    </resultMap>
+
 
 
 </mapper>

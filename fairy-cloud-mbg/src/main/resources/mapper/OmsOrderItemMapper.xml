@@ -3,18 +3,6 @@
 
 <mapper namespace="com.fairy.cloud.mbg.mapper.OmsOrderItemMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO" id="BaseResultMap">
-        <result property="id" column="id"/>
-        <result property="orderSn" column="order_sn"/>
-        <result property="productId" column="product_id"/>
-        <result property="productPic" column="product_pic"/>
-        <result property="productName" column="product_name"/>
-        <result property="productBrand" column="product_brand"/>
-        <result property="productSn" column="product_sn"/>
-        <result property="productPrice" column="product_price"/>
-        <result property="productQuantity" column="product_quantity"/>
-    </resultMap>
 
 
 </mapper>

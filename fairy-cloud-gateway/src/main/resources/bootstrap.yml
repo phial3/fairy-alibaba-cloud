@@ -54,6 +54,8 @@ spring:
           uri: lb://fairy-cloud-auth
           predicates:
             - Path=/auth/**
+#          filters:
+#            - StripPrefix=1
         - id: fairy-cloud-member
           uri: lb://fairy-cloud-member
           predicates:

@@ -4,6 +4,7 @@ import com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderPO;
 import com.fairy.common.response.CommonResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,5 +19,5 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public interface OrderFeign {
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     @ResponseBody
-    CommonResponse<OmsOrderPO> createOrder(OmsOrderItemPO omsOrderItemPO);
+    CommonResponse<OmsOrderPO> createOrder(@RequestBody OmsOrderItemPO omsOrderItemPO);
 }

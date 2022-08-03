@@ -3,27 +3,5 @@
 
 <mapper namespace="com.fairy.cloud.mbg.mapper.PmsProductMapper">
 
-  <!-- 可根据自己的需求，是否要使用 -->
-  <resultMap type="com.fairy.cloud.mbg.model.pojo.PmsProductPO" id="BaseResultMap">
-    <result property="id" column="id"/>
-    <result property="brandId" column="brand_id"/>
-    <result property="productSn" column="product_sn"/>
-    <result property="name" column="name"/>
-    <result property="pic" column="pic"/>
-    <result property="deleteStatus" column="delete_status"/>
-    <result property="publishStatus" column="publish_status"/>
-    <result property="newStatus" column="new_status"/>
-    <result property="recommandStatus" column="recommand_status"/>
-    <result property="verifyStatus" column="verify_status"/>
-    <result property="sort" column="sort"/>
-    <result property="sale" column="sale"/>
-    <result property="price" column="price"/>
-    <result property="promotionPrice" column="promotion_price"/>
-    <result property="description" column="description"/>
-    <result property="originalPrice" column="original_price"/>
-    <result property="weight" column="weight"/>
-    <result property="keywords" column="keywords"/>
-  </resultMap>
-
 
 </mapper>

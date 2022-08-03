@@ -20,7 +20,6 @@ mybatis-plus:
 logging:
   level:
     root: INFO
-    com.alibaba.cloud.nacos.client: warn
     com.fairy.cloud.mbg.mapper: DEBUG
   config: classpath:logback.xml
 

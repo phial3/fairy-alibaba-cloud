@@ -23,9 +23,7 @@ logging:
 cloud:
   gateway:
     shouldSkipUrls:
-      - /oauth/**
+      - /auth/oauth/**
       - /sso/**
       - /home/**
-      - /portal/commentlist/**
-      - /order/paySuccess/**
       - /static/qrcode/**

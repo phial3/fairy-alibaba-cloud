@@ -3,12 +3,6 @@
 
 <mapper namespace="com.fairy.cloud.mbg.mapper.UmsMemberRoleRelationMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.fairy.cloud.mbg.model.pojo.UmsMemberRoleRelationPO" id="BaseResultMap">
-        <result property="id" column="id"/>
-        <result property="memeberId" column="memeber_id"/>
-        <result property="roleId" column="role_id"/>
-    </resultMap>
 
 
 </mapper>
