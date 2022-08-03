@@ -57,23 +57,23 @@ spring:
         - id: fairy-cloud-member
           uri: lb://fairy-cloud-member
           predicates:
-            - Path=/sso/**,/member/**
+            - Path=/member/**
+        - id: fairy-cloud-stock
+            uri: lb://fairy-cloud-stock
+            predicates:
+              - Path=/stock/**
         - id: fairy-cloud-order
           uri: lb://fairy-cloud-order
           predicates:
-            - Path=/cart/**,/order/**
+            - Path=/order/**
         - id: fairy-cloud-product
           uri: lb://fairy-cloud-product
           predicates:
             - Path=/pms/**
-        - id: fairy-cloud-coupons
-          uri: lb://fairy-cloud-coupons
-          predicates:
-            - Path=/coupon/**
         - id: fairy-cloud-portal
           uri: lb://fairy-cloud-portal
           predicates:
-            - Path=/home/**,/portal/**
+            - Path=/portal/**
 #是否开启@SentinelRestTemplate注解
 resttemplate:
   sentinel:

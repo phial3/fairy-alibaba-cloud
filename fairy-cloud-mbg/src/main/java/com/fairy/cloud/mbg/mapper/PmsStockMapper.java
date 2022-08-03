@@ -3,6 +3,7 @@ package com.fairy.cloud.mbg.mapper;
 import com.fairy.cloud.mbg.model.pojo.PmsStockPO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 
@@ -13,5 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface PmsStockMapper extends BaseMapper<PmsStockPO> {
-	
+
 }

@@ -19,5 +19,7 @@
         <module>fairy-cloud-gateway</module>
         <module>fairy-cloud-auth</module>
         <module>fairy-cloud-product</module>
+        <module>fairy-cloud-order</module>
+        <module>fairy-cloud-stock</module>
     </modules>
 </project>

@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: node01:8848
+        namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+      config:
+        server-addr: node01:8848
+        file-extension: yml
+        namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+        refresh-enabled: true
+        enabled: true

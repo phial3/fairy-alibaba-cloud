@@ -1,17 +1,15 @@
-package com.fairy.cloud.product;
+package com.fairy.cloud.order;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author 鹿少年
- * @date 2022/8/1 14:22
+ * @date 2022/8/3 18:01
  */
 @SpringBootApplication
-@EnableFeignClients
-public class ProduceApp {
+public class OrderApp {
     public static void main(String[] args) {
-        SpringApplication.run(ProduceApp.class, args);
+        SpringApplication.run(OrderApp.class,args);
     }
 }

@@ -47,7 +47,7 @@ public class PmsProductServiceImpl implements PmsProductService {
      * @param id 产品ID
      */
     @Override
-    public PmsProductPO getProductInfo(Long id) {
+    public PmsProductPO getProductInfo(Integer id) {
         return getProductInfoRedis(id);
     }
 
@@ -57,7 +57,7 @@ public class PmsProductServiceImpl implements PmsProductService {
      *
      * @param id 产品ID
      */
-    private PmsProductPO getProductInfoRedis(Long id) {
+    private PmsProductPO getProductInfoRedis(Integer id) {
         //从jvm 本地缓存读取
         PmsProductPO productInfo = null;
         //redis 读数据

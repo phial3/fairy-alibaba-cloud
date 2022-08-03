@@ -15,7 +15,7 @@ public interface PmsProductService {
      * @author 鹿少年
      * @date 10:43 2022/5/5
      **/
-    PmsProductPO getProductInfo(Long id);
+    PmsProductPO getProductInfo(Integer id);
 
 
     /**
