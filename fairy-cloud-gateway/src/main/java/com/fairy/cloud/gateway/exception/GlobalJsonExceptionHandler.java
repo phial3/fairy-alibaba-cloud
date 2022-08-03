@@ -89,7 +89,7 @@ public class GlobalJsonExceptionHandler implements ErrorWebExceptionHandler {
             body = httpStatus.getReasonPhrase();
         } else if(ex instanceof GateWayException){
             httpStatus = HttpStatus.BAD_GATEWAY;
-            body = HttpStatus.BAD_GATEWAY.getReasonPhrase();
+            body = ((GateWayException) ex).getMsg();
         }else {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             body = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();

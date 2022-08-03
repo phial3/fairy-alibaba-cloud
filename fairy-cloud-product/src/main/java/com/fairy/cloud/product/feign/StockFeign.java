@@ -6,6 +6,7 @@ import com.fairy.common.response.CommonResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -18,5 +19,5 @@ public interface StockFeign {
 
     @RequestMapping(value = "/deduce", method = RequestMethod.GET)
     @ResponseBody
-    CommonResponse<PmsStockPO> deduceStock(Integer productId);
+    CommonResponse<PmsStockPO> deduceStock(@RequestParam("productId") Integer productId);
 }

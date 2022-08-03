@@ -5,6 +5,7 @@ import com.fairy.cloud.stock.service.StockService;
 import com.fairy.common.response.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class StockController {
     private StockService stockService;
 
     @GetMapping("/deduce")
-    public CommonResponse deduceStock(HttpServletRequest request, Integer productId ) {
+    public CommonResponse deduceStock(HttpServletRequest request, @RequestParam("productId") Integer productId ) {
       PmsStockPO stockPO= stockService.deduceStock(productId);
       return CommonResponse.success(stockPO);
 
