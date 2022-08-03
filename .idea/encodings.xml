@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/fairy-cloud-auth/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-mbg/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fairy-cloud-order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fairy-cloud-stock/src/main/java" charset="UTF-8" />
   </component>
 </project>

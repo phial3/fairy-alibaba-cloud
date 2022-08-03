@@ -53,15 +53,15 @@ spring:
         - id: fairy-cloud-auth
           uri: lb://fairy-cloud-auth
           predicates:
-            - Path=/oauth/**
+            - Path=/auth/**
         - id: fairy-cloud-member
           uri: lb://fairy-cloud-member
           predicates:
             - Path=/member/**
         - id: fairy-cloud-stock
-            uri: lb://fairy-cloud-stock
-            predicates:
-              - Path=/stock/**
+          uri: lb://fairy-cloud-stock
+          predicates:
+            - Path=/stock/**
         - id: fairy-cloud-order
           uri: lb://fairy-cloud-order
           predicates:
