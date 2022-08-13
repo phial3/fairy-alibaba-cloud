@@ -15,11 +15,10 @@ management:
 
 logging:
   level:
-    root: INFO
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
-#    org.springframework.cloud.gateway: debug
   config: classpath:logback.xml
+
 cloud:
   gateway:
     shouldSkipUrls:

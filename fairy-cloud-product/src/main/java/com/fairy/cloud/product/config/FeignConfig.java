@@ -2,10 +2,7 @@ package com.fairy.cloud.product.config;
 
 import feign.Logger;
 import feign.Request;
-import feign.codec.Decoder;
-import feign.codec.Encoder;
-import feign.jackson.JacksonDecoder;
-import feign.jackson.JacksonEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,15 +25,26 @@ public class FeignConfig {
     public Logger.Level feignLoggerLevel() {
         return Logger.Level.BASIC;
     }
-/*
+
+    /*
+        @Bean
+        public Decoder decoder() {
+            return new JacksonDecoder();
+        }
+
+        @Bean
+        public Encoder encoder() {
+            return new JacksonEncoder();
+        }*/
+
+    @Value("${service.feign.connectTimeout:5000}")
+    private int connectTimeout;
+
+    @Value("${service.feign.readTimeOut:5000}")
+    private int readTimeout;
+
     @Bean
-    public Decoder decoder() {
-        return new JacksonDecoder();
+    public Request.Options options() {
+        return new Request.Options(connectTimeout, readTimeout);
     }
-
-    @Bean
-    public Encoder encoder() {
-        return new JacksonEncoder();
-    }*/
-
 }

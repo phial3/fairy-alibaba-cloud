@@ -48,7 +48,6 @@ mybatis:
     - classpath*:mapper/**/*.xml
 logging:
   level:
-    root: INFO
 #    org.springframework.security: DEBUG
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG

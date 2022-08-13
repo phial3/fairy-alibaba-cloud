@@ -42,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
         omsOrderPO.setOrderSn(omsOrderPO.getOrderSn());
         omsOrderPO.setPayAmount(orderParam.getProductPrice().multiply(BigDecimal.valueOf(orderParam.getProductQuantity())));
         omsOrderMapper.insert(omsOrderPO);
+
         return null;
     }
 }

@@ -34,11 +34,11 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <!-- 此日志文件只记录info级别的 -->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
+        <!--   <filter class="ch.qos.logback.classic.filter.LevelFilter">
+               <level>INFO</level>
+               <onMatch>ACCEPT</onMatch>
+               <onMismatch>DENY</onMismatch>
+           </filter>-->
     </appender>
     <!-- 时间滚动输出 level为 ERROR 日志 -->
     <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">

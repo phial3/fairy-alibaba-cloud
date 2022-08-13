@@ -1,10 +1,12 @@
 package com.fairy.cloud.order.controller;
 
-import com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderPO;
 import com.fairy.cloud.order.model.dto.OmsOrderParamDTO;
 import com.fairy.cloud.order.service.OrderService;
 import com.fairy.common.response.CommonResponse;
+import org.apache.skywalking.apm.toolkit.trace.Tag;
+import org.apache.skywalking.apm.toolkit.trace.Tags;
+import org.apache.skywalking.apm.toolkit.trace.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +25,10 @@ public class OrderController {
     private OrderService orderService;
 
 
+    @Trace
+    @Tags({@Tag(key = "param", value = "arg[0]"), @Tag(key = "commonResponse", value = "returnedObj")})
     @PutMapping("/create")
-    public CommonResponse createOrder(HttpServletRequest request,  @RequestBody OmsOrderParamDTO orderParam) {
+    public CommonResponse createOrder(@RequestBody OmsOrderParamDTO orderParam, HttpServletRequest request) {
         OmsOrderPO omsOrderPO = orderService.createOrder(orderParam);
         return CommonResponse.success(omsOrderPO);
     }

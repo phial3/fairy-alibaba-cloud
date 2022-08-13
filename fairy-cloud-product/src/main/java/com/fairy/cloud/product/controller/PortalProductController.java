@@ -1,7 +1,6 @@
 package com.fairy.cloud.product.controller;
 
 import com.fairy.cloud.mbg.mapper.PmsBrandMapper;
-import com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO;
 import com.fairy.cloud.mbg.model.pojo.PmsBrandPO;
 import com.fairy.cloud.mbg.model.pojo.PmsProductPO;
 import com.fairy.cloud.product.constant.Constants;
@@ -14,6 +13,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.skywalking.apm.toolkit.trace.Tag;
+import org.apache.skywalking.apm.toolkit.trace.Tags;
+import org.apache.skywalking.apm.toolkit.trace.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,12 +60,15 @@ public class PortalProductController {
 
     /**
      * 下单操作
+     * principal 是空值知道为什么吗？（经过网关处理后）
      *
      * @param productId
      * @return
      */
+    @Trace
+    @Tags({@Tag(key = "param", value = "arg[0]"), @Tag(key = "commonResponse",value="returnedObj")})
     @RequestMapping(value = "/sale/{productId}", method = RequestMethod.GET)
-    public CommonResponse saleProduct(HttpServletRequest request, Principal principal, @PathVariable Integer productId) {
+    public CommonResponse saleProduct(@PathVariable Integer productId, HttpServletRequest request, Principal principal) {
         String userName = request.getHeader("username");
         Integer memberId = Integer.parseInt(request.getHeader("memberId"));
         //新增一条订单
