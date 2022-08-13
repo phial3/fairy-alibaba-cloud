@@ -34,6 +34,8 @@ filebeat.inputs:
 output.logstash:
   hosts: ["node02:5044"]
 ```
+### filebeat测试控制台输出
+
 
 ### 修改点
 1: 下订单的 入参修改
