@@ -90,6 +90,15 @@ output.console:
     enable: true
 ```
 
+grok分析日志链接
+
+http://node02:5601/app/kibana#/dev_tools/grokdebugger?_g=(refreshInterval:(pause:!t,value:0),time:(from:now%2Fd,mode:quick,to:now%2Fd))
+
+翻墙链接：
+
+http://grokdebug.herokuapp.com/
+
+http://grokconstructor.appspot.com/
 
 ### 修改点
 1: 下订单的 入参修改
