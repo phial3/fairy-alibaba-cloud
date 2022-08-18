@@ -23,6 +23,211 @@ Redis
 MongoDB
 ```
 
+#### Feign远程调用
+引入springcloud-open-feign spring cloud 为openfeign提供了spring mvc 注解配置
+
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+spring mvc注解配置api
+
+```
+@FeignClient(value = "fairy-cloud-order", path = "/order",configuration = FeignConfig.class)
+public interface OrderFeign {
+    @RequestMapping(value = "/create", method = RequestMethod.PUT)
+    @ResponseBody
+    CommonResponse<OmsOrderPO> createOrder(@RequestBody OmsOrderParamDTO omsOrderItemPO);
+}
+```
+使用openFeign原生的注解
+
+```
+配置类
+@Configuration
+public class FeignConfig {
+    @Bean
+    public Contract contract() {
+        return new Contract.Default();
+    }
+}
+
+
+```
+
+```
+@FeignClient(value = "fairy-cloud-order", path = "/order",configuration = FeignConfig.class)
+public interface OrderFeign {
+ @RequestLine("GET /deduce}")
+ CommonResponse<PmsStockPO> deduceStock(@Param("productId") Integer productId);
+}
+  
+```
+
+#### Feign配置使用HtppClient远程调用
+默认Feign是使用HttpURLConnection 来作为http远程调用请求的，源码可以参考 feign包下的Client接口
+
+```
+public interface Client {
+    class Default implements Client {
+
+    private final SSLSocketFactory sslContextFactory;
+    private final HostnameVerifier hostnameVerifier;
+    
+    ......
+    
+    @Override
+    public Response execute(Request request, Options options) throws IOException {
+      HttpURLConnection connection = convertAndSend(request, options);
+      return convertResponse(connection, request);
+    }
+    
+    }
+
+   HttpURLConnection convertAndSend(Request request, Options options) throws IOException {
+      final URL url = new URL(request.url());
+      final HttpURLConnection connection = this.getConnection(url);
+      if (connection instanceof HttpsURLConnection) {
+        HttpsURLConnection sslCon = (HttpsURLConnection) connection;
+        if (sslContextFactory != null) {
+          sslCon.setSSLSocketFactory(sslContextFactory);
+        }
+        if (hostnameVerifier != null) {
+          sslCon.setHostnameVerifier(hostnameVerifier);
+        }
+      }
+      connection.setConnectTimeout(options.connectTimeoutMillis());
+      connection.setReadTimeout(options.readTimeoutMillis());
+      connection.setAllowUserInteraction(false);
+      connection.setInstanceFollowRedirects(options.isFollowRedirects());
+      connection.setRequestMethod(request.httpMethod().name());
+
+      Collection<String> contentEncodingValues = request.headers().get(CONTENT_ENCODING);
+      boolean gzipEncodedRequest =
+          contentEncodingValues != null && contentEncodingValues.contains(ENCODING_GZIP);
+      boolean deflateEncodedRequest =
+          contentEncodingValues != null && contentEncodingValues.contains(ENCODING_DEFLATE);
+
+      boolean hasAcceptHeader = false;
+      Integer contentLength = null;
+      for (String field : request.headers().keySet()) {
+        if (field.equalsIgnoreCase("Accept")) {
+          hasAcceptHeader = true;
+        }
+        for (String value : request.headers().get(field)) {
+          if (field.equals(CONTENT_LENGTH)) {
+            if (!gzipEncodedRequest && !deflateEncodedRequest) {
+              contentLength = Integer.valueOf(value);
+              connection.addRequestProperty(field, value);
+            }
+          } else {
+            connection.addRequestProperty(field, value);
+          }
+        }
+      }
+      // Some servers choke on the default accept string.
+      if (!hasAcceptHeader) {
+        connection.addRequestProperty("Accept", "*/*");
+      }
+
+      if (request.body() != null) {
+        if (disableRequestBuffering) {
+          if (contentLength != null) {
+            connection.setFixedLengthStreamingMode(contentLength);
+          } else {
+            connection.setChunkedStreamingMode(8196);
+          }
+        }
+        connection.setDoOutput(true);
+        OutputStream out = connection.getOutputStream();
+        if (gzipEncodedRequest) {
+          out = new GZIPOutputStream(out);
+        } else if (deflateEncodedRequest) {
+          out = new DeflaterOutputStream(out);
+        }
+        try {
+          out.write(request.body());
+        } finally {
+          try {
+            out.close();
+          } catch (IOException suppressed) { // NOPMD
+          }
+        }
+      }
+      return connection;
+    }
+  }
+}
+```
+
+配置Feign使用HttpCLient
+
+```
+<dependency>
+    <groupId>io.github.openfeign</groupId>
+    <artifactId>feign-httpclient</artifactId>
+    <version>10.10.1</version>
+</dependency>
+```
+feign-httpclient包要和feign-core的版本保持一致
+application.properties配置激活 feign.httpclient.enabled=true
+
+
+HttpClient配置 需要注入为Bean
+Feign的自动装配配置类 FeignRibbonClientAutoConfiguration
+
+```
+@Import({ HttpClientFeignLoadBalancedConfiguration.class,
+		OkHttpFeignLoadBalancedConfiguration.class,
+		DefaultFeignLoadBalancedConfiguration.class })
+public class FeignRibbonClientAutoConfiguration {
+```
+查看HttpClientFeignLoadBalancedConfiguration 
+
+```
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnClass(ApacheHttpClient.class)
+@ConditionalOnProperty(value = "feign.httpclient.enabled", matchIfMissing = true)
+@Import(HttpClientFeignConfiguration.class)
+class HttpClientFeignLoadBalancedConfiguration {
+```
+
+配置HttpClient 
+
+```
+    @Bean
+    public HttpClient httpClient(HttpClientBuilder httpClientBuilder) {
+        return httpClientBuilder.build();
+    }
+
+    @Bean
+    public PoolingHttpClientConnectionManager manager() {
+        PoolingHttpClientConnectionManager manager = new PoolingHttpClientConnectionManager();
+        manager.setMaxTotal(1000);
+        manager.setDefaultMaxPerRoute(200);
+        return manager;
+    }
+
+    @Bean
+    public HttpClientBuilder httpClientBuilder(PoolingHttpClientConnectionManager manager) {
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(3000).setSocketTimeout(1500)
+                .setConnectionRequestTimeout(1500).build();
+
+        HttpClientBuilder builder = HttpClientBuilder.create();
+        builder.setConnectionManager(manager);
+        builder.setDefaultRequestConfig(requestConfig);
+        builder.setRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
+        return builder;
+    }
+```
+
+
+
+
+
+
 
 
 #### SkyGateWay 链路追踪接入
@@ -106,6 +311,54 @@ output {
 ```
 bin/logstash -f config/logstash-trance.conf 
 ```
+logstash example: https://www.elastic.co/guide/en/logstash/7.17/config-examples.html
+
+```
+input { stdin { } }
+
+filter {
+  grok {
+    match => { "message" => "%{COMBINEDAPACHELOG}" }
+  }
+  date {
+    match => [ "timestamp" , "dd/MMM/yyyy:HH:mm:ss Z" ]
+  }
+}
+
+output {
+  elasticsearch { hosts => ["localhost:9200"] }
+  stdout { codec => rubydebug }
+}
+
+```
+input:
+
+```
+127.0.0.1 - - [11/Dec/2013:00:01:45 -0800] "GET /xampp/status.php HTTP/1.1" 200 3891 "http://cadenza/xampp/navi.php" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:25.0) Gecko/20100101 Firefox/25.0"
+
+```
+展示数据：
+
+```
+{
+        "message" => "127.0.0.1 - - [11/Dec/2013:00:01:45 -0800] \"GET /xampp/status.php HTTP/1.1\" 200 3891 \"http://cadenza/xampp/navi.php\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:25.0) Gecko/20100101 Firefox/25.0\"",
+     "@timestamp" => "2013-12-11T08:01:45.000Z",
+       "@version" => "1",
+           "host" => "cadenza",
+       "clientip" => "127.0.0.1",
+          "ident" => "-",
+           "auth" => "-",
+      "timestamp" => "11/Dec/2013:00:01:45 -0800",
+           "verb" => "GET",
+        "request" => "/xampp/status.php",
+    "httpversion" => "1.1",
+       "response" => "200",
+          "bytes" => "3891",
+       "referrer" => "\"http://cadenza/xampp/navi.php\"",
+          "agent" => "\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:25.0) Gecko/20100101 Firefox/25.0\""
+}
+```
+
 
 
 
