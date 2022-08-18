@@ -20,11 +20,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fairy</groupId>
-            <artifactId>fairy-cloud-mbg</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -45,6 +40,12 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+
+        <!-- feign-okhttp -->
+        <!--<dependency>-->
+        <!--<groupId>io.github.openfeign</groupId>-->
+        <!--<artifactId>feign-okhttp</artifactId>-->
+        <!--</dependency>-->
         <!--redis依赖配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -119,8 +120,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>com.fairy</groupId>
+            <artifactId>fairy-cloud-api</artifactId>
+            <version>1.0</version>
         </dependency>
 
 

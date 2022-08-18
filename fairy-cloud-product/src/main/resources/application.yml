@@ -54,3 +54,15 @@ zk:
     connectUrl: node01:22181 #zk地址
     sessionTimeOutMs: 60000 #会话超时时间
     connectionTimeOutMs: 5000 #连接超时时间
+
+
+#feign配置 使用httpClient
+feign:
+  httpclient:
+    enabled: true
+
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients: fairy-cloud-stock,fairy-cloud-order

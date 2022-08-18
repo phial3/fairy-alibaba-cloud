@@ -24,12 +24,25 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
-    @Trace
-    @Tags({@Tag(key = "param", value = "arg[0]"), @Tag(key = "commonResponse",value="returnedObj")})
-    @GetMapping("/deduce")
-    public CommonResponse deduceStock(@RequestParam("productId") Integer productId,HttpServletRequest request ) {
-      PmsStockPO stockPO= stockService.deduceStock(productId);
-      return CommonResponse.success(stockPO);
+    /*  @Trace
+      @Tags({@Tag(key = "param", value = "arg[0]"), @Tag(key = "commonResponse", value = "returnedObj")})
+      @GetMapping("/deduce/{productId}")
+      public CommonResponse deduceStock(@PathVariable("productId") Integer productId, HttpServletRequest request) {
+          PmsStockPO stockPO = stockService.deduceStock(productId);
+          return CommonResponse.success(stockPO);
 
+      }*/
+    @Trace
+    @Tags({@Tag(key = "param", value = "arg[0]"), @Tag(key = "commonResponse", value = "returnedObj")})
+    @GetMapping("/deduce")
+    public CommonResponse deduceStock(@RequestParam("productId") Integer productId, HttpServletRequest request) {
+        PmsStockPO stockPO = stockService.deduceStock(productId);
+        return CommonResponse.success(stockPO);
+
+    }
+
+    @GetMapping("/test")
+    public CommonResponse test() {
+        return CommonResponse.success();
     }
 }

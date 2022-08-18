@@ -1,4 +1,4 @@
-package com.fairy.cloud.order.model.dto;
+package com.fairy.cloud.mbg.model.dto;
 
 import com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO;
 

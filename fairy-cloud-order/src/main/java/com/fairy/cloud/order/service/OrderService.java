@@ -1,7 +1,7 @@
 package com.fairy.cloud.order.service;
 
+import com.fairy.cloud.mbg.model.dto.OmsOrderParamDTO;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderPO;
-import com.fairy.cloud.order.model.dto.OmsOrderParamDTO;
 
 /**
  * @author 鹿少年

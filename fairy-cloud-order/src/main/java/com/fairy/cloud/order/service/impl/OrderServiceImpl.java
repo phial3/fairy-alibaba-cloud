@@ -2,9 +2,9 @@ package com.fairy.cloud.order.service.impl;
 
 import com.fairy.cloud.mbg.mapper.OmsOrderItemMapper;
 import com.fairy.cloud.mbg.mapper.OmsOrderMapper;
+import com.fairy.cloud.mbg.model.dto.OmsOrderParamDTO;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderItemPO;
 import com.fairy.cloud.mbg.model.pojo.OmsOrderPO;
-import com.fairy.cloud.order.model.dto.OmsOrderParamDTO;
 import com.fairy.cloud.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
