@@ -23,23 +23,45 @@ Redis
 MongoDB
 ```
 
+#### Ribbon 调用
+
+```
+ //RestTemplate调用 使用负载均衡器 查看fairy-cloud-stock 服务 会从服务列表选择一个服务调用
+ url = "http://fairy-cloud-stock/stock/deduce?productId=" + productId;
+ CommonResponse rs = restTemplate.getForObject(url, CommonResponse.class);
+```
+ // RestTemplate这里使用的是 AbstractClientHttpRequest 去执行 execute 执行之前会在ClientHttpRequestInterceptor接口进行拦截   LoadBalancerInterceptor 实现了ClientHttpRequestInterceptor接口
+
+```
+public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
+       @Override
+	public final ClientHttpResponse execute() throws IOException {
+		assertNotExecuted();
+		ClientHttpResponse result = executeInternal(this.headers);
+		this.executed = true;
+		return result;
+	}
+}
+```
+
+
 #### Feign远程调用
 引入springcloud-open-feign spring cloud 为openfeign提供了spring mvc 注解配置
 
 ```
 <dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-openfeign</artifactId>
+   <groupId>org.springframework.cloud</groupId>
+   <artifactId>spring-cloud-starter-openfeign</artifactId>
 </dependency>
 ```
-spring mvc注解配置api
-
+ spring mvc注解配置api
+    
 ```
 @FeignClient(value = "fairy-cloud-order", path = "/order",configuration = FeignConfig.class)
-public interface OrderFeign {
-    @RequestMapping(value = "/create", method = RequestMethod.PUT)
-    @ResponseBody
-    CommonResponse<OmsOrderPO> createOrder(@RequestBody OmsOrderParamDTO omsOrderItemPO);
+   public interface OrderFeign {
+        @RequestMapping(value = "/create", method = RequestMethod.PUT)
+        @ResponseBody
+        CommonResponse<OmsOrderPO> createOrder(@RequestBody OmsOrderParamDTO omsOrderItemPO);
 }
 ```
 使用openFeign原生的注解
@@ -53,8 +75,6 @@ public class FeignConfig {
         return new Contract.Default();
     }
 }
-
-
 ```
 
 ```
