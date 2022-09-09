@@ -22,5 +22,6 @@
         <module>fairy-cloud-order</module>
         <module>fairy-cloud-stock</module>
         <module>fairy-cloud-api</module>
+        <module>fairy-cloud-search</module>
     </modules>
 </project>

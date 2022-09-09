@@ -17,7 +17,7 @@ public interface StockFeign {
 
     @RequestMapping(value = "/deduce", method = RequestMethod.GET)
     @ResponseBody
-    CommonResponse<PmsStockPO> deduceStock(Integer productId);
+    CommonResponse<PmsStockPO> deduceStock(@RequestParam("productId") Integer productId);
 
 
 //    @RequestMapping(value = "/deduce/{productId}", method = RequestMethod.GET)

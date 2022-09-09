@@ -114,11 +114,13 @@ public class PortalProductController {
 
 //        orderFeign.createOrder(omsOrderItemPO);
         //库存减少
-//        stockFeign.deduceStock(productId);
+        stockFeign.deduceStock(productId);
 
         //ribbon调用
-        url = "http://fairy-cloud-stock/stock/deduce?productId=" + productId;
         CommonResponse rs = loadBalance.getForObject(url, CommonResponse.class);
+
+//        url = "http://localhost:8089/stock/deduce?productId=" + productId;
+//        CommonResponse rs = restTemplate.getForObject(url, CommonResponse.class);
         log.info("调用结果:{}", rs);
         return CommonResponse.success("下单成功");
     }

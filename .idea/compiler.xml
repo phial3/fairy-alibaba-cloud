@@ -7,31 +7,37 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="fairy-cloud-mbg" />
-        <module name="fairy-cloud-gateway" />
+        <module name="fairy-cloud-search" />
         <module name="fairy-cloud-auth" />
         <module name="fairy-cloud-stock" />
+        <module name="fairy-cloud-api" />
         <module name="fairy-cloud-order" />
+        <module name="fairy-cloud-mbg" />
+        <module name="fairy-cloud-gateway" />
         <module name="fairy-cloud-product" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="fairy-alibaba-cloud" target="1.8" />
+      <module name="fairy-cloud-api" target="1.8" />
       <module name="fairy-cloud-auth" target="1.8" />
       <module name="fairy-cloud-gateway" target="1.8" />
       <module name="fairy-cloud-mbg" target="1.8" />
       <module name="fairy-cloud-order" target="1.8" />
       <module name="fairy-cloud-product" target="1.8" />
+      <module name="fairy-cloud-search" target="1.8" />
       <module name="fairy-cloud-stock" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="fairy-cloud-api" options="-parameters" />
       <module name="fairy-cloud-auth" options="-parameters" />
       <module name="fairy-cloud-gateway" options="-parameters" />
       <module name="fairy-cloud-mbg" options="-parameters" />
       <module name="fairy-cloud-order" options="-parameters" />
       <module name="fairy-cloud-product" options="-parameters" />
+      <module name="fairy-cloud-search" options="-parameters" />
       <module name="fairy-cloud-stock" options="-parameters" />
     </option>
   </component>
