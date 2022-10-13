@@ -10,9 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fairy-cloud-auth</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>fairy-auth-server</module>
+        <module>fairy-authorization-server</module>
+    </modules>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>

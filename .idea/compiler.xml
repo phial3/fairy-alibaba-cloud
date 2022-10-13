@@ -8,19 +8,26 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="fairy-cloud-search" />
-        <module name="fairy-cloud-auth" />
         <module name="fairy-cloud-stock" />
         <module name="fairy-cloud-api" />
         <module name="fairy-cloud-order" />
+        <module name="fairy-cloud-common" />
+        <module name="fairy-authorization-server" />
+        <module name="fairy-authentication-server" />
         <module name="fairy-cloud-mbg" />
         <module name="fairy-cloud-gateway" />
+        <module name="fairy-auth-server" />
         <module name="fairy-cloud-product" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="fairy-alibaba-cloud" target="1.8" />
+      <module name="fairy-auth-server" target="1.8" />
+      <module name="fairy-authentication-server" target="1.8" />
+      <module name="fairy-authorization-server" target="1.8" />
       <module name="fairy-cloud-api" target="1.8" />
       <module name="fairy-cloud-auth" target="1.8" />
+      <module name="fairy-cloud-common" target="1.8" />
       <module name="fairy-cloud-gateway" target="1.8" />
       <module name="fairy-cloud-mbg" target="1.8" />
       <module name="fairy-cloud-order" target="1.8" />
@@ -31,8 +38,12 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="fairy-auth-server" options="-parameters" />
+      <module name="fairy-authentication-server" options="-parameters" />
+      <module name="fairy-authorization-server" options="-parameters" />
       <module name="fairy-cloud-api" options="-parameters" />
       <module name="fairy-cloud-auth" options="-parameters" />
+      <module name="fairy-cloud-common" options="-parameters" />
       <module name="fairy-cloud-gateway" options="-parameters" />
       <module name="fairy-cloud-mbg" options="-parameters" />
       <module name="fairy-cloud-order" options="-parameters" />

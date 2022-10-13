@@ -1,7 +1,7 @@
 package com.fairy.cloud.product.service.impl;
 
 import com.fairy.cloud.product.service.StockManageService;
-import com.fairy.common.response.CommonResponse;
+import com.fairy.common.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +29,10 @@ public class StockManageServiceImpl implements StockManageService {
      * @return
      */
     @Override
-    public CommonResponse<Integer> selectStock(Long productId, Long flashPromotionRelationId) {
+    public Result<Integer> selectStock(Long productId, Long flashPromotionRelationId) {
 
 
-        return CommonResponse.success();
+        return Result.success();
     }
 
 

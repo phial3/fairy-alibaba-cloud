@@ -1,9 +1,8 @@
 package com.fairy.cloud.product.intercepter;
 
 import com.fairy.cloud.product.bloom.BloomRedisService;
-import com.fairy.cloud.product.util.LocalBloomFilter;
 import com.fairy.common.constants.RedisKeyPrefixConst;
-import com.fairy.common.response.CommonResponse;
+import com.fairy.common.response.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
          */
         response.setHeader("Content-Type","application/json");
         response.setCharacterEncoding("UTF-8");
-        String result = new ObjectMapper().writeValueAsString(CommonResponse.fail("产品不存在!"));
+        String result = new ObjectMapper().writeValueAsString(Result.fail("产品不存在!"));
         response.getWriter().print(result);
         return false;
     }

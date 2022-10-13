@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.fairy</groupId>
-            <artifactId>fairy-common</artifactId>
+            <artifactId>fairy-cloud-common</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

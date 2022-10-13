@@ -1,10 +1,8 @@
 package com.fairy.cloud.product.service;
 
 
-import com.fairy.common.response.CommonResponse;
+import com.fairy.common.response.Result;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 
 public interface StockManageService {
@@ -35,7 +33,7 @@ public interface StockManageService {
      * @param flashPromotionRelationId
      * @return
      */
-    CommonResponse<Integer> selectStock(Long productId, Long flashPromotionRelationId);
+    Result<Integer> selectStock(Long productId, Long flashPromotionRelationId);
 
 
 }

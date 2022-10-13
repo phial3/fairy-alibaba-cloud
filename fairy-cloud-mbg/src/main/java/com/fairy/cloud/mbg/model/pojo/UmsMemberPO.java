@@ -3,6 +3,7 @@ package com.fairy.cloud.mbg.model.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fairy.common.entity.po.BasePo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,9 +18,7 @@ import java.util.Date;
  */
 @Data
 @TableName("ums_member")
-public class UmsMemberPO implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class UmsMemberPO extends BasePo implements Serializable {
     /**
      *
      */
@@ -44,15 +43,19 @@ public class UmsMemberPO implements Serializable {
     /**
      * 帐号启用状态:0->禁用；1->启用
      */
-    private Integer status;
+    private Boolean enabled;
     /**
-     * 注册时间
+     * 账号是否过期
      */
-    private Date createTime;
+    private Boolean accountNonExpired;
     /**
-     * 头像
+     * 认证没有过期
      */
-    private String icon;
+    private Boolean credentialsNonExpired;
+    /**
+     * 账号没锁
+     */
+    private Boolean accountNonLocked;
     /**
      * 性别：0->未知；1->男；2->女
      */
@@ -70,16 +73,7 @@ public class UmsMemberPO implements Serializable {
      */
     private String job;
     /**
-     * 个性签名
-     */
-    private String personalizedSignature;
-    /**
      * 用户来源
      */
     private Integer sourceType;
-    /**
-     * 积分
-     */
-    private Integer integration;
-
 }

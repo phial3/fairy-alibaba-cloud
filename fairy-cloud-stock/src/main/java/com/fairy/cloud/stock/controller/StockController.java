@@ -2,7 +2,7 @@ package com.fairy.cloud.stock.controller;
 
 import com.fairy.cloud.mbg.model.pojo.PmsStockPO;
 import com.fairy.cloud.stock.service.StockService;
-import com.fairy.common.response.CommonResponse;
+import com.fairy.common.response.Result;
 import org.apache.skywalking.apm.toolkit.trace.Tag;
 import org.apache.skywalking.apm.toolkit.trace.Tags;
 import org.apache.skywalking.apm.toolkit.trace.Trace;
@@ -27,22 +27,22 @@ public class StockController {
     /*  @Trace
       @Tags({@Tag(key = "param", value = "arg[0]"), @Tag(key = "commonResponse", value = "returnedObj")})
       @GetMapping("/deduce/{productId}")
-      public CommonResponse deduceStock(@PathVariable("productId") Integer productId, HttpServletRequest request) {
+      public Result deduceStock(@PathVariable("productId") Integer productId, HttpServletRequest request) {
           PmsStockPO stockPO = stockService.deduceStock(productId);
-          return CommonResponse.success(stockPO);
+          return Result.success(stockPO);
 
       }*/
     @Trace
     @Tags({@Tag(key = "param", value = "arg[0]"), @Tag(key = "commonResponse", value = "returnedObj")})
     @GetMapping("/deduce")
-    public CommonResponse deduceStock(@RequestParam("productId") Integer productId, HttpServletRequest request) {
+    public Result deduceStock(@RequestParam("productId") Integer productId, HttpServletRequest request) {
         PmsStockPO stockPO = stockService.deduceStock(productId);
-        return CommonResponse.success(stockPO);
+        return Result.success(stockPO);
 
     }
 
     @GetMapping("/test")
-    public CommonResponse test() {
-        return CommonResponse.success();
+    public Result test() {
+        return Result.success();
     }
 }

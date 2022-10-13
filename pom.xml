@@ -23,5 +23,7 @@
         <module>fairy-cloud-stock</module>
         <module>fairy-cloud-api</module>
         <module>fairy-cloud-search</module>
+        <module>fairy-cloud-common</module>
+        <module>fairy-authentication-server</module>
     </modules>
 </project>
