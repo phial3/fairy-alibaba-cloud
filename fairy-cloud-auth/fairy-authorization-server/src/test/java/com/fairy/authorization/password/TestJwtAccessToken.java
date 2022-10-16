@@ -31,7 +31,7 @@ public class TestJwtAccessToken {
     public void testJwt() {
         Jws<Claims> jws = Jwts.parser().setSigningKey(signingKey.getBytes())
                 .parseClaimsJws(
-                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6bnVsbCwidXNlcl9uYW1lIjoidGVzdCIsInNjb3BlIjpbInJlYWQiXSwib3JnYW5pemF0aW9uIjoidGVzdCIsImV4cCI6MTY2NjAwNTM3NCwiYXV0aG9yaXRpZXMiOlsicHJvZHVjdF9jYXRvcnlfYWRtaW4iLCJwcm9kdWN0X2FkbWluIl0sImp0aSI6ImJjMzE0MWRkLWFlMDgtNDRiZC05OWY5LTE2ZmIwNzkxNzgyOSIsImNsaWVudF9pZCI6ImNsaWVudCIsIm1lbWJlcklkIjoidGVzdCJ9.s_hXWezwvf6c--t417jxsZyinbqnB3F3fjF5-wm4TMw"
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6bnVsbCwidXNlcl9uYW1lIjoidGVzdCIsInNjb3BlIjpbInJlYWQiXSwib3JnYW5pemF0aW9uIjoidGVzdCIsImV4cCI6MTY2NTkyNTE5MiwiYXV0aG9yaXRpZXMiOlsicHJvZHVjdF9jYXRvcnlfYWRtaW4iLCJwcm9kdWN0X2FkbWluIl0sImp0aSI6ImY3Njg0MmIwLTNhZTEtNDU3ZS1hMDliLWM4NzJiMDk3MmJiNCIsImNsaWVudF9pZCI6ImNsaWVudCIsIm1lbWJlcklkIjoidGVzdCJ9.bxNDzsXZdPKT6lFupa_6EYWXuKhoVtbJNvdnFY0QGMs"
                 );
         System.out.println(jws.getSignature());
         System.out.println(jws.getBody());
