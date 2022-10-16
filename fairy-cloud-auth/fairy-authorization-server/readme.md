@@ -1,4 +1,4 @@
-## 机制Oauth2认证方式
+## 几种Oauth2认证方式
 ### 密码模式 grant_type=password
 
  http://localhost:8080/oauth/oauth/token?username=test&password=test&grant_type=password&client_id=fairy-cloud-gateway&client_secret=123123&scope=read
@@ -102,7 +102,7 @@ http://localhost:8080/oauth/oauth/token?grant_type=client_credentials&scope=read
 ![输入图片说明](../../images/oath/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A8%A1%E5%BC%8Fbasic%E8%AE%A4%E8%AF%81image.png)
 
 
-#### 刷新token
+## 刷新token
 
 ![输入图片说明](../../images/oath/%E5%88%B7%E6%96%B0tokenimage.png)
 
