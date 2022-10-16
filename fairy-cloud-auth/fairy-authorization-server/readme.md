@@ -1,5 +1,5 @@
-### auth测试
-#### 密码模式 grant_type=password
+## 机制Oauth2认证方式
+### 密码模式 grant_type=password
 
  http://localhost:8080/oauth/oauth/token?username=test&password=test&grant_type=password&client_id=fairy-cloud-gateway&client_secret=123123&scope=read
 
