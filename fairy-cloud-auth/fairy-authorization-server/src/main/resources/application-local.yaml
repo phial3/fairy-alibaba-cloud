@@ -49,8 +49,6 @@ spring:
         max-idle: 9
         max-active: 9
 mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
   mapper-locations:
     - classpath:dao/*.xml
     - classpath*:mapper/**/*.xml
@@ -59,7 +57,6 @@ logging:
     #    org.springframework.security: DEBUG
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
-    org.springframework.security.web: DEBUG
   config: classpath:logback.xml
 
 oauth2:

@@ -3,14 +3,14 @@ package com.fairy.auth.authorization.config;
 import com.fairy.auth.authorization.exception.CustomWebResponseExceptionTranslator;
 import com.fairy.auth.authorization.oauth2.enhance.JwtTokenEnhancer;
 import com.fairy.auth.authorization.oauth2.granter.CustomUserDetailsService;
-import com.google.common.collect.Lists;
+import com.fairy.auth.authorization.properties.SkipUrls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -18,8 +18,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.CompositeTokenGranter;
-import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
@@ -28,8 +26,8 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
@@ -60,8 +58,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
-
-
 
     @Autowired
     private PasswordEncoder passwordEncoder;

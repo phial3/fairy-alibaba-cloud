@@ -1,6 +1,7 @@
 package com.fairy.auth.authorization.config;
 
 import com.fairy.auth.authorization.oauth2.granter.CustomUserDetailsService;
+import com.fairy.auth.authorization.properties.SkipUrls;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.Resource;
+
 /**
  * @author 鹿少年
  * @date 2022/10/13 19:46
@@ -26,13 +29,14 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
-
+    @Resource
+    private SkipUrls skipUrls;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/actuator/**").permitAll()
+                .antMatchers(skipUrls.getUrls().toArray(new String[0])).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll();

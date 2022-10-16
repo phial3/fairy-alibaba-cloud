@@ -21,13 +21,15 @@ public class JwtTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+        Object auth = authentication.getPrincipal();
         Map<String, Object> additionalInfo = new HashMap<>();
         additionalInfo.put("organization", authentication.getName());
-
-        //todo 这里暴露memberId到Jwt的令牌中,后期可以根据自己的业务需要 进行添加字段
-        additionalInfo.put("memberId",user.getUsername());
-        additionalInfo.put("password", user.getPassword());
+        if (auth instanceof User) {
+            User user = (User) auth;
+            //todo 这里暴露memberId到Jwt的令牌中,后期可以根据自己的业务需要 进行添加字段
+            additionalInfo.put("memberId", user.getUsername());
+            additionalInfo.put("password", user.getPassword());
+        }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }
