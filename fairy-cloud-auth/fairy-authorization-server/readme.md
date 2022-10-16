@@ -157,3 +157,28 @@ grant_type=refresh_token&client_id=client&client_secret=123123&refresh_token=
 	"memberId": "test"
 }
 ```
+## token有效时间和refresh token刷新时间
+
+内存模式
+```
+  clients.inMemory()
+                //配置client_id
+                .withClient("client")
+                //配置client-secret
+                .secret(passwordEncoder.encode("123123"))
+                //配置访问token的有效期
+                .accessTokenValiditySeconds(3600)
+                //配置刷新token的有效期
+                .refreshTokenValiditySeconds(864000)
+                //配置redirect_uri，用于授权成功后跳转
+                .redirectUris("http://www.baidu.com")
+                //配置申请的权限范围
+                .scopes("all")
+                //配置grant_type，表示授权类型
+                .authorizedGrantTypes("authorization_code");
+```
+jdbc
+
+```
+`oauth_client_details 表 access_token_validity字段 和 refresh_token_validity 字段表示 访问token的有效期 和刷新token有效时间  
+```
