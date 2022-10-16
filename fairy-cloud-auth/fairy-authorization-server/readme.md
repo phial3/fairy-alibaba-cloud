@@ -101,6 +101,11 @@ http://localhost:8080/oauth/oauth/token?grant_type=client_credentials&scope=read
 或者 basic auth认证请
 ![输入图片说明](../../images/oath/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A8%A1%E5%BC%8Fbasic%E8%AE%A4%E8%AF%81image.png)
 
+### 简化(隐式)模式
+
+```
+http://localhost:8080/oauth/oauth/authorize?client_id=client&response_type=token&scope=read&redirect_uri=http://baidu.com
+```
 
 ## 刷新token
 
@@ -129,4 +134,26 @@ grant_type=refresh_token&client_id=client&client_secret=123123&refresh_token=
 }
 ```
 
+## check_token
+![输入图片说明](../../images/oath/checkTokenimage.png)
 
+响应结果：
+```
+{
+	"password": null,
+	"user_name": "test",
+	"scope": [
+		"read"
+	],
+	"organization": "test",
+	"active": true,
+	"exp": 1666005374,
+	"authorities": [
+		"product_catory_admin",
+		"product_admin"
+	],
+	"jti": "bc3141dd-ae08-44bd-99f9-16fb07917829",
+	"client_id": "client",
+	"memberId": "test"
+}
+```
