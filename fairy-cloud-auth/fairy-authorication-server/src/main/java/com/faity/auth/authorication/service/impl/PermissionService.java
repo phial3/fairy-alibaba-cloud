@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-@Service
+@Service("permissionService")
 @Slf4j
 public class PermissionService implements IPermissionService {
 
