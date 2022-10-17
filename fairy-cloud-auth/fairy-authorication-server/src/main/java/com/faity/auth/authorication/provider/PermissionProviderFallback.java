@@ -1,8 +1,8 @@
 package com.faity.auth.authorication.provider;
 
+import com.fairy.common.entity.dto.PermissionDTO;
 import com.fairy.common.enums.SentinelErrorEnum;
 import com.fairy.common.response.Result;
-import com.faity.auth.authorication.entity.PermissionDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;

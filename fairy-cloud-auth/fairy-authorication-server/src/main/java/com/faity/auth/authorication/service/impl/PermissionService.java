@@ -2,9 +2,9 @@ package com.faity.auth.authorication.service.impl;
 
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.Cached;
+import com.fairy.common.entity.dto.PermissionDTO;
 import com.fairy.common.response.Result;
 import com.faity.auth.authorication.common.AuthenticationCommon;
-import com.faity.auth.authorication.entity.PermissionDTO;
 import com.faity.auth.authorication.provider.PermissionProvider;
 import com.faity.auth.authorication.service.IPermissionService;
 import com.faity.auth.authorication.service.NewMvcRequestMatcher;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

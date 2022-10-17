@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: faity-authorication
-  main:
-    allow-bean-definition-overriding: true
-  profiles:
-    active: local
-server:
-  port: 8081

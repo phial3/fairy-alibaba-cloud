@@ -1,7 +1,6 @@
 package com.faity.auth.authorication.listenner;
 
-import com.fairy.cloud.mbg.model.pojo.UmsPermissionPO;
-import com.faity.auth.authorication.entity.PermissionDTO;
+import com.fairy.common.entity.dto.PermissionDTO;
 import com.faity.auth.authorication.service.impl.PermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
