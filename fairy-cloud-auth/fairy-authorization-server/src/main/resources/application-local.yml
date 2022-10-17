@@ -5,8 +5,14 @@ spring:
     oauth2:
       jwt:
         signingKey: 123123
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:node01}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:admin}
+    password: ${RABBIT_MQ_PASSWORD:admin}
+    virtual-host: /rabbitmq
+    publisher-confirm-type: correlated
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://node01:33306/fairy-cloud?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
@@ -36,6 +42,7 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+    type: com.alibaba.druid.pool.DruidDataSource
   redis:
     timeout: 3000
     host: node01
@@ -48,18 +55,25 @@ spring:
         max-wait: 3000
         max-idle: 9
         max-active: 9
+  ##日志链路追踪
+  zipkin:
+    enabled: true
+    sender:
+      type: rabbit
+    base-url: http://node01:9411/
+  sleuth:
+    sampler:
+      probability: 1.0
 mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
   mapper-locations:
     - classpath:dao/*.xml
     - classpath*:mapper/**/*.xml
 logging:
   level:
-    #    org.springframework.security: DEBUG
+    root: INFO
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
-    org.springframework.security.web: DEBUG
+    org.springframework.security: DEBUG
   config: classpath:logback.xml
 
 oauth2:

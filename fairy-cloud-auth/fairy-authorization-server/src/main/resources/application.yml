@@ -1,9 +1,10 @@
 spring:
-  application:
-    name: faity-authorication
-  main:
-    allow-bean-definition-overriding: true
   profiles:
     active: local
+  application:
+    name: faity-authorization
+  main:
+    allow-bean-definition-overriding: true
+
 server:
-  port: 8081
+  port: 8080

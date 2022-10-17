@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: local
   rabbitmq:
     host: ${RABBIT_MQ_HOST:node01}
     port: ${RABBIT_MQ_PORT:5672}
@@ -85,8 +83,8 @@ logging:
     com.springboot.cloud: debug
     org.springframework.web: debug
     org.springframework.security: debug
+  config: classpath:logback.xml
   file:
-    path: logs/
     max-size: 1GB
 
 management:
@@ -98,8 +96,3 @@ management:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-
-server:
-  servlet:
-    context-path: /oauth
-  port: 8081
