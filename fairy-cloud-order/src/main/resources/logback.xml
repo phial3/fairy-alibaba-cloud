@@ -2,8 +2,8 @@
 <configuration>
 
     <!-- 引入 Spring Boot 默认的 logback XML 配置文件  -->
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <property resource="application.properties"></property>
+    <include permissionDTO="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property permissionDTO="application.properties"></property>
     <property name="log.path" value="/export/logs"/>
 
     <!-- 控制台 Appender -->

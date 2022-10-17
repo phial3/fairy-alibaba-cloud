@@ -14,6 +14,9 @@ spring:
         namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
         refresh-enabled: true
         enabled: true
+    loadbalancer:
+      retry:
+        enabled: true
         #自定义的dataId 是制定的 不需要关注 file-extension以及group
 #        shared-configs: #优先级最低  这里不需要受上面yaml配置约束
 #          - data-id: com.fairy.nacos.shared01.
@@ -25,3 +28,8 @@ spring:
 #          data-id: com.fairy.nacos.extension01.yaml
 #          group: fairy-nacos
 #          refresh: true
+feign:
+  sentinel:
+    enabled: true
+  okhttp:
+    enabled: true

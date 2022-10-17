@@ -138,11 +138,11 @@
                         <entryPoint>["java", "-jar", "-Dspring.profiles.active=dev","/${project.build.finalName}.jar"]
                         </entryPoint>
                         <resources>
-                            <resource>
+                            <permissionDTO>
                                 <targetPath>/</targetPath>
                                 <directory>${project.build.directory}</directory>
                                 <include>${project.build.finalName}.jar</include>
-                            </resource>
+                            </permissionDTO>
                         </resources>
                     </configuration>
                 </plugin>-->

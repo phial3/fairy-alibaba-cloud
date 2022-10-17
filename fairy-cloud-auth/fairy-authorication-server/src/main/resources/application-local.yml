@@ -1,11 +1,21 @@
 spring:
   profiles:
     active: local
-  #  rabbitmq:
-  #    host: ${RABBIT_MQ_HOST:localhost}
-  #    port: ${RABBIT_MQ_PORT:5672}
-  #    username: ${RABBIT_MQ_USERNAME:guest}
-  #    password: ${RABBIT_MQ_PASSWORD:guest}
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:node01}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:admin}
+    password: ${RABBIT_MQ_PASSWORD:admin}
+    virtual-host: /rabbitmq
+    publisher-confirm-type: correlated
+#    listener:
+#      simple:
+#        prefetch: 100
+#        concurrency: 5
+#        max-concurrency: 10
+#        acknowledge-mode: manual
+#        retry:
+#          max-attempts:3
   redis:
     host: node01
     port: 63379
@@ -42,13 +52,14 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-  #  zipkin:
-  #    enabled: true
-  #    sender:
-  #      type: rabbit
-  #  sleuth:
-  #    sampler:
-  #      probability: 1.0
+  zipkin:
+    enabled: true
+    sender:
+      type: rabbit
+    base-url: http://node01:9411/
+  sleuth:
+    sampler:
+      probability: 1.0
   mvc:
     throw-exception-if-no-handler-found: true
   #jwt的密钥
@@ -56,16 +67,6 @@ spring:
     oauth2:
       jwt:
         signingKey: 123123
-  cloud:
-    loadbalancer:
-      retry:
-        enabled: true
-
-feign:
-  sentinel:
-    enabled: true
-  okhttp:
-    enabled: true
 
 jetcache:
   statIntervalMinutes: 15
@@ -98,3 +99,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+server:
+  servlet:
+    context-path: /oauth
+  port: 8081

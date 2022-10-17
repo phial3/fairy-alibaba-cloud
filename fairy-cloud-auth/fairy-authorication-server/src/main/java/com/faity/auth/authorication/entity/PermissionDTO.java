@@ -1,26 +1,16 @@
-package com.fairy.cloud.mbg.model.pojo;
+package com.faity.auth.authorication.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fairy.common.entity.po.BasePo;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Date;
+import lombok.NoArgsConstructor;
 
 /**
- * 后台用户权限表
- *
- * @author é¹¿å°å¹´
- * @email
- * @date 2022-08-02 21:07:38
+ * @author 鹿少年
+ * @date 2022/10/16 21:32
  */
 @Data
-@TableName("ums_permission")
-public class UmsPermissionPO extends BasePo implements Serializable {
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+@NoArgsConstructor
+public class PermissionDTO extends BasePo {
     /**
      * 名称
      */
@@ -37,6 +27,7 @@ public class UmsPermissionPO extends BasePo implements Serializable {
      * 前端资源路径
      */
     private String url;
+
     /**
      * 请求方法
      */
@@ -49,5 +40,4 @@ public class UmsPermissionPO extends BasePo implements Serializable {
      * 排序
      */
     private Integer sort;
-
 }

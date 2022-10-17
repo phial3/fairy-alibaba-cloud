@@ -15,6 +15,7 @@
         <module>fairy-auth-server</module>
         <module>fairy-authorization-server</module>
         <module>fairy-authorication-server</module>
+        <module>fairy-authorication-client</module>
     </modules>
 
     <dependencies>

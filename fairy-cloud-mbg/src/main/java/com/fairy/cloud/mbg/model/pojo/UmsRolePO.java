@@ -3,6 +3,7 @@ package com.fairy.cloud.mbg.model.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fairy.common.entity.po.BasePo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ import java.util.Date;
  */
 @Data
 @TableName("ums_role")
-public class UmsRolePO implements Serializable {
+public class UmsRolePO extends BasePo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -33,10 +34,6 @@ public class UmsRolePO implements Serializable {
      * 描述
      */
     private String description;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
     /**
      * 启用状态：0->禁用；1->启用
      */
