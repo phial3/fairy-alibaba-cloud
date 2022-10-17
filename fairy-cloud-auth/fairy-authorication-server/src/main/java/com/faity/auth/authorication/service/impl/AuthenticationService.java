@@ -1,8 +1,8 @@
 package com.faity.auth.authorication.service.impl;
 
 import com.fairy.cloud.mbg.model.pojo.UmsPermissionPO;
+import com.fairy.common.entity.dto.PermissionDTO;
 import com.faity.auth.authorication.common.AuthenticationCommon;
-import com.faity.auth.authorication.entity.PermissionDTO;
 import com.faity.auth.authorication.service.IAuthenticationService;
 import com.faity.auth.authorication.service.IPermissionService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -49,14 +47,14 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     @Override
-    public boolean dataDecide(UmsPermissionPO permissionPO) {
-        log.debug("正在访问的权限:{},路径:{}", permissionPO.getName(), permissionPO.getUrl());
+    public boolean dataDecide(PermissionDTO permissionDTO) {
+        log.debug("正在访问的权限:{},路径:{}", permissionDTO.getName(), permissionDTO.getUrl());
         //获取用户认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //判断用户是否有该路径权限
         User user = (User) authentication.getPrincipal();
-        Set<PermissionDTO> umsPermissionPOS = permissionService.queryByUsername(user.getUsername());
-        return  isContainsPermission(umsPermissionPOS,permissionPO);
+        Set<PermissionDTO> permissionDTOS = permissionService.queryByUsername(user.getUsername());
+        return  isContainsPermission(permissionDTOS,permissionDTO);
     }
 
 
@@ -64,13 +62,13 @@ public class AuthenticationService implements IAuthenticationService {
      * 校验权限是否匹配
      *
      * @param permissionDTOS 权限集合
-     * @param permissionPO   用户权限
+     * @param permissionDTO   用户权限
      * @return boolean
      */
-    public boolean isContainsPermission( Set<PermissionDTO>  permissionDTOS, UmsPermissionPO permissionPO) {
+    public boolean isContainsPermission( Set<PermissionDTO>  permissionDTOS, PermissionDTO permissionDTO) {
         //权限的父级继承
         for (PermissionDTO ums : permissionDTOS) {
-            if(permissionPO.getUrl().startsWith(ums.getUrl())) {
+            if(permissionDTO.getUrl().startsWith(ums.getUrl())) {
                 return true;
             }
         }

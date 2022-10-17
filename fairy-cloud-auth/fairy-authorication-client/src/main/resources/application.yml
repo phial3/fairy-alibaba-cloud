@@ -1,0 +1,16 @@
+feign:
+  #feign 使用 okhttp
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+spring:
+  security:
+    oauth2:
+      jwt:
+        signingKey: 123123
+gate:
+  ignore:
+    authentication:
+      startWith: /oauth,/open

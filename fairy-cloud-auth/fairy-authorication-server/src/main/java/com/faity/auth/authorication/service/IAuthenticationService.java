@@ -1,7 +1,7 @@
 package com.faity.auth.authorication.service;
 
 import com.fairy.cloud.mbg.model.pojo.UmsPermissionPO;
-import org.springframework.stereotype.Service;
+import com.fairy.common.entity.dto.PermissionDTO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +21,6 @@ public interface IAuthenticationService {
      * @param permissionDTO 许可dto
      * @return 是否有权限
      */
-    boolean dataDecide(UmsPermissionPO permissionDTO);
+    boolean dataDecide(PermissionDTO permissionDTO);
 
 }

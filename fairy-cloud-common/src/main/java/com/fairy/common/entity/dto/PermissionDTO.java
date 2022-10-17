@@ -1,4 +1,4 @@
-package com.faity.auth.authorication.entity;
+package com.fairy.common.entity.dto;
 
 import com.fairy.common.entity.po.BasePo;
 import lombok.Data;

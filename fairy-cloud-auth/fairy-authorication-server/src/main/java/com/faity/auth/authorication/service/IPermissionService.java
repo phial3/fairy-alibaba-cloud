@@ -1,10 +1,9 @@
 package com.faity.auth.authorication.service;
 
-import com.faity.auth.authorication.entity.PermissionDTO;
+import com.fairy.common.entity.dto.PermissionDTO;
 import org.springframework.security.access.ConfigAttribute;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Set;
 
 public interface IPermissionService {
