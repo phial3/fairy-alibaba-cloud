@@ -1,4 +1,6 @@
 spring:
+  applicaton:
+    name: authorization-server
   profiles:
     active: local
   security:

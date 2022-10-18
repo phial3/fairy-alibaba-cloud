@@ -9,10 +9,14 @@ Nacos
 Seata
 Sentinel
 GateWay
-OAth2
+OAth2（Spring Security ,Jwt)
 Feign/Ribbon调用
 SkayWalking链路分析
-ELK日志分析
+ELK日志分析（ElasticSearch,Kibana,FileBean Logstash都会使用）
+zipkin 日志追踪
+Mq(kafka,rocketmq,rabbitmq都会使用到）
+ES 搜索 倒排索引
+
 ```
 
 DB使用
