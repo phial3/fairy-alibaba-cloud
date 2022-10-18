@@ -1,6 +1,6 @@
 package com.fairy.cloud.gateway.service;
 
-public interface IPermissionService {
+public interface IResourceService {
     /**
      * @param authentication token
      * @param method 方法

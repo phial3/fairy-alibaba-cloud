@@ -27,22 +27,22 @@ public class PermissionService implements IPermissionService {
     private UmsPermissionMapper permissionMapper;
 
     @Override
-    public Set<PermissionDTO> allPermissions() {
+    public List<PermissionDTO> allPermissions() {
 
         List<UmsPermissionPO> list = permissionMapper.selectList(new QueryWrapper<UmsPermissionPO>());
-        Set<PermissionDTO> permissionDTOS = list.stream().flatMap(new Function<UmsPermissionPO, Stream<PermissionDTO>>() {
+        List<PermissionDTO> permissionDTOS = list.stream().flatMap(new Function<UmsPermissionPO, Stream<PermissionDTO>>() {
             @Override
             public Stream<PermissionDTO> apply(UmsPermissionPO permissionPO) {
                 PermissionDTO dto = new PermissionDTO();
                 BeanUtils.copyProperties(permissionPO, dto);
                 return Stream.of(dto);
             }
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toList());
         return permissionDTOS;
     }
 
     @Override
-    public Set<PermissionDTO> selectPermissionsByUserName(String username) {
+    public List<PermissionDTO> selectPermissionsByUserName(String username) {
         return permissionMapper.selectPermissionsByUserName(username);
     }
 }

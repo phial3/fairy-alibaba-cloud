@@ -26,14 +26,14 @@ public class ResourceController {
     private IPermissionService permissionService;
 
     @GetMapping(value = "/all")
-    Result<Set<PermissionDTO>> perimissions(){
-        Set<PermissionDTO> permissionDTOS= permissionService.allPermissions();
+    Result<List<PermissionDTO>> perimissions(){
+        List<PermissionDTO> permissionDTOS= permissionService.allPermissions();
         return Result.success(permissionDTOS);
     }
 
     @GetMapping(value = "/user/{username}")
-    Result<Set<PermissionDTO>> perimissions(@PathVariable("username") String username){
-        Set<PermissionDTO> permissionDTOS= permissionService.selectPermissionsByUserName( username);
+    Result<List<PermissionDTO>> perimissions(@PathVariable("username") String username){
+        List<PermissionDTO> permissionDTOS= permissionService.selectPermissionsByUserName( username);
         return Result.success(permissionDTOS);
     }
 }

@@ -63,3 +63,10 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+
+logging:
+  level:
+    root: INFO
+    com.alibaba.cloud.nacos.client: ERROR
+    com.fairy.cloud.mbg.mapper: DEBUG
+    org.springframework.security: DEBUG

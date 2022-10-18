@@ -3,14 +3,14 @@ package com.fairy.cloud.gateway.service.impl;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.Cached;
 import com.fairy.auth.authorication.client.service.IAuthService;
-import com.fairy.cloud.gateway.service.IPermissionService;
+import com.fairy.cloud.gateway.service.IResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class PermissionService implements IPermissionService {
+public class ResourceService implements IResourceService {
 
     /**
      * 由authentication-client模块提供签权的feign客户端

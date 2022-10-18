@@ -2,12 +2,11 @@ package com.fairy.common.response;
 
 import com.fairy.common.enums.ErrorType;
 import com.fairy.common.enums.SystemErrorEnum;
-import com.fairy.common.error.BaseException;
+import com.fairy.common.error.ServiceException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
@@ -84,8 +83,8 @@ public class Result<T> {
      * @param baseException
      * @return Result
      */
-    public static Result fail(BaseException baseException) {
-        return fail(baseException, null);
+    public static Result fail(ServiceException serviceException) {
+        return fail(serviceException, null);
     }
 
     /**
@@ -94,8 +93,8 @@ public class Result<T> {
      * @param data
      * @return Result
      */
-    public static Result fail(BaseException baseException, Object data) {
-        return new Result<>(baseException.getErrorType(), data);
+    public static Result fail(ServiceException serviceException, Object data) {
+        return new Result<>(serviceException.getErrorType(), data);
     }
 
     /**

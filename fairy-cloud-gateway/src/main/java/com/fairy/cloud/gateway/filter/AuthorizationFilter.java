@@ -1,9 +1,9 @@
 package com.fairy.cloud.gateway.filter;
 
 import com.fairy.auth.authorication.client.service.IAuthService;
-import com.fairy.cloud.gateway.service.IPermissionService;
-import com.fairy.common.enums.ResultEnums;
-import com.fairy.common.exception.GateWayException;
+import com.fairy.cloud.gateway.service.IResourceService;
+import com.fairy.common.enums.AuthErrorEnum;
+import com.fairy.common.error.ServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
     private IAuthService authService;
 
     @Autowired
-    private IPermissionService permissionService;
+    private IResourceService resourceService;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -53,10 +53,10 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
         log.info("需要认证的URL:{}", currentUrl);
         if (StringUtils.isEmpty(authentication)) {
             log.warn("需要认证的url,请求头为空");
-            throw new GateWayException(ResultEnums.AUTHORIZATION_HEADER_IS_EMPTY);
+            throw new ServiceException(AuthErrorEnum.AUTHORIZATION_HEADER_IS_EMPTY);
         }
         //调用签权服务看用户是否有权限，若有权限进入下一个filter
-        if (permissionService.permission(authentication, currentUrl, method)) {
+        if (resourceService.permission(authentication, currentUrl, method)) {
             ServerHttpRequest.Builder builder = request.mutate();
             //TODO 转发的请求都加上服务间认证token
             builder.header(X_CLIENT_TOKEN, "");

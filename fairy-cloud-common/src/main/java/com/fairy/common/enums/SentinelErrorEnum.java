@@ -10,9 +10,10 @@ import lombok.Getter;
 public enum  SentinelErrorEnum implements ErrorType {
 
     FLOW_RULE_ERR("050501", "触发流控"),
-    HOT_PARAM_FLOW_RULE_ERR("050501", "参数流控了"),
+    HOT_PARAM_FLOW_RULE_ERR("050501", "热点参数流控了"),
     SYS_RULE_ERR("050501", "系统负载不满足"),
-    DEGRADE_RULE_ERR("050501", "降级规则触发")
+    DEGRADE_RULE_ERR("050501", "降级规则触发"),
+    AUTH_RULE_ERR("050501","白名单认证出错")
     ;
 
 

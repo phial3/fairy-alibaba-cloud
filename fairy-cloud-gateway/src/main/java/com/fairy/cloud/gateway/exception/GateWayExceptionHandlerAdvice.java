@@ -1,7 +1,7 @@
 package com.fairy.cloud.gateway.exception;
 
 import com.fairy.common.enums.SystemErrorEnum;
-import com.fairy.common.exception.GateWayException;
+import com.fairy.common.error.ServiceException;
 import com.fairy.common.response.Result;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -90,8 +90,8 @@ public class GateWayExceptionHandlerAdvice {
         }
         return result;
     }
-    @ExceptionHandler(value = {GateWayException.class})
-    public Result handle(GateWayException ex) {
+    @ExceptionHandler(value = {ServiceException.class})
+    public Result handle(ServiceException ex) {
         log.error("gateway 网关异常,msg:{}",ex.getMessage());
         return Result.fail(SystemErrorEnum.GATEWAY_SYSTEM_BUSY);
     }

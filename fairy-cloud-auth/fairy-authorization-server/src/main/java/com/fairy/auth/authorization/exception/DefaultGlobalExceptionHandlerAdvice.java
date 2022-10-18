@@ -1,7 +1,6 @@
 package com.fairy.auth.authorization.exception;
 
 import com.fairy.common.enums.SystemErrorEnum;
-import com.fairy.common.error.BaseException;
 import com.fairy.common.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;

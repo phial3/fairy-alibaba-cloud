@@ -82,12 +82,12 @@ spring:
             retries: 3
             statuses: BAD_GATEWAY
         - AddResponseHeader=X-Response-Default-Foo, Default-Bar
-            - name: RequestRateLimiter
-            args:
-              redis-rate-limiter.replenishRate: 2  #流速 每秒
-              redis-rate-limiter.burstCapacity: 10   #令牌桶的容积
-              rate-limiter: "#{@defaultRedisRateLimiter}"  #SPEL表达式去的对应的bean
-              key-resolver: "#{@apiKeyResolver}" #SPEL表达式去的对应的bean
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 2  #流速 每秒
+            redis-rate-limiter.burstCapacity: 10   #令牌桶的容积
+            rate-limiter: "#{@defaultRedisRateLimiter}"  #SPEL表达式去的对应的bean
+            key-resolver: "#{@apiKeyResolver}" #SPEL表达式去的对应的bean
 #是否开启@SentinelRestTemplate注解
 resttemplate:
   sentinel:
@@ -119,5 +119,5 @@ jetcache:
         minIdle: 5
         maxIdle: 20
         maxTotal: 50
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
+      host: ${REDIS_HOST:node01}
+      port: ${REDIS_PORT:63379}

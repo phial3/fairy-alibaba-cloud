@@ -22,7 +22,8 @@ public enum AuthErrorEnum implements ErrorType{
     UNAUTHORIZED_CLIENT("040060", "未授权客户端"),
     UNAUTHORIZED("040061", "未授权"),
     UNSUPPORTED_RESPONSE_TYPE("040070", " 支持的响应类型"),
-    UNSUPPORTED_GRANT_TYPE("040071", "不支持的授权类型");
+    UNSUPPORTED_GRANT_TYPE("040071", "不支持的授权类型"),
+    AUTHORIZATION_HEADER_IS_EMPTY("040072","请求header token不存在");
     private String code;
     private String msg;
 

@@ -2,6 +2,7 @@ package com.fairy.auth.authorication.client.service;
 
 import com.fairy.common.entity.dto.PermissionDTO;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,12 +14,12 @@ public interface IPermissionService {
      * 查询所以权限
      * @return
      */
-    Set<PermissionDTO> allPermissions();
+    List<PermissionDTO> allPermissions();
 
     /**
      * 根据用户查询所属权限
      * @param username
      * @return
      */
-    Set<PermissionDTO> selectPermissionsByUserName(String username);
+    List<PermissionDTO> selectPermissionsByUserName(String username);
 }

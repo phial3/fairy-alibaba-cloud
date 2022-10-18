@@ -7,8 +7,8 @@ import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
-import com.fairy.common.enums.ResultEnums;
-import com.fairy.common.response.CommonResponse;
+import com.fairy.common.enums.SentinelErrorEnum;
+import com.fairy.common.response.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -27,20 +27,20 @@ public class MyUrlBlockHandler implements UrlBlockHandler {
     @Override
     public void blocked(HttpServletRequest request, HttpServletResponse response, BlockException e) throws IOException {
         log.info("UrlBlockHandler BlockException================"+e.getRule());
-        CommonResponse r = null;
+        Result r = null;
 
         if (e instanceof FlowException) {
-            r = CommonResponse.fail(ResultEnums.FLOW_RULE_ERR);
+            r = Result.fail(SentinelErrorEnum.FLOW_RULE_ERR);
 
         } else if (e instanceof DegradeException) {
-            r =  CommonResponse.fail(ResultEnums.DEGRADE_RULE_ERR);
+            r =  Result.fail(SentinelErrorEnum.DEGRADE_RULE_ERR);
 
         } else if (e instanceof ParamFlowException) {
-            r = CommonResponse.fail(ResultEnums.HOT_PARAM_FLOW_RULE_ERR);
+            r = Result.fail(SentinelErrorEnum.HOT_PARAM_FLOW_RULE_ERR);
         } else if (e instanceof SystemBlockException) {
-            r = CommonResponse.fail(ResultEnums.SYS_RULE_ERR);
+            r = Result.fail(SentinelErrorEnum.SYS_RULE_ERR);
         } else if (e instanceof AuthorityException) {
-            r = CommonResponse.fail(ResultEnums.AUTH_RULE_ERR);
+            r = Result.fail(SentinelErrorEnum.AUTH_RULE_ERR);
         }
 
         //返回json数据

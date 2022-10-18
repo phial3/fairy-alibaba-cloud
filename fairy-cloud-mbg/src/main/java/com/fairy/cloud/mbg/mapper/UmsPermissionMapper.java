@@ -6,6 +6,7 @@ import com.fairy.common.entity.dto.PermissionDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,5 +23,5 @@ public interface UmsPermissionMapper extends BaseMapper<UmsPermissionPO> {
      * @param username
      * @return
      */
-    Set<PermissionDTO> selectPermissionsByUserName(@Param("userName") String username);
+    List<PermissionDTO> selectPermissionsByUserName(@Param("userName") String username);
 }

@@ -97,7 +97,7 @@
         </dependency>
         <dependency>
             <groupId>com.fairy</groupId>
-            <artifactId>fairy-common</artifactId>
+            <artifactId>fairy-cloud-common</artifactId>
             <version>1.0</version>
             <exclusions>
                 <exclusion>
@@ -133,6 +133,16 @@
             <groupId>com.fairy</groupId>
             <artifactId>fairy-authorication-client</artifactId>
             <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fairy</groupId>
+                    <artifactId>fairy-cloud-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

@@ -20,3 +20,15 @@ Zipkin 是一个开放源代码分布式的跟踪系统，由Twitter公司开源
 Zipkin的服务端已经打包成了一个 jar，使用 java -jar zipkin-server.jar 启动，访问 localhost:9411 查看zipkin主页
 
 Zipkin官网地址：[https://zipkin.io/](https://zipkin.io/)，Zipkin收集 Sleuth 产生的数据，并以界面的形式呈现出来
+
+
+## 异常错误
+请在pom依赖中剔除web依赖 否则提示
+***************************
+APPLICATION FAILED TO START
+***************************
+Description:
+Parameter 0 of method modifyResponseBodyGatewayFilterFactory in org.springframework.cloud.gateway.config.GatewayAutoConfiguration required a bean of type 'org.springframework.http.codec.ServerCodecConfigurer' that could not be found.
+
+Action:
+Consider defining a bean of type 'org.springframework.http.codec.ServerCodecConfigurer' in your configuration.
