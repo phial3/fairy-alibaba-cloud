@@ -18,7 +18,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.springboot.cloud.sysadmin.organization"))
+                .apis(RequestHandlerSelectors.basePackage("com.fairy.authorication.resouce.config"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -26,8 +26,8 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("系统管理API")
-                .description("系统管理，组织人员管理、角色权限管理、岗位管理")
-                .termsOfServiceUrl("https://github.com/zhoutaoo/SpringCloud")
+                .description("角色权限管理")
+                .termsOfServiceUrl("https://gitee.com/ITLULU/fairy-alibaba-cloud")
                 .version("2.0")
                 .build();
     }

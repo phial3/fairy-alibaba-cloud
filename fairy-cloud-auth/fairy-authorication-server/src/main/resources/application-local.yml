@@ -50,12 +50,19 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+  ##日志链路追踪
   zipkin:
     enabled: true
     sender:
       type: rabbit
     base-url: http://node02:9411/
+    rabbitmq:
+      queue: zipkin
   sleuth:
+    scheduled:
+      enabled: true
+    web:
+      skip-pattern: /health
     sampler:
       probability: 1.0
   mvc:

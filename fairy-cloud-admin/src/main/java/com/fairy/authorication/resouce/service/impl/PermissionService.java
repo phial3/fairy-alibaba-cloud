@@ -1,7 +1,7 @@
-package com.fairy.auth.authorication.client.service.impl;
+package com.fairy.authorication.resouce.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.fairy.auth.authorication.client.service.IPermissionService;
+import com.fairy.authorication.resouce.service.IPermissionService;
 import com.fairy.cloud.mbg.mapper.UmsPermissionMapper;
 import com.fairy.cloud.mbg.model.pojo.UmsPermissionPO;
 import com.fairy.common.entity.dto.PermissionDTO;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

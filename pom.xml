@@ -27,5 +27,6 @@
         <module>fairy-authentication-server</module>
         <module>fairy-authorication-client</module>
         <module>fairy-cloud-auth/untitled</module>
+        <module>fairy-cloud-resource</module>
     </modules>
 </project>

@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-auth/fairy-authorication-client/fairy-authorication-client.iml" filepath="$PROJECT_DIR$/fairy-cloud-auth/fairy-authorication-client/fairy-authorication-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-auth/fairy-authorication-server/fairy-authorication-server.iml" filepath="$PROJECT_DIR$/fairy-cloud-auth/fairy-authorication-server/fairy-authorication-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-auth/fairy-authorization-server/fairy-authorization-server.iml" filepath="$PROJECT_DIR$/fairy-cloud-auth/fairy-authorization-server/fairy-authorization-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fairy-cloud-admin/fairy-cloud-admin.iml" filepath="$PROJECT_DIR$/fairy-cloud-admin/fairy-cloud-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-api/fairy-cloud-api.iml" filepath="$PROJECT_DIR$/fairy-cloud-api/fairy-cloud-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-auth/fairy-cloud-auth.iml" filepath="$PROJECT_DIR$/fairy-cloud-auth/fairy-cloud-auth.iml" />
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-common/fairy-cloud-common.iml" filepath="$PROJECT_DIR$/fairy-cloud-common/fairy-cloud-common.iml" />

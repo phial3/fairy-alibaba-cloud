@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="fairy-cloud-search" />
+        <module name="fairy-cloud-admin" />
         <module name="fairy-cloud-stock" />
         <module name="fairy-authorication-client" />
         <module name="fairy-cloud-common" />
@@ -29,6 +30,7 @@
       <module name="fairy-authorication-client" target="1.8" />
       <module name="fairy-authorication-server" target="1.8" />
       <module name="fairy-authorization-server" target="1.8" />
+      <module name="fairy-cloud-admin" target="1.8" />
       <module name="fairy-cloud-api" target="1.8" />
       <module name="fairy-cloud-auth" target="1.8" />
       <module name="fairy-cloud-common" target="1.8" />
@@ -47,6 +49,7 @@
       <module name="fairy-authorication-client" options="-parameters" />
       <module name="fairy-authorication-server" options="-parameters" />
       <module name="fairy-authorization-server" options="-parameters" />
+      <module name="fairy-cloud-admin" options="-parameters" />
       <module name="fairy-cloud-api" options="-parameters" />
       <module name="fairy-cloud-auth" options="" />
       <module name="fairy-cloud-common" options="-parameters" />

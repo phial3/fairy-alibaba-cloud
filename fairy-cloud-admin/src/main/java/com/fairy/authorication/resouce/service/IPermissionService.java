@@ -1,9 +1,8 @@
-package com.fairy.auth.authorication.client.service;
+package com.fairy.authorication.resouce.service;
 
 import com.fairy.common.entity.dto.PermissionDTO;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author 鹿少年

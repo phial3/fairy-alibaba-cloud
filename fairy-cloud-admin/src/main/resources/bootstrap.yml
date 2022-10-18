@@ -26,8 +26,3 @@ spring:
 #          data-id: com.fairy.nacos.extension01.yaml
 #          group: fairy-nacos
 #          refresh: true
-feign:
-  sentinel:
-    enabled: true
-  okhttp:
-    enabled: true

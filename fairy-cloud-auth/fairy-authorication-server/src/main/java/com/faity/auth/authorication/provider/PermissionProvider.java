@@ -13,7 +13,7 @@ import java.util.Set;
  * @author 鹿少年
  * @date 2022/10/17 19:18
  */
-@FeignClient(name = "authorication-client", configuration = FeignConfig.class,fallback = PermissionProviderFallback.class)
+@FeignClient(name = "authorication-resource", configuration = FeignConfig.class,fallback = PermissionProviderFallback.class)
 public interface PermissionProvider {
 
     @GetMapping(value = "/permission/all")
