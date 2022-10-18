@@ -3,6 +3,14 @@ spring:
     oauth2:
       jwt:
         signingKey: 123123
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:node02}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:admin}
+    password: ${RABBIT_MQ_PASSWORD:admin}
+    virtual-host: /rabbitmq
+    publisher-confirm-type: correlated
+
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -34,14 +42,21 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-    zipkin:
+  ##日志链路追踪
+  zipkin:
+    enabled: true
+    sender:
+      type: rabbit
+    base-url: http://node02:9411/
+    rabbitmq:
+      queue: zipkin
+  sleuth:
+    scheduled:
       enabled: true
-      sender:
-        type: rabbit
-      base-url: http://node02:9411/
-    sleuth:
-      sampler:
-        probability: 1.0
+    web:
+      skip-pattern: /health
+    sampler:
+      probability: 1.0
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -70,3 +85,4 @@ logging:
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
     org.springframework.security: DEBUG
+  config: classpath:logback.xml

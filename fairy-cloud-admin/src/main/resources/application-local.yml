@@ -1,0 +1,74 @@
+spring:
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:node02}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:admin}
+    password: ${RABBIT_MQ_PASSWORD:admin}
+    virtual-host: /rabbitmq
+    publisher-confirm-type: correlated
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://node01:33306/fairy-cloud?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: root
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: druid
+        login-password: druid
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+  ##日志链路追踪
+  zipkin:
+    enabled: true
+    sender:
+      type: rabbit
+    base-url: http://node02:9411/
+    rabbitmq:
+      queue: zipkin
+  sleuth:
+    scheduled:
+      enabled: true
+    web:
+      skip-pattern: /health
+    sampler:
+      probability: 1.0
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+mybatis-plus:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath:mapper/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+
+logging:
+  level:
+    root: INFO
+    com.alibaba.cloud.nacos.client: ERROR
+    com.fairy.cloud.mbg.mapper: DEBUG
+    org.springframework.security: DEBUG
