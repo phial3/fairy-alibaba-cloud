@@ -19,19 +19,18 @@ import java.util.Set;
  */
 @RestController
 @Slf4j
-@RequestMapping("/permission")
 public class ResourceController {
 
     @Autowired
     private IPermissionService permissionService;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "/permission/all")
     Result<List<PermissionDTO>> perimissions(){
         List<PermissionDTO> permissionDTOS= permissionService.allPermissions();
         return Result.success(permissionDTOS);
     }
 
-    @GetMapping(value = "/user/{username}")
+    @GetMapping(value = "/permission/user/{username}")
     Result<List<PermissionDTO>> perimissions(@PathVariable("username") String username){
         List<PermissionDTO> permissionDTOS= permissionService.selectPermissionsByUserName( username);
         return Result.success(permissionDTOS);

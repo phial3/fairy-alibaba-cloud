@@ -21,13 +21,13 @@ import java.util.Set;
 @Slf4j
 public class PermissionProviderFallback implements PermissionProvider{
     @Override
-    public Result<Set<PermissionDTO>> perimissions() {
+    public Result<List<PermissionDTO>> perimissions() {
         log.error("认证服务启动时加载资源异常！未加载到资源");
         return Result.fail(SentinelErrorEnum.FLOW_RULE_ERR);
     }
 
     @Override
-    public Result<Set<PermissionDTO>>perimissions(String username){
+    public Result<List<PermissionDTO>>perimissions(String username){
         log.error("认证服务查询用户异常！查询用户资源为空！");
         return Result.fail(SentinelErrorEnum.FLOW_RULE_ERR);
     }

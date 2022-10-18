@@ -1,6 +1,5 @@
 package com.faity.auth.authorication.service.impl;
 
-import com.fairy.cloud.mbg.model.pojo.UmsPermissionPO;
 import com.fairy.common.entity.dto.PermissionDTO;
 import com.faity.auth.authorication.common.AuthenticationCommon;
 import com.faity.auth.authorication.service.IAuthenticationService;
@@ -14,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -41,7 +41,7 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         //获取此访问用户所有角色拥有的权限资源
-        Set<PermissionDTO> userResources = findResourcesByUsername(authentication.getName());
+        List<PermissionDTO> userResources = findResourcesByUsername(authentication.getName());
         //用户拥有权限资源 与 url要求的资源进行对比
         return isMatch(urlConfigAttribute, userResources);
     }
@@ -53,7 +53,7 @@ public class AuthenticationService implements IAuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //判断用户是否有该路径权限
         User user = (User) authentication.getPrincipal();
-        Set<PermissionDTO> permissionDTOS = permissionService.queryByUsername(user.getUsername());
+        List<PermissionDTO> permissionDTOS = permissionService.queryByUsername(user.getUsername());
         return  isContainsPermission(permissionDTOS,permissionDTO);
     }
 
@@ -65,7 +65,7 @@ public class AuthenticationService implements IAuthenticationService {
      * @param permissionDTO   用户权限
      * @return boolean
      */
-    public boolean isContainsPermission( Set<PermissionDTO>  permissionDTOS, PermissionDTO permissionDTO) {
+    public boolean isContainsPermission( List<PermissionDTO>  permissionDTOS, PermissionDTO permissionDTO) {
         //权限的父级继承
         for (PermissionDTO ums : permissionDTOS) {
             if(permissionDTO.getUrl().startsWith(ums.getUrl())) {
@@ -82,7 +82,7 @@ public class AuthenticationService implements IAuthenticationService {
      * @param userResources
      * @return
      */
-    public boolean isMatch(ConfigAttribute urlConfigAttribute, Set<PermissionDTO> userResources) {
+    public boolean isMatch(ConfigAttribute urlConfigAttribute, List<PermissionDTO> userResources) {
         return userResources.stream().anyMatch(resource -> resource.getName().equals(urlConfigAttribute.getAttribute()));
     }
 
@@ -92,9 +92,9 @@ public class AuthenticationService implements IAuthenticationService {
      * @param username
      * @return
      */
-    private Set<PermissionDTO> findResourcesByUsername(String username) {
+    private List<PermissionDTO> findResourcesByUsername(String username) {
         //用户被授予的角色资源
-        Set<PermissionDTO> resources = permissionService.queryByUsername(username);
+        List<PermissionDTO> resources = permissionService.queryByUsername(username);
         if (log.isDebugEnabled()) {
             log.debug("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), resources);
         }

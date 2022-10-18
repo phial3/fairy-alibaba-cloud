@@ -4,6 +4,7 @@ import com.fairy.common.entity.dto.PermissionDTO;
 import org.springframework.security.access.ConfigAttribute;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Set;
 
 public interface IPermissionService {
@@ -41,5 +42,5 @@ public interface IPermissionService {
      * @param username
      * @return
      */
-    Set<PermissionDTO> queryByUsername(String username);
+    List<PermissionDTO> queryByUsername(String username);
 }

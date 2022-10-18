@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -56,11 +57,11 @@ public class PermissionService implements IPermissionService {
 
     @Override
     public synchronized void loadResource() {
-        Result<Set<PermissionDTO>> resourcesResult = permissionProvider.perimissions();
+        Result<List<PermissionDTO>> resourcesResult = permissionProvider.perimissions();
         if (resourcesResult.isFail()) {
             System.exit(1);
         }
-        Set<PermissionDTO> resources = resourcesResult.getData();
+        List<PermissionDTO> resources = resourcesResult.getData();
         Map<MvcRequestMatcher, SecurityConfig> tempResourceConfigAttributes = resources.stream()
                 .collect(Collectors.toMap(
                         resource -> this.newMvcRequestMatcher(resource.getUrl(), resource.getMethod()),
@@ -82,7 +83,7 @@ public class PermissionService implements IPermissionService {
 
     @Override
     @Cached(name = "permission::user", key = "#username", cacheType = CacheType.BOTH, expire = 5)
-    public Set<PermissionDTO> queryByUsername(String username) {
+    public List<PermissionDTO> queryByUsername(String username) {
         return permissionProvider.perimissions(username).getData();
     }
 

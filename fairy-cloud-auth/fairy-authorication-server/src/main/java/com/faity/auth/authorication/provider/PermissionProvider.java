@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,9 +17,9 @@ import java.util.Set;
 public interface PermissionProvider {
 
     @GetMapping(value = "/permission/all")
-    Result<Set<PermissionDTO>> perimissions();
+    Result<List<PermissionDTO>> perimissions();
 
     @GetMapping(value = "/permission/user/{username}")
-    Result<Set<PermissionDTO>> perimissions(@PathVariable("username") String username);
+    Result<List<PermissionDTO>> perimissions(@PathVariable("username") String username);
 
 }

@@ -1,7 +1,8 @@
 package com.faity.auth.authorication.service;
 
-import com.fairy.cloud.mbg.model.pojo.UmsPermissionPO;
 import com.fairy.common.entity.dto.PermissionDTO;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 import javax.servlet.http.HttpServletRequest;
 
