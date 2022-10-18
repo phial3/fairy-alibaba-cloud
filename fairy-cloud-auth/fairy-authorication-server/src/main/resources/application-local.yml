@@ -17,7 +17,7 @@ spring:
   redis:
     host: node01
     port: 63379
-    password: root
+    password:
     database: 0
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

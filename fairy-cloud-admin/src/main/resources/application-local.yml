@@ -1,4 +1,9 @@
 spring:
+  redis:
+    host: node01
+    port: 63379
+    password:
+    database: 0
   rabbitmq:
     host: ${RABBIT_MQ_HOST:node02}
     port: ${RABBIT_MQ_PORT:5672}
