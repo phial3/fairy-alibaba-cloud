@@ -34,6 +34,10 @@ spring:
       http:
         legacy:
           enabled: true
+  security:
+    oauth2:
+      jwt:
+        signingKey: 123123
 management:
   endpoints:
     web:
@@ -48,11 +52,28 @@ logging:
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
   config: classpath:logback.xml
+  file:
+    max-size: 1GB
 
-cloud:
-  gateway:
-    shouldSkipUrls:
-      - /auth/oauth/**
-      - /sso/**
-      - /home/**
-      - /static/qrcode/**
+jetcache:
+  statIntervalMinutes: 1
+  areaInCacheName: false
+  hidePackages: com.springboot.cloud
+  local:
+    # 默认永久本地缓存
+    default:
+      type: caffeine
+      keyConvertor: fastjson
+  remote:
+    # 默认永久的远程缓存
+    default:
+      type: redis
+      keyConvertor: fastjson
+      valueEncoder: kryo
+      valueDecoder: kryo
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}

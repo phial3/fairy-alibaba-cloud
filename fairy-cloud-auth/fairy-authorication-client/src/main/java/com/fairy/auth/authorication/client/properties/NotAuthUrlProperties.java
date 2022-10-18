@@ -1,10 +1,12 @@
-package com.fairy.cloud.gateway.properties;
+package com.fairy.auth.authorication.client.properties;
 
 
+import com.google.common.collect.Lists;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 
 
@@ -16,5 +18,5 @@ import java.util.LinkedHashSet;
 @ConfigurationProperties("cloud.gateway")
 public class NotAuthUrlProperties {
 
-    private LinkedHashSet<String> shouldSkipUrls;
+    private LinkedHashSet<String> shouldSkipUrls =new LinkedHashSet<String>(Lists.newArrayList("/oauth"));
 }

@@ -1,4 +1,4 @@
-package com.fairy.cloud.gateway.exception;
+package com.fairy.cloud.gateway.exception.gateway;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -11,11 +11,12 @@ import org.springframework.web.reactive.result.view.ViewResolver;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author 鹿少年
- * @date 2022/7/30 12:17
- */
-@Configuration
+///**
+// * @author 鹿少年
+// * @date 2022/7/30 12:17
+// */
+//@Configuration
+@Deprecated
 public class GloablException {
 
     @Bean

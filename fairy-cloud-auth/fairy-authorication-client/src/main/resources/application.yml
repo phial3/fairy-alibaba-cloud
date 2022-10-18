@@ -1,9 +1,4 @@
-server:
-  port: 8082
-
 spring:
-  application:
-    name: authorication-client
   security:
     oauth2:
       jwt:
@@ -51,10 +46,15 @@ spring:
     allow-bean-definition-overriding: true
   mvc:
     throw-exception-if-no-handler-found: true
-gate:
-  ignore:
-    authentication:
-      startWith: /oauth,/open
+cloud:
+  gateway:
+    shouldSkipUrls:
+      - /oauth/
+      - /sso/
+      - /home/
+      - /static/qrcode/
+      - /open/
+      - /v2/api-docs
 
 mybatis-plus:
   mapper-locations:

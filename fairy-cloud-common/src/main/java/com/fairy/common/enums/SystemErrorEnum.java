@@ -20,8 +20,8 @@ public enum  SystemErrorEnum implements ErrorType{
     INVALID_TOKEN("010405", "无效token"),
     UPLOAD_FILE_SIZE_LIMIT("010301", "上传文件大小超过限制"),
 
-    DUPLICATE_PRIMARY_KEY("010500","唯一键冲突");
-
+    DUPLICATE_PRIMARY_KEY("010500","唯一键冲突"),
+    GATEWAY_SYSTEM_BUSY("010501","网关服务异常");
     ;
 
 

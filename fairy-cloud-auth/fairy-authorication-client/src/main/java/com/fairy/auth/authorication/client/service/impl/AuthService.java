@@ -1,5 +1,6 @@
 package com.fairy.auth.authorication.client.service.impl;
 
+import com.fairy.auth.authorication.client.properties.NotAuthUrlProperties;
 import com.fairy.auth.authorication.client.provider.AuthProvider;
 import com.fairy.auth.authorication.client.service.IAuthService;
 import com.fairy.common.entity.dto.PermissionDTO;
@@ -34,8 +35,8 @@ public class AuthService implements IAuthService {
      * 不需要网关签权的url配置(/oauth,/open)
      * 默认/oauth开头是不需要的
      */
-    @Value("${gate.ignore.authentication.startWith}")
-    private String ignoreUrls = "/oauth";
+    @Autowired
+    private NotAuthUrlProperties notAuthUrlProperties;
 
     @Override
     public Result dataAuthenticate(String authentication, String groupCode, PermissionDTO permissionDTO) {
@@ -49,7 +50,7 @@ public class AuthService implements IAuthService {
 
     @Override
     public boolean ignoreAuthentication(String url) {
-        return Stream.of(this.ignoreUrls.split(",")).anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+        return notAuthUrlProperties.getShouldSkipUrls().stream().anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
     }
 
     @Override

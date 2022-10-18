@@ -23,39 +23,39 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="fairy-alibaba-cloud" target="1.5" />
+      <module name="fairy-alibaba-cloud" target="1.8" />
       <module name="fairy-auth-server" target="1.8" />
       <module name="fairy-authentication-server" target="1.8" />
-      <module name="fairy-authorication-client" target="1.5" />
-      <module name="fairy-authorication-server" target="1.5" />
-      <module name="fairy-authorization-server" target="1.5" />
-      <module name="fairy-cloud-api" target="1.5" />
-      <module name="fairy-cloud-auth" target="1.5" />
-      <module name="fairy-cloud-common" target="1.5" />
-      <module name="fairy-cloud-gateway" target="1.5" />
-      <module name="fairy-cloud-mbg" target="1.5" />
-      <module name="fairy-cloud-order" target="1.5" />
-      <module name="fairy-cloud-product" target="1.5" />
-      <module name="fairy-cloud-search" target="1.5" />
-      <module name="fairy-cloud-stock" target="1.5" />
+      <module name="fairy-authorication-client" target="1.8" />
+      <module name="fairy-authorication-server" target="1.8" />
+      <module name="fairy-authorization-server" target="1.8" />
+      <module name="fairy-cloud-api" target="1.8" />
+      <module name="fairy-cloud-auth" target="1.8" />
+      <module name="fairy-cloud-common" target="1.8" />
+      <module name="fairy-cloud-gateway" target="1.8" />
+      <module name="fairy-cloud-mbg" target="1.8" />
+      <module name="fairy-cloud-order" target="1.8" />
+      <module name="fairy-cloud-product" target="1.8" />
+      <module name="fairy-cloud-search" target="1.8" />
+      <module name="fairy-cloud-stock" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="fairy-auth-server" options="-parameters" />
       <module name="fairy-authentication-server" options="-parameters" />
-      <module name="fairy-authorication-client" options="" />
-      <module name="fairy-authorication-server" options="" />
-      <module name="fairy-authorization-server" options="" />
-      <module name="fairy-cloud-api" options="" />
+      <module name="fairy-authorication-client" options="-parameters" />
+      <module name="fairy-authorication-server" options="-parameters" />
+      <module name="fairy-authorization-server" options="-parameters" />
+      <module name="fairy-cloud-api" options="-parameters" />
       <module name="fairy-cloud-auth" options="" />
-      <module name="fairy-cloud-common" options="" />
-      <module name="fairy-cloud-gateway" options="" />
-      <module name="fairy-cloud-mbg" options="" />
-      <module name="fairy-cloud-order" options="" />
-      <module name="fairy-cloud-product" options="" />
-      <module name="fairy-cloud-search" options="" />
-      <module name="fairy-cloud-stock" options="" />
+      <module name="fairy-cloud-common" options="-parameters" />
+      <module name="fairy-cloud-gateway" options="-parameters" />
+      <module name="fairy-cloud-mbg" options="-parameters" />
+      <module name="fairy-cloud-order" options="-parameters" />
+      <module name="fairy-cloud-product" options="-parameters" />
+      <module name="fairy-cloud-search" options="-parameters" />
+      <module name="fairy-cloud-stock" options="-parameters" />
     </option>
   </component>
 </project>

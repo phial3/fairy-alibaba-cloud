@@ -1,5 +1,6 @@
 package com.fairy.cloud.gateway.config;
 
+import com.fairy.cloud.gateway.listenner.BusReceiver;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;

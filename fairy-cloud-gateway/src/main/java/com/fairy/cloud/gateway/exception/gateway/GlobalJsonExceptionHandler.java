@@ -1,7 +1,7 @@
-package com.fairy.cloud.gateway.exception;
+package com.fairy.cloud.gateway.exception.gateway;
 
-import com.fairy.cloud.gateway.common.GateWayResult;
 import com.fairy.common.exception.GateWayException;
+import com.fairy.common.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.support.NotFoundException;
@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,10 +29,9 @@ import java.util.List;
  * @author 鹿少年
  * @date 2022/7/30 12:13
  */
+@Deprecated
 @Slf4j
 public class GlobalJsonExceptionHandler implements ErrorWebExceptionHandler {
-
-
     /**
      * MessageReader
      */
@@ -50,7 +50,7 @@ public class GlobalJsonExceptionHandler implements ErrorWebExceptionHandler {
     /**
      * 存储处理异常后的信息
      */
-    private ThreadLocal<GateWayResult> exceptionHandlerResult = new ThreadLocal<>();
+    private ThreadLocal<Result> exceptionHandlerResult = new ThreadLocal<>();
 
     /**
      * 参考AbstractErrorWebExceptionHandler
@@ -94,10 +94,11 @@ public class GlobalJsonExceptionHandler implements ErrorWebExceptionHandler {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             body = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
-        GateWayResult  result = new GateWayResult();
-        result.setBody(body);
-        result.setCode(httpStatus.value());
-        result.setSuccuess(false);
+        Result  result = new Result();
+        result.setData(body);
+        result.setCode(String.valueOf(httpStatus.value()));
+        result.setSuccess(false);
+        result.setTime(Instant.now());
         result.setMsg(ex.getMessage());
         //错误记录
         ServerHttpRequest request = exchange.getRequest();
@@ -119,7 +120,7 @@ public class GlobalJsonExceptionHandler implements ErrorWebExceptionHandler {
      * 参考DefaultErrorWebExceptionHandler
      */
     protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
-       GateWayResult result = exceptionHandlerResult.get();
+       Result result = exceptionHandlerResult.get();
         return ServerResponse.status( HttpStatus.valueOf(Integer.valueOf(result.getCode())))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(BodyInserters.fromObject(result));
