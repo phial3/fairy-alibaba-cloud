@@ -9,6 +9,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/fairy-authorication-client/pom.xml" />
+        <option value="$PROJECT_DIR$/fairy-cloud-auth/fairy-authorication-provider/pom.xml" />
         <option value="$PROJECT_DIR$/fairy-cloud-auth/untitled/pom.xml" />
       </set>
     </option>

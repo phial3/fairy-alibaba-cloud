@@ -1,0 +1,58 @@
+spring:
+  redis:
+    database: 0
+    password:
+    host: node01
+    port: 63379
+    lettuce:
+      cluster:
+        refresh:
+          adaptive: true
+      pool:
+        max-active: 300
+  rabbitmq:
+    host: node02
+    port: 5672
+    username: admin
+    password: root
+    publisher-confirm-type: correlated
+    virtual-host: /rabbitmq
+    listener:
+      simple:
+        prefetch: 100
+        concurrency: 5
+        max-concurrency: 10
+        acknowledge-mode: manual
+        retry:
+          max-attempts:3
+  zipkin:
+    enabled: true
+    sender:
+      type: rabbit
+  sleuth:
+    enabled: true
+      http:
+        legacy:
+          enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.alibaba.cloud.nacos.client: ERROR
+    com.fairy.cloud.mbg.mapper: DEBUG
+  config: classpath:logback.xml
+
+cloud:
+  gateway:
+    shouldSkipUrls:
+      - /auth/oauth/**
+      - /sso/**
+      - /home/**
+      - /static/qrcode/**
