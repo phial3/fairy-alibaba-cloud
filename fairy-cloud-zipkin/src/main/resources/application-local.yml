@@ -19,7 +19,7 @@ spring:
       type: rabbit
     base-url: http://node02:9411/  # zipkin服务器地址
     rabbitmq:
-      addresses: http://node02:5672
+      addresses: node02:5672
       queue: zipkin
     service:
       name: ${spring.application.name}
