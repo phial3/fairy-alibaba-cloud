@@ -4,7 +4,7 @@ github地址： [https://github.com/openzipkin/zipkin](https://github.com/openzi
 
 maven: 仓库地址： [https://mvnrepository.com/artifact/io.zipkin.java/zipkin](https://mvnrepository.com/artifact/io.zipkin.java/zipkin)  下载后缀为-exec 可执行的jar包
 
-zipKin访问： http://ip//9411/zipkin
+zipKin访问： http://ip//9411/zipkin   下载zipkin jar包： [https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)
 
 使用mysl存储数据：
 [https://github.com/openzipkin/zipkin/blob/master/zipkin-server/src/main/resources/zipkin-server-shared.yml](https://github.com/openzipkin/zipkin/blob/master/zipkin-server/src/main/resources/zipkin-server-shared.yml)
@@ -50,3 +50,9 @@ ES作为存储方式
 java -jar zipkin-server-2.9.4-exec.jar --zipkin.collector.rabbitmq.addresses=localhost  --STORAGE_TYPE=elasticsearch --ES_HOSTS=http://127.0.0.1:9200
 
 ```
+
+
+```
+java -jar zipkin-server-2.23.19-exec.jar --zipkin.collector.rabbitmq.addresses=node02:5672 --zipkin.collector.rabbitmq.password=admin 	--zipkin.collector.rabbitmq.username=admin --zipkin.collector.rabbitmq.virtual-host=/rabbitmq --STORAGE_TYPE=elasticsearch --ES_HOSTS=http://node02:9200
+```
+
