@@ -90,7 +90,6 @@ logging:
     com.springboot.cloud: debug
     org.springframework.web: debug
     org.springframework.security: debug
-  config: classpath:logback.xml
 
 management:
   endpoints:

@@ -16,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-product/fairy-cloud-product.iml" filepath="$PROJECT_DIR$/fairy-cloud-product/fairy-cloud-product.iml" />
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-search/fairy-cloud-search.iml" filepath="$PROJECT_DIR$/fairy-cloud-search/fairy-cloud-search.iml" />
       <module fileurl="file://$PROJECT_DIR$/fairy-cloud-stock/fairy-cloud-stock.iml" filepath="$PROJECT_DIR$/fairy-cloud-stock/fairy-cloud-stock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fairy-cloud-zipkin/fairy-cloud-zipkin.iml" filepath="$PROJECT_DIR$/fairy-cloud-zipkin/fairy-cloud-zipkin.iml" />
     </modules>
   </component>
 </project>

@@ -23,7 +23,6 @@ logging:
   level:
     com.alibaba.cloud.nacos.client: warn
     com.fairy.cloud.mbg.mapper: DEBUG
-  config: classpath:logback.xml
 
 management:
   endpoints:

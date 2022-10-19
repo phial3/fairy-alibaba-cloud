@@ -28,5 +28,6 @@
         <module>fairy-authorication-client</module>
         <module>fairy-cloud-auth/untitled</module>
         <module>fairy-cloud-resource</module>
+        <module>fairy-cloud-zipkin</module>
     </modules>
 </project>

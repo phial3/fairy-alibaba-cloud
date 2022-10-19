@@ -9,9 +9,12 @@ spring:
     port: ${RABBIT_MQ_PORT:5672}
     username: ${RABBIT_MQ_USERNAME:admin}
     password: ${RABBIT_MQ_PASSWORD:admin}
-    virtual-host: /rabbitmq
+    virtual-host: /
     publisher-confirm-type: correlated
-
+    listener:
+      direct:
+        retry:
+          enabled: true
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -45,19 +48,28 @@ spring:
             multi-statement-allow: true
   ##日志链路追踪
   zipkin:
+    locator:
+      discovery:
+        enabled: true
     enabled: true
     sender:
-      type: rabbit
-    base-url: http://node02:9411/
-    rabbitmq:
-      queue: zipkin
+      type: web
+    base-url: http://localhost:9411/  # zipkin服务器地址
+#    rabbitmq:
+#      queue: zipkin
+#      addresses: http://node02:5672
+    service:
+      name: ${spring.application.name}
+    message-timeout: 5000
+    discovery-client-enabled: false #关闭服务发现 否则springcloud会把zipkin的url当做服务名称
   sleuth:
     scheduled:
       enabled: true
     web:
-      skip-pattern: /health
+      client:
+        enabled: true
     sampler:
-      probability: 1.0
+      probability: 1.0 # 采样频率
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -143,3 +155,4 @@ logging:
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
     org.springframework.security: DEBUG
+    org.springframework.web.servlet.DispatcherServlet: DEBUG

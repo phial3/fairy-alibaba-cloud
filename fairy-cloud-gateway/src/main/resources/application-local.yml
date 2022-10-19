@@ -3,6 +3,7 @@ spring:
     database: 0
     host: node01
     port: 63379
+    password:
   rabbitmq:
     host: node02
     port: 5672
@@ -36,7 +37,6 @@ logging:
   level:
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
-  config: classpath:logback.xml
   file:
     max-size: 1GB
 
