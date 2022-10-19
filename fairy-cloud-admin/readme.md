@@ -22,3 +22,31 @@ zipKin官网调用链路图：
 
 ![输入图片说明](../images/zipkin/%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8image.png)
 
+rabbitMq存储
+```
+java -jar zipkin-server-2.17.0-exec.jar --zipkin.collector.rabbitmq.addresses=localhost --zipkin.collector.rabbitmq.username=admin--zipkin.collector.rabbitmq.password=admin
+```
+可配置的环境变量参考表
+
+|  属性 | 环境变量  |  描述 |
+|---|---|---|
+| zipkin.collector.rabbitmq.concurrency  | RABBIT_CONCURRENCY  |  并发消费者数量，默认为 1 |
+| zipkin.collector.rabbitmq.connection-timeout | RABBIT_CONNECTION_TIMEOUT |  建立连接时的超时时间，默认为 60000 毫秒，即 1 分钟|
+| zipkin.collector.rabbitmq.queue| RABBIT_QUEUE	 |  从中获取 span 信息的队列，默认为 zipkin|
+| zipkin.collector.rabbitmq.uri	 | RABBIT_URI | 符合 RabbitMQ URI 规范 的 URI，例如 amqp://user:pass@host:10000/vhost|
+如果设置了URL，则以下属性将被忽略
+|  属性 | 环境变量  |  描述 |
+|---|---|---|
+| zipkin.collector.rabbitmq.addresses| RABBIT_ADDRESSES	|  用逗号分隔的 RabbitMQ 地址列表，例如 localhost:5672,localhost:5673|
+| zipkin.collector.rabbitmq.password| RABBIT_PASSWORD |  连接到 RabbitMQ 时使用的密码，默认为 guest|
+| zipkin.collector.rabbitmq.username| RABBIT_USER|  连接到 RabbitMQ 时使用的用户名，默认为 guest|
+| zipkin.collector.rabbitmq.virtual-host | RABBIT_VIRTUAL_HOST| 使用的 RabbitMQ virtual host，默认为 /|
+| zipkin.collector.rabbitmq.use-ssl|RABBIT_USE_SSL|设置为 true 则用 SSL 的方式与 RabbitMQ 建立链接|
+
+
+
+ES作为存储方式
+```
+java -jar zipkin-server-2.9.4-exec.jar --zipkin.collector.rabbitmq.addresses=localhost  --STORAGE_TYPE=elasticsearch --ES_HOSTS=http://127.0.0.1:9200
+
+```
