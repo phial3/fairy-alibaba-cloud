@@ -9,12 +9,14 @@ zipKin访问： http://ip//9411/zipkin   下载zipkin jar包： [https://search.
 使用mysl存储数据：
 [https://github.com/openzipkin/zipkin/blob/master/zipkin-server/src/main/resources/zipkin-server-shared.yml](https://github.com/openzipkin/zipkin/blob/master/zipkin-server/src/main/resources/zipkin-server-shared.yml)
 
+建表语句： [https://github.com/openzipkin/zipkin/blob/master/zipkin-storage/mysql-v1/src/main/resources/mysql.sql](https://github.com/openzipkin/zipkin/blob/master/zipkin-storage/mysql-v1/src/main/resources/mysql.sql)
+
 SQL 语句：
 
 ```
 zipkin jar里的sql文件
 执行
-java -jar zipkin-server-*.*.*-exec.jar --STORAGE_TYPE=mysql --MYSQL_HOST=127.0.0.1 --MYSQL_DB=zipkin --MYSQL_USER=root--MYSQL_PASS=root
+java -jar zipkin-server-*.*.*-exec.jar --STORAGE_TYPE=mysql --MYSQL_HOST=127.0.0.1 --MYSQL_DB=zipkin --MYSQL_USER=root--MYSQL_PASS=root  --MYSQL_TCP_PORT=33306 
 ```
 
 
