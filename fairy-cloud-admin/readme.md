@@ -62,3 +62,6 @@ java -jar zipkin-server-2.23.19-exec.jar --zipkin.collector.rabbitmq.addresses=n
 ![输入图片说明](../images/zipkin/%E9%93%BE%E8%B7%AF%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3image.png)
 
 
+ kibana展示 ES存储的zipkin收集数据
+
+![输入图片说明](../images/zipkin/kibana%E5%B1%95%E7%A4%BAES%E5%AD%98%E5%82%A8%E7%9A%84zipkin%E6%94%B6%E9%9B%86%E6%95%B0%E6%8D%AEimage.png)
