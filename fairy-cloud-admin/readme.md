@@ -16,7 +16,7 @@ SQL 语句：
 ```
 zipkin jar里的sql文件
 执行
-java -jar zipkin-server-*.*.*-exec.jar --STORAGE_TYPE=mysql --MYSQL_HOST=127.0.0.1 --MYSQL_DB=zipkin --MYSQL_USER=root--MYSQL_PASS=root  --MYSQL_TCP_PORT=33306 
+java -jar zipkin-server-2.23.19-exec.jar   --STORAGE_TYPE=mysql --MYSQL_HOST=node01 --MYSQL_DB=zipkin --MYSQL_USER=root --MYSQL_PASS=root  --MYSQL_TCP_PORT=33306 
 ```
 
 
@@ -24,9 +24,9 @@ zipKin官网调用链路图：
 
 ![输入图片说明](../images/zipkin/%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8image.png)
 
-rabbitMq存储
+rabbitMq 发送数据
 ```
-java -jar zipkin-server-2.17.0-exec.jar --zipkin.collector.rabbitmq.addresses=localhost --zipkin.collector.rabbitmq.username=admin--zipkin.collector.rabbitmq.password=admin
+java -jar zipkin-server-2.23.19-exec.jar   --zipkin.collector.rabbitmq.addresses=localhost --zipkin.collector.rabbitmq.username=admin--zipkin.collector.rabbitmq.password=admin
 ```
 可配置的环境变量参考表
 
@@ -45,6 +45,11 @@ java -jar zipkin-server-2.17.0-exec.jar --zipkin.collector.rabbitmq.addresses=lo
 | zipkin.collector.rabbitmq.virtual-host | RABBIT_VIRTUAL_HOST| 使用的 RabbitMQ virtual host，默认为 /|
 | zipkin.collector.rabbitmq.use-ssl|RABBIT_USE_SSL|设置为 true 则用 SSL 的方式与 RabbitMQ 建立链接|
 
+直接启动 以web方式
+
+```
+java -jar zipkin-server-2.23.19-exec.jar
+```
 
 
 ES作为存储方式
@@ -57,4 +62,8 @@ java -jar zipkin-server-2.9.4-exec.jar --zipkin.collector.rabbitmq.addresses=loc
 ```
 java -jar zipkin-server-2.23.19-exec.jar --zipkin.collector.rabbitmq.addresses=node02:5672 --zipkin.collector.rabbitmq.password=admin 	--zipkin.collector.rabbitmq.username=admin --zipkin.collector.rabbitmq.virtual-host=/rabbitmq --STORAGE_TYPE=elasticsearch --ES_HOSTS=http://node02:9200
 ```
+调用接口，查看链路
+
+![输入图片说明](../images/zipkin/%E9%93%BE%E8%B7%AF%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3image.png)
+
 
