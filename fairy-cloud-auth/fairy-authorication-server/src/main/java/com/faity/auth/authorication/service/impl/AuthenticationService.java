@@ -56,8 +56,8 @@ public class AuthenticationService implements IAuthenticationService {
         //获取用户认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //判断用户是否有该路径权限
-        User user = (User) authentication.getPrincipal();
-        List<PermissionDTO> permissionDTOS = permissionService.queryByUsername(user.getUsername());
+        String userName = (String) authentication.getPrincipal();
+        List<PermissionDTO> permissionDTOS = permissionService.queryByUsername(userName);
         return  isContainsPermission(permissionDTOS,permissionDTO);
     }
 
