@@ -175,3 +175,17 @@ public SpringConfigProvider springConfigProvider() {
  |
 |jetcache.[local/remote].${area}.limit	| 100|每个缓存实例的最大元素的全局配置，仅local类型的缓存需要指定。注意是每个缓存实例的限制，而不是全部，比如这里指定100，然后用@CreateCache创建了两个缓存实例（并且注解上没有设置localLimit属性），那么每个缓存实例的限制都是100|
 |jetcache.local.${area}.expireAfterAccessInMillis|0|需要jetcache2.2以上，以毫秒为单位，指定多长时间没有访问，就让缓存失效，当前只有本地缓存支持。0表示不使用这个功能。|
+
+**cached注解**
+```
+name
+缓存名称
+key
+缓存key,追加到name后面构成唯一的缓存key, 使用SpEL指定key，如果没有指定会根据所有参数自动生成。
+expire
+缓存失效时间
+cacheType
+缓存的类型，包括CacheType.REMOTE、CacheType.LOCAL、CacheType.BOTH。
+说明：
+CacheType.REMOTE 表示远程缓存 、CacheType.LOCAL 表示本地缓存 、CacheType.BOTH，如果定义为BOTH，会使用LOCAL和REMOTE组合成两级缓存
+```

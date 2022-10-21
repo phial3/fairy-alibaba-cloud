@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,7 +83,7 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    @Cached(name = "permission::user", key = "#username", cacheType = CacheType.BOTH, expire = 5)
+    @Cached(name = "permission::user", key = "#username",expire = 1,timeUnit= TimeUnit.HOURS,cacheType = CacheType.REMOTE)
     public List<PermissionDTO> queryByUsername(String username) {
         return permissionProvider.perimissions(username).getData();
     }

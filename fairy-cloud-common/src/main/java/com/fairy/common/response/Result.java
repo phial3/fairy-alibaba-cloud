@@ -10,7 +10,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 通用结果返回
@@ -31,19 +35,20 @@ public class Result<T> {
     @ApiModelProperty(value = "处理结果描述信息")
     private String msg;
     @ApiModelProperty(value = "请求结果生成时间戳")
-    private Instant time;
+    private Date time;
     @ApiModelProperty(value = "处理结果数据信息")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     public Result() {
-        this.time = ZonedDateTime.now().toInstant();
+        this.time = Calendar.getInstance().getTime();
+
     }
 
     public Result(ErrorType errorType) {
         this.code = errorType.getCode();
         this.msg = errorType.getMsg();
-        this.time = ZonedDateTime.now().toInstant();
+        this.time = Calendar.getInstance().getTime();
     }
 
     public Result(ErrorType errorType, T data) {
@@ -55,7 +60,7 @@ public class Result<T> {
         this.code = code;
         this.msg = msg;
         this.data = data;
-        this.time = ZonedDateTime.now().toInstant();
+        this.time = Calendar.getInstance().getTime();
     }
 
     public static Result success() {

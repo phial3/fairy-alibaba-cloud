@@ -77,7 +77,7 @@ spring:
 jetcache:
   statIntervalMinutes: 15
   areaInCacheName: false
-  hidePackages: com.faity.auth.authorication  # 隐藏包
+  hidePackages: com.faity.auth.authorication.service  # 隐藏包
   local:
     # 短時本地緩存，主要用于要求时效较高的配置
     default:
@@ -96,6 +96,10 @@ jetcache:
       keyConvertor: fastjson
       valueEncoder: java
       valueDecoder: java
+#      type: redis.lettuce #redis
+#      uri:
+#        - redis://redis-node1-t1.yh.test:7001 #redis://密码@IP:端口/库
+#        - redis://redis-node3-t1.yh.test:7001
       poolConfig:
         minIdle: 5
         maxIdle: 20
