@@ -1,4 +1,5 @@
 ## zipkin链路日志
+[sleuth官网](https://docs.spring.io/spring-cloud-sleuth/docs/2.2.8.RELEASE/reference/html/#redis)
 
 github地址： [https://github.com/openzipkin/zipkin](https://github.com/openzipkin/zipkin)
 
@@ -65,3 +66,34 @@ java -jar zipkin-server-2.23.19-exec.jar --zipkin.collector.rabbitmq.addresses=n
  kibana展示 ES存储的zipkin收集数据
 
 ![输入图片说明](../images/zipkin/kibana%E5%B1%95%E7%A4%BAES%E5%AD%98%E5%82%A8%E7%9A%84zipkin%E6%94%B6%E9%9B%86%E6%95%B0%E6%8D%AEimage.png)
+
+
+## zipkin 与 Skywalking比较
+Skywalking与Zipkin的区别：
+
+```
+颗粒度：Skywalking方法级（展示的更详细），方法中所有的调用都展示出来了，如数据库调用、redis调用，第三方网络调用，而Zipkin只能展示接口级
+UI界面：Skywalking完胜，国产开源，更适合国人眼球
+代码侵入性：Skywalking无代码侵入，使用字节码增强技术，在启动服务时使用 javaagent 指向skywalking服务即可收集调用链span信息
+Zipkin：简单、轻量级
+```
+docker安装elasticsearch
+```
+docker run -d -it --name=elasticsearch --net=esnetwork \
+--restart=always \
+-p 9200:9200 \
+-p 9300:9300 \
+-e "discovery.type=single-node" \
+-e ES_JAVA_OPTS="-Xms2g -Xmx2g" \
+-e TZ='Asia/Shanghai' \
+-e LANG="en_US.UTF-8" \
+-v /root/elasticsearch/config/:/usr/share/elasticsearch/config/ \
+-v /root/elasticsearch/data/:/usr/share/elasticsearch/data/ \
+-v /root/elasticsearch/logs/:/usr/share/elasticsearch/logs/ \
+-v /root/elasticsearch/plugins/:/usr/share/elasticsearch/plugins/ \
+-v /etc/localtime:/etc/localtime \
+-v /etc/timezone:/etc/timezone \
+elasticsearch:7.4.2
+```
+
+
