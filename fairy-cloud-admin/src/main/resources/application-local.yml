@@ -5,7 +5,7 @@ spring:
     password:
     database: 0
   rabbitmq:
-    host: ${RABBIT_MQ_HOST:node02}
+    host: ${RABBIT_MQ_HOST:node01}
     port: ${RABBIT_MQ_PORT:5672}
     username: ${RABBIT_MQ_USERNAME:admin}
     password: ${RABBIT_MQ_PASSWORD:admin}
@@ -57,7 +57,7 @@ spring:
     base-url: http://localhost:9411/  # zipkin服务器地址
 #    rabbitmq:
 #      queue: zipkin
-#      addresses: http://node02:5672
+#      addresses: http://node01:5672
     service:
       name: ${spring.application.name}
     message-timeout: 5000

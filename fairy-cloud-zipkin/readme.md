@@ -56,7 +56,7 @@ java -jar zipkin-server-2.23.19-exec.jar
 ES作为存储方式
 
 ```
-java -jar zipkin-server-2.23.19-exec.jar --zipkin.collector.rabbitmq.addresses=node02:5672 --zipkin.collector.rabbitmq.password=admin --zipkin.collector.rabbitmq.username=admin --zipkin.collector.rabbitmq.virtual-host=/rabbitmq --STORAGE_TYPE=elasticsearch --ES_HOSTS=http://node02:9200
+java -jar zipkin-server-2.23.19-exec.jar --zipkin.collector.rabbitmq.addresses=node01:5672 --zipkin.collector.rabbitmq.password=admin --zipkin.collector.rabbitmq.username=admin --zipkin.collector.rabbitmq.virtual-host=/rabbitmq --STORAGE_TYPE=elasticsearch --ES_HOSTS=http://node01:9200
 ```
 调用接口，查看链路
 

@@ -1,6 +1,7 @@
 package com.fairy.auth.authorization.exception;
 
 import com.fairy.common.enums.SystemErrorEnum;
+import com.fairy.common.error.ServiceException;
 import com.fairy.common.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
@@ -42,8 +43,8 @@ public class DefaultGlobalExceptionHandlerAdvice {
         return Result.fail(SystemErrorEnum.DUPLICATE_PRIMARY_KEY);
     }
 
-    @ExceptionHandler(value = {BaseException.class})
-    public Result baseException(BaseException ex) {
+    @ExceptionHandler(value = {ServiceException.class})
+    public Result baseException(ServiceException ex) {
         log.error("base exception:{}", ex.getMessage());
         return Result.fail(ex.getErrorType());
     }

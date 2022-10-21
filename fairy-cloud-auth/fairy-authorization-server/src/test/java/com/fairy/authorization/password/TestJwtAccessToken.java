@@ -1,6 +1,6 @@
 package com.fairy.authorization.password;
 
-import com.fairy.auth.authorization.Oauth2AuthorizationApplication;
+import com.fairy.auth.authorization.AuthorizationServerApp;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -18,7 +18,7 @@ import java.util.Date;
  * @date 2022/10/16 20:20
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = Oauth2AuthorizationApplication.class)
+@SpringBootTest(classes = AuthorizationServerApp.class)
 public class TestJwtAccessToken {
 
     @Value("${spring.security.oauth2.jwt.signingKey}")

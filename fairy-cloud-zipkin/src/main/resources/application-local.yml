@@ -1,6 +1,6 @@
 spring:
   rabbitmq:
-    host: ${RABBIT_MQ_HOST:node02}
+    host: ${RABBIT_MQ_HOST:node01}
     port: ${RABBIT_MQ_PORT:5672}
     username: ${RABBIT_MQ_USERNAME:admin}
     password: ${RABBIT_MQ_PASSWORD:admin}
@@ -17,9 +17,9 @@ spring:
     enabled: true
     sender:
       type: rabbit
-    base-url: http://node02:9411/  # zipkin服务器地址
+    base-url: http://node01:9411/  # zipkin服务器地址
     rabbitmq:
-      addresses: node02:5672
+      addresses: node01:5672
       queue: zipkin
     service:
       name: ${spring.application.name}

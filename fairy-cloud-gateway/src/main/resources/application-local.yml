@@ -5,7 +5,7 @@ spring:
     port: 63379
     password:
   rabbitmq:
-    host: node02
+    host: node01
     port: 5672
     username: admin
     password: admin

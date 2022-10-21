@@ -1,6 +1,9 @@
 package com.faity.auth.authorication.service.impl;
 
 import com.fairy.common.entity.dto.PermissionDTO;
+import com.fairy.common.enums.ErrorType;
+import com.fairy.common.enums.SystemErrorEnum;
+import com.fairy.common.error.ServiceException;
 import com.faity.auth.authorication.common.AuthenticationCommon;
 import com.faity.auth.authorication.service.IAuthenticationService;
 import com.faity.auth.authorication.service.IPermissionService;
@@ -38,6 +41,7 @@ public class AuthenticationService implements IAuthenticationService {
         ConfigAttribute urlConfigAttribute = permissionService.findConfigAttributesByUrl(authRequest);
         if (AuthenticationCommon.NONEXISTENT_URL.equals(urlConfigAttribute.getAttribute())){
             log.debug("url未在资源池中找到，拒绝访问");
+            throw new ServiceException(SystemErrorEnum.SYSTEM_ERROR,"url未在资源池中找到，拒绝访问");
         }
 
         //获取此访问用户所有角色拥有的权限资源

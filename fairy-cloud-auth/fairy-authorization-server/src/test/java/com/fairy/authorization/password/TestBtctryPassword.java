@@ -1,6 +1,6 @@
 package com.fairy.authorization.password;
 
-import com.fairy.auth.authorization.Oauth2AuthorizationApplication;
+import com.fairy.auth.authorization.AuthorizationServerApp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * @date 2022/10/16 18:41
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = Oauth2AuthorizationApplication.class)
+@SpringBootTest(classes = AuthorizationServerApp.class)
 public class TestBtctryPassword {
     @Resource
     private PasswordEncoder passwordEncoder;

@@ -257,7 +257,7 @@ class HttpClientFeignLoadBalancedConfiguration {
 #### SkyGateWay 链路追踪接入
 ```
 -javaagent:C://apache-skywalking//agent//skywalking-agent.jar 
--DSW_AGENT_COLLECTOR_BACKEND_SERVICES=node02:11800
+-DSW_AGENT_COLLECTOR_BACKEND_SERVICES=node01:11800
 -DSW_AGENT_NAME=fairy-cloud-gateway
 ```
 关于链路不显示gateWay官网层的，需要拷贝agent/optional-plugins目录下的gateway插件到agent/plugins目录
@@ -298,7 +298,7 @@ filebeat.inputs:
   multiline.match: after
 #----------------------------- Logstash output --------------------------------
 output.logstash:
-  hosts: ["node02:5044"]
+  hosts: ["node01:5044"]
 ```
 
 logstash解析 fileBeat输入的日志信息
@@ -324,7 +324,7 @@ filter {
 
 output {
     elasticsearch {
-        hosts => ["node02:9200"]
+        hosts => ["node01:9200"]
         index => "fairy-cloud-log" # ES 重建立索引
     }
 }
@@ -419,7 +419,7 @@ output.console:
 
 grok分析日志链接
 
-http://node02:5601/app/kibana#/dev_tools/grokdebugger?_g=(refreshInterval:(pause:!t,value:0),time:(from:now%2Fd,mode:quick,to:now%2Fd))
+http://node01:5601/app/kibana#/dev_tools/grokdebugger?_g=(refreshInterval:(pause:!t,value:0),time:(from:now%2Fd,mode:quick,to:now%2Fd))
 
 翻墙链接：
 
@@ -429,11 +429,11 @@ http://grokconstructor.appspot.com/
 
 ### Kibana展示查看
 打开kibana页面
-http://node02:5601/app/kibana#/home
-进入manager http://node02:5601/app/kibana#/management?_g=() 新建一个index Patterns
+http://node01:5601/app/kibana#/home
+进入manager http://node01:5601/app/kibana#/management?_g=() 新建一个index Patterns
 ![输入图片说明](images/kibana-index-patterns-1image.png)
 
-打开 Discover  http://node02:5601/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:d0bbde80-1afb-11ed-ba40-6375c3d223b8,interval:auto,query:(language:kuery,query:''),sort:!(!(_score,desc)))
+打开 Discover  http://node01:5601/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:d0bbde80-1afb-11ed-ba40-6375c3d223b8,interval:auto,query:(language:kuery,query:''),sort:!(!(_score,desc)))
 ![输入图片说明](images/kibana-index-discover-1image.png)
 
 根据条件进行筛选：

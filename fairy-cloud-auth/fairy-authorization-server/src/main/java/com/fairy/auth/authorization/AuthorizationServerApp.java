@@ -9,9 +9,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @date 2022/10/13 23:52
  */
 @SpringBootApplication
-public class Oauth2AuthorizationApplication {
+public class AuthorizationServerApp {
     public static void main(String[] args) {
-        SpringApplication.run(Oauth2AuthorizationApplication.class, args);
+        SpringApplication.run(AuthorizationServerApp.class, args);
     }
 }
 

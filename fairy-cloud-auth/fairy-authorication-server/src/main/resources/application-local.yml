@@ -1,10 +1,10 @@
 spring:
   rabbitmq:
-    host: ${RABBIT_MQ_HOST:node02}
+    host: ${RABBIT_MQ_HOST:node01}
     port: ${RABBIT_MQ_PORT:5672}
     username: ${RABBIT_MQ_USERNAME:admin}
     password: ${RABBIT_MQ_PASSWORD:admin}
-    virtual-host: /rabbitmq
+    virtual-host: /
     publisher-confirm-type: correlated
 #    listener:
 #      simple:
@@ -55,9 +55,10 @@ spring:
     enabled: true
     sender:
       type: rabbit
-    base-url: http://node02:9411/
+    base-url: http://node01:9411/
     rabbitmq:
       queue: zipkin
+      addresses: node01:5672
   sleuth:
     scheduled:
       enabled: true
