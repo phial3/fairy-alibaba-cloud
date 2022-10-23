@@ -1,7 +1,6 @@
 package com.fairy.cloud.gateway.filter;
 
-import com.fairy.auth.authorication.client.service.IAuthService;
-import com.fairy.cloud.gateway.service.IResourceService;
+import com.fairy.cloud.gateway.provider.AuthFeign;
 import com.fairy.common.enums.AuthErrorEnum;
 import com.fairy.common.error.ServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,10 +33,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
     private static final String X_CLIENT_TOKEN = "x-client-token";
 
     @Autowired
-    private IAuthService authService;
-
-    @Autowired
-    private IResourceService resourceService;
+    private AuthFeign authFeign;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -47,7 +43,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
         String currentUrl = request.getPath().value();
         log.debug("url:{},method:{},headers:{}", currentUrl, method, request.getHeaders());
         //1:不需要认证的url
-        if (authService.ignoreAuthentication(currentUrl)) {
+        if (authFeign.auhenticationUrl(currentUrl).getData()) {
             return chain.filter(exchange);
         }
         log.info("需要认证的URL:{}", currentUrl);
@@ -56,7 +52,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
             throw new ServiceException(AuthErrorEnum.AUTHORIZATION_HEADER_IS_EMPTY);
         }
         //调用签权服务看用户是否有权限，若有权限进入下一个filter
-        if (resourceService.permission(authentication, currentUrl, method)) {
+        if (authFeign.hasPermission(authentication, currentUrl, method).getData()) {
             ServerHttpRequest.Builder builder = request.mutate();
             //TODO 转发的请求都加上服务间认证token
             builder.header(X_CLIENT_TOKEN, "");
@@ -77,7 +73,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
     private String getUserToken(String authentication) {
         String token = "{}";
         try {
-            token = new ObjectMapper().writeValueAsString(authService.getJwt(authentication).getBody());
+            token = new ObjectMapper().writeValueAsString(authFeign.getJwt(authentication).getData().getBody());
             return token;
         } catch (JsonProcessingException e) {
             log.error("token json error:{}", e.getMessage());

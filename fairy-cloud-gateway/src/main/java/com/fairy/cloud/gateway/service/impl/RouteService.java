@@ -1,25 +1,15 @@
 package com.fairy.cloud.gateway.service.impl;
 
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
+import com.fairy.cloud.gateway.config.LocalCache;
 import com.fairy.cloud.gateway.service.IRouteService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import javax.annotation.PostConstruct;
-import java.net.URI;
-import java.net.URISyntaxException;
+import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -27,13 +17,13 @@ public class RouteService implements IRouteService {
 
     private static final String GATEWAY_ROUTES = "gateway_routes::";
 
+    @Resource
+    private LocalCache cache;
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @CreateCache(name = GATEWAY_ROUTES, cacheType = CacheType.REMOTE)
-    private Cache<String, RouteDefinition> gatewayRouteCache;
 
-    private Map<String, RouteDefinition> routeDefinitionMaps = new HashMap<>();
 
 //    @PostConstruct
 //    private void loadRouteDefinition() {
@@ -63,20 +53,20 @@ public class RouteService implements IRouteService {
 
     @Override
     public Collection<RouteDefinition> getRouteDefinitions() {
-        return routeDefinitionMaps.values();
+        return cache.getRouteMaps();
     }
 
     @Override
     public boolean save(RouteDefinition routeDefinition) {
-        routeDefinitionMaps.put(routeDefinition.getId(), routeDefinition);
-        log.info("新增路由1条：{},目前路由共{}条", routeDefinition, routeDefinitionMaps.size());
+        cache.put(routeDefinition.getId(), routeDefinition);
+        log.info("新增路由1条：{},目前路由共{}条", routeDefinition, cache.getRouteMaps().size());
         return true;
     }
 
     @Override
     public boolean delete(String routeId) {
-        routeDefinitionMaps.remove(routeId);
-        log.info("删除路由1条：{},目前路由共{}条", routeId, routeDefinitionMaps.size());
+        cache.remove(routeId);
+        log.info("删除路由1条：{},目前路由共{}条", routeId, cache.getRouteMaps().size());
         return true;
     }
 }

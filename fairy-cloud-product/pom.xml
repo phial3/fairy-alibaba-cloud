@@ -70,6 +70,11 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fairy</groupId>
+            <artifactId>fairy-cloud-common</artifactId>
+            <version>1.0</version>
+        </dependency>
 
         <!-- zookeeper依赖 -->
         <dependency>

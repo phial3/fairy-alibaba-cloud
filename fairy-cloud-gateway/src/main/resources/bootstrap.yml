@@ -15,7 +15,7 @@ spring:
     sentinel:
       transport:
         port: 8720
-        dashboard: node01:8084
+        dashboard: node01:8858
       datasource:
         # 名称随意
         gw-flow:
@@ -46,16 +46,16 @@ spring:
           max-idle-time: 10000
       discovery:
         locator:
-          lower-case-service-id: true
+          lower-case-service-id: true  #小写
           enabled: true
       enabled: true
       routes:
-        - id: fairy-cloud-auth
-          uri: lb://fairy-cloud-auth
+        - id: authorization-server,authorication-server,authorication-client,authorication-admin
+          uri: lb://auth
           predicates:
             - Path=/auth/**
-#          filters:
-#            - StripPrefix=1
+          filters:
+            - StripPrefix=1
         - id: fairy-cloud-member
           uri: lb://fairy-cloud-member
           predicates:

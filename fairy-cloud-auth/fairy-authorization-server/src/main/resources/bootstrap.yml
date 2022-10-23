@@ -23,3 +23,19 @@ spring:
 #          data-id: com.fairy.nacos.extension01.yaml
 #          group: fairy-nacos
 #          refresh: true
+
+    sentinel:
+      transport:
+        port: 8720
+        dashboard: node01:8858
+
+
+feign:
+  sentinel:
+    enabled: true
+
+#restTemplate整合sentinel
+#是否开启@SentinelRestTemplate注解
+resttemplate:
+  sentinel:
+    enabled: true

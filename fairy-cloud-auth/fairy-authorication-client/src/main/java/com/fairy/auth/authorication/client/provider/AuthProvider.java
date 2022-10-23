@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Component
-@FeignClient(name = "fairy-authorication", path = "",fallback = AuthProvider.AuthProviderFallback.class)
+@FeignClient(name = "authorication-server", path = "/auth",fallback = AuthProvider.AuthProviderFallback.class)
 public interface AuthProvider {
     /**
      * 调用签权服务，判断用户是否有权限

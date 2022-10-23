@@ -156,3 +156,5 @@ logging:
     com.fairy.cloud.mbg.mapper: DEBUG
     org.springframework.security: DEBUG
     org.springframework.web.servlet.DispatcherServlet: DEBUG
+swagger:
+  enable: true
