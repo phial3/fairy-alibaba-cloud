@@ -35,7 +35,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(value = "/auth/url")
-    public Result<Boolean> auhenticationUrl(@RequestParam("url") String url) {
+    public Result<Boolean> authenticationIsIngronal(@RequestParam("url") String url) {
         boolean rs = authService.ignoreAuthentication(url);
         return Result.success(rs);
     }

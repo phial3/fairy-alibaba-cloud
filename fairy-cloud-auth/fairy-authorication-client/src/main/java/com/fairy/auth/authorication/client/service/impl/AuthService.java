@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Stream;
-
 @Service
 @Slf4j
 public class AuthService implements IAuthService {
@@ -40,7 +38,7 @@ public class AuthService implements IAuthService {
 
     @Override
     public Result dataAuthenticate(String authentication, String groupCode, PermissionDTO permissionDTO) {
-        return authProvider.dataAuth(authentication,permissionDTO);
+        return authProvider.dataAuth(authentication, permissionDTO);
     }
 
     @Override
@@ -50,7 +48,8 @@ public class AuthService implements IAuthService {
 
     @Override
     public boolean ignoreAuthentication(String url) {
-        return notAuthUrlProperties.getShouldSkipUrls().stream().anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+        Boolean rs = notAuthUrlProperties.getShouldSkipUrls().stream().anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+        return rs;
     }
 
     @Override
