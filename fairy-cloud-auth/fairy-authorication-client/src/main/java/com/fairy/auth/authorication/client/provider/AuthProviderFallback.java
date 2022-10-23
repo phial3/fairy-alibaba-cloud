@@ -6,10 +6,11 @@ import com.fairy.common.response.Result;
 import org.springframework.stereotype.Component;
 
 /**
+ * 必须交给spring 管理
  * @author 鹿少年
  * @date 2022/10/23 12:36
  */
-@Component   //必须交给spring 管理
+//@Component
 public class AuthProviderFallback implements AuthProvider {
 
     @Override

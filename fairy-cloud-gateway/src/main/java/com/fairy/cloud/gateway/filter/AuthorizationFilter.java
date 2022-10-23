@@ -1,5 +1,6 @@
 package com.fairy.cloud.gateway.filter;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.fairy.cloud.gateway.properties.NotAuthUrlProperties;
 import com.fairy.cloud.mbg.mapper.UmsPermissionMapper;
 import com.fairy.common.entity.dto.PermissionDTO;
@@ -21,11 +22,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 认证过滤器,根据url判断用户请求是要经过认证 才能访问
@@ -43,6 +49,9 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
     private NotAuthUrlProperties properties;
     @Autowired
     private UmsPermissionMapper permissionMapper;
+
+    private AntPathMatcher pathMatcher = new AntPathMatcher();
+
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -84,10 +93,14 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
             return Boolean.FALSE;
         }
         //从认证服务获取是否有权限,远程调用
-        String userName = Objects.isNull(getJwt(authentication).get("user_name"))?"":String.valueOf(getJwt(authentication).get("user_name"));
+        String userName = Objects.isNull(getJwt(authentication).get("user_name")) ? "" : String.valueOf(getJwt(authentication).get("user_name"));
         //根据用户名查询用户私服有该权限
-        PermissionDTO permissionDTO = permissionMapper.selectPermissionByUserNameAndUrlMethod(userName, url, method);
-        if (Objects.isNull(permissionDTO)) {
+        List<PermissionDTO> permissionDTOS = permissionMapper.selectPermissionByUserNameAndMethod(userName, method);
+        Set<PermissionDTO> sets = Optional.ofNullable(permissionDTOS).get().stream().filter(permissionDTO -> {
+            String permissionDTOUrl = permissionDTO.getUrl();
+            return permissionDTOUrl.equalsIgnoreCase(url) || pathMatcher.match(permissionDTOUrl, url);
+        }).collect(Collectors.toSet());
+        if (CollectionUtil.isEmpty(sets)) {
             return false;
         }
         return true;
@@ -97,7 +110,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
     private boolean invalidJwtAccessToken(String jwtToken) {
         boolean invalid = Boolean.TRUE;
         try {
-             getJwt(jwtToken);
+            getJwt(jwtToken);
             invalid = Boolean.FALSE;
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException ex) {
             log.error("user token error :{}", ex.getMessage());

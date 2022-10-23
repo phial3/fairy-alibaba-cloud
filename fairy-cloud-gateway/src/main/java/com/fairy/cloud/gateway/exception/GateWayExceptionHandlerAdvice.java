@@ -1,5 +1,6 @@
 package com.fairy.cloud.gateway.exception;
 
+import com.fairy.common.enums.ServiceErrorEnum;
 import com.fairy.common.enums.SystemErrorEnum;
 import com.fairy.common.error.ServiceException;
 import com.fairy.common.response.Result;
@@ -45,6 +46,7 @@ public class GateWayExceptionHandlerAdvice {
         log.error("SignatureException:{}", ex.getMessage());
         return Result.fail(SystemErrorEnum.INVALID_TOKEN);
     }
+
     @ExceptionHandler(value = {ExpiredJwtException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Result handle(ExpiredJwtException ex) {
@@ -63,39 +65,41 @@ public class GateWayExceptionHandlerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result handle(RuntimeException ex) {
         log.error("runtime exception:{}", ex.getMessage());
-        return Result.fail();
+        return Result.fail(ServiceErrorEnum.SERVICE_ERROR);
     }
 
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result handle(Exception ex) {
         log.error("exception:{}", ex.getMessage());
-        return Result.fail();
+        return Result.fail(SystemErrorEnum.SYSTEM_ERROR);
     }
 
     @ExceptionHandler(value = {ServiceException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result handle(ServiceException ex) {
-        log.error("gateway 网关异常,msg:{}",ex.getMessage());
+        log.error("服务异常,msg:{}", ex.getMessage());
         return Result.fail(ex);
     }
 
     @ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result handle(Throwable throwable) {
-        Result result = Result.fail();
         if (throwable instanceof ResponseStatusException) {
-            result = handle((ResponseStatusException) throwable);
+            return handle((ResponseStatusException) throwable);
         } else if (throwable instanceof ConnectTimeoutException) {
-            result = handle((ConnectTimeoutException) throwable);
+            return handle((ConnectTimeoutException) throwable);
         } else if (throwable instanceof NotFoundException) {
-            result = handle((NotFoundException) throwable);
+            return handle((NotFoundException) throwable);
+        } else if (throwable instanceof ServiceException) {
+            return handle((ServiceException) throwable);
         } else if (throwable instanceof RuntimeException) {
-            result = handle((RuntimeException) throwable);
+            return handle((RuntimeException) throwable);
         } else if (throwable instanceof Exception) {
-            result = handle((Exception) throwable);
+            return handle((Exception) throwable);
+        } else {
+            return Result.fail();
         }
-        return result;
     }
 
 

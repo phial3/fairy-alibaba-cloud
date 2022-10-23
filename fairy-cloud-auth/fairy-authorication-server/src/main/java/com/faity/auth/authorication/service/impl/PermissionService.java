@@ -77,7 +77,7 @@ public class PermissionService implements IPermissionService {
         return resourceConfigAttributes.keySet().stream()
                 .filter(requestMatcher -> requestMatcher.matches(authRequest))
                 .map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
-                .peek(urlConfigAttribute -> log.debug("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
+                .peek(urlConfigAttribute -> log.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
                 .findFirst()
                 .orElse(new SecurityConfig(AuthenticationCommon.NONEXISTENT_URL));
     }

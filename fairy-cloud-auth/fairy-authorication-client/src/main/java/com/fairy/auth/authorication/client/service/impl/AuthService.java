@@ -62,7 +62,7 @@ public class AuthService implements IAuthService {
     @Override
     public boolean hasPermission(String authentication, String url, String method) {
         // 如果请求未携带token信息, 直接权限
-        if (StringUtils.isBlank(authentication) || !authentication.startsWith(BEARER)) {
+        if (StringUtils.isEmpty(authentication)) {
             log.error("user token is null");
             return Boolean.FALSE;
         }

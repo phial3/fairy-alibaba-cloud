@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -34,7 +36,7 @@ public class AuthenticationService implements IAuthenticationService {
      */
     @Override
     public boolean decide(HttpServletRequest authRequest) {
-        log.debug("正在访问的url是:{}，method:{}", authRequest.getServletPath(), authRequest.getMethod());
+        log.info("正在访问的url是:{}，method:{}", authRequest.getServletPath(), authRequest.getMethod());
         //获取用户认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //获取此url，method访问对应的权限资源信息
@@ -52,12 +54,13 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public boolean dataDecide(PermissionDTO permissionDTO) {
-        log.debug("正在访问的权限:{},路径:{}", permissionDTO.getName(), permissionDTO.getUrl());
+        log.info("正在访问的权限:{},路径:{}", permissionDTO.getName(), permissionDTO.getUrl());
         //获取用户认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //判断用户是否有该路径权限
         String userName = (String) authentication.getPrincipal();
         List<PermissionDTO> permissionDTOS = permissionService.queryByUsername(userName);
+
         return  isContainsPermission(permissionDTOS,permissionDTO);
     }
 
@@ -69,10 +72,14 @@ public class AuthenticationService implements IAuthenticationService {
      * @param permissionDTO   用户权限
      * @return boolean
      */
-    public boolean isContainsPermission( List<PermissionDTO>  permissionDTOS, PermissionDTO permissionDTO) {
+    private boolean isContainsPermission( List<PermissionDTO>  permissionDTOS, PermissionDTO permissionDTO) {
         //权限的父级继承
+        PathMatcher pathMatcher = new AntPathMatcher();
+
         for (PermissionDTO ums : permissionDTOS) {
-            if(permissionDTO.getUrl().startsWith(ums.getUrl())) {
+            if(permissionDTO.getUrl().startsWith(ums.getUrl())
+                    || pathMatcher.match(ums.getUrl(),permissionDTO.getUrl())
+                    || permissionDTO.getUrl().equalsIgnoreCase(ums.getUrl())) {
                 return true;
             }
         }
@@ -86,7 +93,7 @@ public class AuthenticationService implements IAuthenticationService {
      * @param userResources
      * @return
      */
-    public boolean isMatch(ConfigAttribute urlConfigAttribute, List<PermissionDTO> userResources) {
+    private boolean isMatch(ConfigAttribute urlConfigAttribute, List<PermissionDTO> userResources) {
         return userResources.stream().anyMatch(resource -> resource.getName().equals(urlConfigAttribute.getAttribute()));
     }
 
