@@ -3,6 +3,7 @@ package com.fairy.cloud.gateway.config;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.cloud.gateway.route.RouteDefinition;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @author 鹿少年
  * @date 2022/10/21 20:33
  */
-@Component
+@Configuration
 public class LocalCache {
 
     /**
@@ -30,10 +31,11 @@ public class LocalCache {
                 //设置本地缓存的最大容量
                 .maximumSize(500)
                 .concurrencyLevel(10)
+                //设置访问缓存后多久过期
                 .expireAfterAccess(60, TimeUnit.SECONDS)
-                .refreshAfterWrite(100, TimeUnit.SECONDS)
                 //设置写缓存后多少秒过期
-                .expireAfterWrite(60, TimeUnit.SECONDS).build();
+                .expireAfterWrite(60, TimeUnit.SECONDS)
+                .build();
     }
 
     public  void put(String key, RouteDefinition object) {
