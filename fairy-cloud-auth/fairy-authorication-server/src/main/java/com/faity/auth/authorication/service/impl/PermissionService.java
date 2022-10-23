@@ -83,7 +83,7 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    @Cached(name = "permission#user#", key = "#username",expire = 1,timeUnit= TimeUnit.DAYS,cacheType = CacheType.BOTH)
+    @Cached(name = "permission#user#", key = "#username",expire = 1,timeUnit= TimeUnit.DAYS,cacheType = CacheType.REMOTE)
     public List<PermissionDTO> queryByUsername(String username) {
         return permissionProvider.perimissions(username).getData();
     }

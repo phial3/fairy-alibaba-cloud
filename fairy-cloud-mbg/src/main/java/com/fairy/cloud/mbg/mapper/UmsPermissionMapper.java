@@ -24,4 +24,15 @@ public interface UmsPermissionMapper extends BaseMapper<UmsPermissionPO> {
      * @return
      */
     List<PermissionDTO> selectPermissionsByUserName(@Param("userName") String username);
+
+    /**
+     * 查询用户权限
+     * @param userName
+     * @param url
+     * @param method
+     * @return
+     */
+    PermissionDTO selectPermissionByUserNameAndUrlMethod(@Param("userName")String userName,
+                                                         @Param("url")String url,
+                                                         @Param("method")String method);
 }

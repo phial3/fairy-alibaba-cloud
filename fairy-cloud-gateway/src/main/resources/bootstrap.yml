@@ -54,27 +54,25 @@ spring:
           #uri: http://localhost:8082
           uri: lb://authorization-server  #开启从注册中心动态创建路由的功能，利用微服务名进行路由
           predicates:
-            - Path=/auth/**
-#          filters:
-#            - StripPrefix=1
+            - Path=/auth/authorization/**
+          filters:
+            - StripPrefix=1
         - id: authorication-client
           uri: lb://authorication-client
           predicates:
-            - Path=/client/**
-#          filters:
-#            - StripPrefix=1
+            - Path=/auth/client/**
+          filters:
+            - StripPrefix=1
         - id: authorication-admin
           uri: lb://authorication-admin
           predicates:
             - Path=/admin/**
-#          filters:
-#            - StripPrefix=1
         - id: authorication-server
           uri: lb://authorication-server
           predicates:
-            - Path=/authorication/**
-#          filters:
-#            - StripPrefix=1
+            - Path=/auth/authorication/**
+          filters:
+            - StripPrefix=1
         - id: fairy-cloud-member
           uri: lb://fairy-cloud-member
           predicates:
@@ -95,18 +93,17 @@ spring:
           uri: lb://fairy-cloud-portal
           predicates:
             - Path=/portal/**
-      default-filters:
-        - name: Retry
-          args:
-            retries: 3
-            statuses: BAD_GATEWAY
-        - AddResponseHeader=X-Response-Default-Foo, Default-Bar
-        - name: RequestRateLimiter
-          args:
-            redis-rate-limiter.replenishRate: 2  #流速 每秒
-            redis-rate-limiter.burstCapacity: 10   #令牌桶的容积
-            rate-limiter: "#{@defaultRedisRateLimiter}"  #SPEL表达式去的对应的bean
-            key-resolver: "#{@defaultPrincipalNameKeyResolver}" #SPEL表达式去的对应的bean
+#      default-filters:
+#        - name: Retry
+#          args:
+#            retries: 3
+#            statuses: BAD_GATEWAY
+#        - name: RequestRateLimiter
+#          args:
+#            redis-rate-limiter.replenishRate: 2  #流速 每秒
+#            redis-rate-limiter.burstCapacity: 10   #令牌桶的容积
+#            rate-limiter: "#{@defaultRedisRateLimiter}"  #SPEL表达式去的对应的bean
+#            key-resolver: "#{@defaultPrincipalNameKeyResolver}" #SPEL表达式去的对应的bean
 #是否开启@SentinelRestTemplate注解
 resttemplate:
   sentinel:

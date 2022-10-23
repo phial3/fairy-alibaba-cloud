@@ -31,3 +31,6 @@ feign:
     enabled: true
   okhttp:
     enabled: true
+resttemplate:
+  sentinel:
+    enabled: true

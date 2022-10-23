@@ -14,4 +14,14 @@
         where um.username = #{userName}
     </select>
 
+    <select id="selectPermissionByUserNameAndUrlMethod"  resultType="com.fairy.common.entity.dto.PermissionDTO">>
+        select per.name,per.value,per.type,per.url,
+        per.status,per.sort,per.creator,
+        per.updator,per.created_time,per.updated_time
+        from  ums_permission per left join ums_role_permission_relation urp  on per. id = urp.permission_id
+        left join ums_role ur on ur.id = urp.role_id left join ums_member_role_relation umr on umr.role_id =ur.id
+        left join ums_member um on um.id = umr.memeber_id
+        where um.username = #{userName} and per.url=#{url} and per.method=#{method}
+    </select>
+
 </mapper>

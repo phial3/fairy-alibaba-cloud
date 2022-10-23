@@ -137,12 +137,6 @@
             <groupId>com.fairy</groupId>
             <artifactId>fairy-cloud-mbg</artifactId>
             <version>1.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>druid-spring-boot-starter</artifactId>
-                    <groupId>com.alibaba</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

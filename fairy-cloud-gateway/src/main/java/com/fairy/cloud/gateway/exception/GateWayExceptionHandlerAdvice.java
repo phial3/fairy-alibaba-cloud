@@ -73,6 +73,13 @@ public class GateWayExceptionHandlerAdvice {
         return Result.fail();
     }
 
+    @ExceptionHandler(value = {ServiceException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result handle(ServiceException ex) {
+        log.error("gateway 网关异常,msg:{}",ex.getMessage());
+        return Result.fail(ex);
+    }
+
     @ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result handle(Throwable throwable) {
@@ -90,10 +97,6 @@ public class GateWayExceptionHandlerAdvice {
         }
         return result;
     }
-    @ExceptionHandler(value = {ServiceException.class})
-    public Result handle(ServiceException ex) {
-        log.error("gateway 网关异常,msg:{}",ex.getMessage());
-        return Result.fail(SystemErrorEnum.GATEWAY_SYSTEM_BUSY);
-    }
+
 
 }

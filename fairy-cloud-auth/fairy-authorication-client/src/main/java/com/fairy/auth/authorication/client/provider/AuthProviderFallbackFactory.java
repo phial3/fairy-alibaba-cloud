@@ -1,10 +1,11 @@
-package com.fairy.cloud.gateway.provider;
+package com.fairy.auth.authorication.client.provider;
 
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
+import com.fairy.common.entity.dto.PermissionDTO;
 import com.fairy.common.enums.SentinelErrorEnum;
 import com.fairy.common.response.Result;
 import feign.hystrix.FallbackFactory;
@@ -17,10 +18,10 @@ import org.springframework.stereotype.Component;
  * @date 2022/10/23 12:37
  */
 @Component
-public class AuthFeignFallbackFactory implements FallbackFactory<AuthFeign> {
+public class AuthProviderFallbackFactory implements FallbackFactory<AuthProvider> {
 
     @Override
-    public AuthFeign create(Throwable cause) {
+    public AuthProvider create(Throwable cause) {
         Result result;
         if (cause instanceof FlowException) {
             result = Result.fail(SentinelErrorEnum.FLOW_RULE_ERR);
@@ -36,17 +37,17 @@ public class AuthFeignFallbackFactory implements FallbackFactory<AuthFeign> {
             result = Result.fail(SentinelErrorEnum.SYS_RULE_ERR);
         }
 
-        return new AuthFeign() {
-            @Override
-            public Result hasPermission(String authentication, String url, String method) { return result; }
+        return new AuthProvider() {
 
             @Override
-            public Result<Jws<Claims>> getJwt(String jwtToken) {
+            public Result auth(String authentication, String url, String method) {
                 return result;
             }
 
             @Override
-            public Result<Boolean> auhenticationUrl(String url) { return result; }
+            public Result dataAuth(String authentication, PermissionDTO permissionDTO) {
+                return result;
+            }
         };
     }
 }
