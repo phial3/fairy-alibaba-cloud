@@ -4,6 +4,14 @@ spring:
     host: node01
     port: 63379
     password:
+    timeout: 5000
+    lettuce:
+      pool:
+        max-wait: -1
+        max-idle: 10
+        min-idle: 0
+        max-active: 10
+        command-time: 5000
   rabbitmq:
     host: node01
     port: 5672
@@ -37,6 +45,7 @@ logging:
   level:
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
+    org.springframework.cloud.gateway.filter: trace
   file:
     max-size: 1GB
 

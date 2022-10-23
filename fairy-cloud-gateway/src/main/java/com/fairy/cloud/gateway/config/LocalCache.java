@@ -4,11 +4,13 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,19 +40,35 @@ public class LocalCache {
                 .build();
     }
 
-    public  void put(String key, RouteDefinition object) {
+    public void put(String key, RouteDefinition object) {
         routeDefinitionMaps.put(key, object);
     }
 
-    public  RouteDefinition get(String key) {
+    public RouteDefinition get(String key) {
         return routeDefinitionMaps.getIfPresent(key);
     }
 
-    public Collection<RouteDefinition> getRouteMaps(){
+    public Collection<RouteDefinition> getRouteMaps() {
         return routeDefinitionMaps.asMap().values();
     }
 
     public void remove(String routeId) {
         routeDefinitionMaps.asMap().remove(routeId);
+    }
+
+    public Map<String, RouteDefinition> getAll(Set<String> gatewayKeyIds) {
+        Map<String, RouteDefinition> map = new ConcurrentHashMap<>();
+        Iterator<String> iterator = gatewayKeyIds.iterator();
+        while (iterator.hasNext()) {
+            String id = iterator.next();
+            if (routeDefinitionMaps.asMap().containsKey(id)) {
+                map.put(id, routeDefinitionMaps.getIfPresent(id));
+            }
+        }
+        return map;
+    }
+
+    public void putAll(Map<String, RouteDefinition> allRoutes) {
+        routeDefinitionMaps.putAll(allRoutes);
     }
 }

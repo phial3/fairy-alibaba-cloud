@@ -9,18 +9,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * 通用结果返回
+ *
  * @author hll
  * @version 1.0
- * @date  2022/1/25 13:39
+ * @date 2022/1/25 13:39
  */
 @ApiModel(description = "rest请求的返回模型，所有rest正常都返回该类的对象")
 @Data
@@ -64,13 +61,12 @@ public class Result<T> {
     }
 
     public static Result success() {
-        return new Result<>(SUCCESSFUL_CODE, SUCCESSFUL_MESG,null);
+        return new Result<>(SUCCESSFUL_CODE, SUCCESSFUL_MESG, null);
     }
 
     public static Result success(Object data) {
         return new Result<>(SUCCESSFUL_CODE, SUCCESSFUL_MESG, data);
     }
-
 
 
     /**
@@ -79,7 +75,7 @@ public class Result<T> {
      * @return Result
      */
     public static Result fail() {
-        return new Result(SystemErrorEnum.SYSTEM_ERROR);
+        return Result.fail(SystemErrorEnum.SYSTEM_ERROR);
     }
 
     /**
@@ -153,7 +149,6 @@ public class Result<T> {
     public boolean isFail() {
         return !isSuccess();
     }
-
 
 
 }
