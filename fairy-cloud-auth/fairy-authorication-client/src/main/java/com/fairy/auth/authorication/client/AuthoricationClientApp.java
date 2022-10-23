@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages={"com.fairy.auth.authorication.client.provider"})
 public class AuthoricationClientApp {
     public static void main(String[] args) {
         SpringApplication.run(AuthoricationClientApp.class,args);

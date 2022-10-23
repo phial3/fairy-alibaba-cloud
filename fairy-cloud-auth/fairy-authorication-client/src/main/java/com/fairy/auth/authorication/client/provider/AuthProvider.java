@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "authorication-server", path = "/authorication",configuration = FeignConfig.class,fallbackFactory = AuthProviderFallbackFactory.class)
+//@FeignClient(name = "authorication-server", path = "/authorication",configuration = FeignConfig.class,fallbackFactory = AuthProviderFallbackFactory.class)
+@FeignClient(name = "authorication-server", path = "/authorication",configuration = FeignConfig.class)
 public interface AuthProvider {
     /**
      * 调用签权服务，判断用户是否有权限

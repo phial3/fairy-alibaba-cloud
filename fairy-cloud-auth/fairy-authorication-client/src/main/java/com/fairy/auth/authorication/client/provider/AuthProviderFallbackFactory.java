@@ -7,17 +7,19 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import com.fairy.common.entity.dto.PermissionDTO;
 import com.fairy.common.enums.SentinelErrorEnum;
+import com.fairy.common.enums.ServiceErrorEnum;
+import com.fairy.common.error.ServiceException;
 import com.fairy.common.response.Result;
 import feign.hystrix.FallbackFactory;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Component;
 
-/**
- * @author 鹿少年
- * @date 2022/10/23 12:37
- */
-@Component
+///**
+// * @author 鹿少年
+// * @date 2022/10/23 12:37
+// */
+//@Component
 public class AuthProviderFallbackFactory implements FallbackFactory<AuthProvider> {
 
     @Override
@@ -32,9 +34,9 @@ public class AuthProviderFallbackFactory implements FallbackFactory<AuthProvider
         } else if (cause instanceof DegradeException) {
             result = Result.fail(SentinelErrorEnum.DEGRADE_RULE_ERR);
         } else if (cause instanceof SystemBlockException) {
-            result = Result.fail(SentinelErrorEnum.HOT_PARAM_FLOW_RULE_ERR);
-        } else {
             result = Result.fail(SentinelErrorEnum.SYS_RULE_ERR);
+        } else {
+            result = Result.fail(ServiceErrorEnum.SERVICE_ERROR);
         }
 
         return new AuthProvider() {

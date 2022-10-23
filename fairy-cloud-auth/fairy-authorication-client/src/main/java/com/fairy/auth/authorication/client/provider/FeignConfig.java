@@ -21,7 +21,7 @@ public class FeignConfig {
 
     @Bean
     public Request.Options options() {
-        return new Request.Options(1, TimeUnit.SECONDS ,3,TimeUnit.SECONDS ,true);
+        return new Request.Options(1, TimeUnit.MINUTES ,2,TimeUnit.MINUTES ,true);
     }
 
 }
