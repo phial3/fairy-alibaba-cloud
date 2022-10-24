@@ -52,4 +52,9 @@ public interface EsProductService {
      * @return
      */
     PageInfoDTO findProductByNameOrDescription(String productName, String productName1, Pageable of);
+
+    /**
+     * 讲数据库数据加载到ES
+     */
+    void loadAllProductToEs() throws IOException;
 }

@@ -5,5 +5,8 @@
 
     <select id="getAllProductId" resultType="java.lang.Integer">
       SELECT  p.id FROM pms_product p where p.delete_status=0
-  </select>
+    </select>
+    <select id="selectPmsByPage" resultType="com.fairy.cloud.mbg.model.pojo.PmsProductPO">
+        SELECT p.*  FROM pms_product p
+    </select>
 </mapper>

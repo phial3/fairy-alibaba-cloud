@@ -2,6 +2,7 @@ package com.fairy.cloud.search.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fairy.cloud.mbg.mapper.PmsProductMapper;
 import com.fairy.cloud.mbg.model.pojo.PmsProductPO;
@@ -11,17 +12,20 @@ import com.fairy.cloud.search.service.EsProductService;
 import com.fairy.common.page.PageInfoDTO;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.lucene.util.CollectionUtil;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.VersionType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -86,4 +90,20 @@ public class EsProductServiceImpl implements EsProductService {
         return new PageInfoDTO(poPage);
     }
 
+    @Override
+    public void loadAllProductToEs() throws IOException {
+        //分页 每页100条数据
+        int pageNum =1;
+        int pageSize =100;
+        com.github.pagehelper.Page page = PageHelper.startPage(pageNum, pageSize);
+        List<PmsProductPO> productPOS = productMapper.selectPmsByPage(page);
+
+        while (!CollectionUtils.isEmpty(productPOS)){
+            //导入数据
+            importProductToEs(productPOS);
+            //继续分页
+            page = new com.github.pagehelper.Page(++pageNum,pageSize);
+            productPOS = productMapper.selectPmsByPage(page);
+        }
+    }
 }
