@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 @Data
 @TableName("pms_product")
 public class PmsProductPO implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     /**
      *
