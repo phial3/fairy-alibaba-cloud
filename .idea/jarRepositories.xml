@@ -2,6 +2,21 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
+      <option name="id" value="jive-snapshots" />
+      <option name="name" value="proj-jive-dev" />
+      <option name="url" value="https://arm.epk.ericsson.se/artifactory/proj-jive-dev" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="arm-snapshots" />
+      <option name="name" value="Snapshot artifact repo in arm" />
+      <option name="url" value="https://arm.epk.ericsson.se/artifactory/proj-ema-dev-local" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://arm.epk.ericsson.se/artifactory/proj-ema-remote" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="http://maven.aliyun.com/nexus/content/repositories/central/" />
@@ -15,6 +30,26 @@
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="arm-internal-repo" />
+      <option name="name" value="Inhouse artifacts from other business areas" />
+      <option name="url" value="https://arm.epk.ericsson.se/artifactory/proj-ema-internal" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jive-releases" />
+      <option name="name" value="proj-jive-release" />
+      <option name="url" value="https://arm.epk.ericsson.se/artifactory/proj-jive-release" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="arm-proxy-nexus-repo" />
+      <option name="name" value="Proxy old nexus artifacts in arm" />
+      <option name="url" value="https://arm.epk.ericsson.se/artifactory/provisioning-repo1-all-artifacts" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="arm-releases" />
+      <option name="name" value="Release artifact repo in arm" />
+      <option name="url" value="https://arm.epk.ericsson.se/artifactory/proj-ema-release-local" />
     </remote-repository>
   </component>
 </project>

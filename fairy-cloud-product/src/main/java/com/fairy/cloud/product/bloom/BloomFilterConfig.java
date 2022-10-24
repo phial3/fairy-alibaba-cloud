@@ -1,7 +1,7 @@
 package com.fairy.cloud.product.bloom;
 
 import com.fairy.cloud.product.service.PmsProductService;
-import com.fairy.common.constants.RedisKeyPrefixConst;
+import com.fairy.common.commons.RedisCommons;
 import com.google.common.base.Charsets;
 import com.google.common.hash.Funnel;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class BloomFilterConfig implements InitializingBean{
         log.info("加载产品到布隆过滤器当中,size:{}",list.size());
         if(!CollectionUtils.isEmpty(list)){
             list.stream().forEach(item->{
-                bloomRedisService.addByBloomFilter(RedisKeyPrefixConst.PRODUCT_REDIS_BLOOM_FILTER,String.valueOf(item));
+                bloomRedisService.addByBloomFilter(RedisCommons.PRODUCT_REDIS_BLOOM_FILTER,String.valueOf(item));
             });
         }
     }

@@ -6,6 +6,8 @@
     <file url="file://$PROJECT_DIR$/fairy-cloud-auth/fairy-authorication-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-auth/fairy-authorication-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-auth/fairy-authorization-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fairy-cloud-auth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fairy-cloud-auth/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-mbg/src/main/java" charset="UTF-8" />
@@ -14,5 +16,7 @@
     <file url="file://$PROJECT_DIR$/fairy-cloud-search/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-stock/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fairy-cloud-zipkin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>

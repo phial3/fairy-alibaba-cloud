@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fairy.cloud.mbg.mapper.PmsStockMapper;
 import com.fairy.cloud.mbg.model.pojo.PmsStockPO;
 import com.fairy.cloud.stock.service.StockService;
-import com.fairy.common.exception.CommonException;
+import com.fairy.common.enums.ServiceErrorEnum;
+import com.fairy.common.error.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class StockServiceImpl implements StockService {
         wrapper.lambda().eq(PmsStockPO::getProductId, productId);
         PmsStockPO pmsStockPO = pmsStockMapper.selectOne(wrapper);
         if (pmsStockPO.getStock() <= 0) {
-            throw CommonException.create("商品库存不足");
+            throw new ServiceException(ServiceErrorEnum.SERVICE_ERROR,"商品库存不足");
         }
         pmsStockPO.setStock(pmsStockPO.getStock()-1);
 

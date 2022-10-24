@@ -6,4 +6,5 @@ package com.fairy.common.commons;
  */
 public class RedisCommons {
     public static final String PRODUCT_DETAIL_CACHE = "redis::product";
+    public static final String PRODUCT_REDIS_BLOOM_FILTER ="redis::bloom" ;
 }

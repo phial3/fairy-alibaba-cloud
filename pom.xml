@@ -24,10 +24,7 @@
         <module>fairy-cloud-api</module>
         <module>fairy-cloud-search</module>
         <module>fairy-cloud-common</module>
-        <module>fairy-authentication-server</module>
-        <module>fairy-authorication-client</module>
-        <module>fairy-cloud-auth/untitled</module>
-        <module>fairy-cloud-resource</module>
+        <module>fairy-cloud-admin</module>
         <module>fairy-cloud-zipkin</module>
     </modules>
 </project>

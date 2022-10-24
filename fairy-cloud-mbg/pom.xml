@@ -15,12 +15,6 @@
             <groupId>com.fairy</groupId>
             <artifactId>fairy-cloud-common</artifactId>
             <version>1.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mybatis.generator</groupId>

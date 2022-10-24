@@ -7,8 +7,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="fairy-cloud-search" />
         <module name="fairy-cloud-admin" />
+        <module name="fairy-cloud-search" />
         <module name="fairy-cloud-stock" />
         <module name="fairy-authorication-client" />
         <module name="fairy-cloud-common" />
@@ -17,8 +17,8 @@
         <module name="fairy-cloud-product" />
         <module name="fairy-cloud-api" />
         <module name="fairy-cloud-order" />
-        <module name="fairy-authorization-server" />
         <module name="fairy-cloud-zipkin" />
+        <module name="fairy-authorization-server" />
         <module name="fairy-authentication-server" />
         <module name="fairy-cloud-mbg" />
         <module name="fairy-auth-server" />

@@ -1,7 +1,7 @@
 package com.fairy.cloud.product.intercepter;
 
 import com.fairy.cloud.product.bloom.BloomRedisService;
-import com.fairy.common.constants.RedisKeyPrefixConst;
+import com.fairy.common.commons.RedisCommons;
 import com.fairy.common.response.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class BloomFilterInterceptor implements HandlerInterceptor {
         //解析出pathvariable
         Map<String, String> pathVariable = matcher.extractUriTemplateVariables("/pms/productInfo/{id}", currentUrl);
         //布隆过滤器存储在redis中
-        if(bloomRedisService.includeByBloomFilter(RedisKeyPrefixConst.PRODUCT_REDIS_BLOOM_FILTER,pathVariable.get("id"))){
+        if(bloomRedisService.includeByBloomFilter(RedisCommons.PRODUCT_REDIS_BLOOM_FILTER,pathVariable.get("id"))){
             return true;
         }
 
