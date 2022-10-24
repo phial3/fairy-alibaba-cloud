@@ -7,7 +7,24 @@ prometheus 介绍参考我的这篇博客： [https://blog.csdn.net/huanglu0314/
 
 
 ```
-这里输入代码
+ node-exporter:
+    image: prom/node-exporter
+    container_name: node_exporter
+    restart: always
+    networks:
+      - elastic-work
+    ports:
+      - 9100:9100
+  prometheus :
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    networks:
+      - elastic-work
+    ports:
+      - 9090:9090
+    volumes:
+      - /mydata/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 ```
 docker启动 node-exporter进入容器
 
@@ -81,3 +98,56 @@ scrape_configs:
         labels:
           instance: node
 ```
+
+
+## Pometheus 集成 Alertmanager 服务告警（邮件通知）
+
+
+## Spring Boot Metrics监控之Prometheus
+添加依赖
+
+```
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+<!--prometheus-->
+<dependency>
+<groupId>io.micrometer</groupId>
+<artifactId>micrometer-registry-prometheus</artifactId>
+<version>1.9.3</version>
+</dependency>
+```
+
+
+applciation.yml配置
+```
+management:
+endpoints:
+web:
+  exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+  #采集数据
+  metrics:
+    tags:
+      application: ${spring.application.name}
+```
+在启动主类中添加Bean ，此配置是监控 jvm 的：
+
+```
+
+@Bean
+MeterRegistryCustomizer<MeterRegistry> configurer(@Value("${spring.application.name}") String applicationName){
+return registry -> registry.config().commonTags("application",applicationName);
+}
+```
+启动应用，访问 http://localhost:8088/actuator/prometheus ，可以看到应用的一些 metrics 信息
+
+
+
+## Prometheus+Grafana 监控
+
