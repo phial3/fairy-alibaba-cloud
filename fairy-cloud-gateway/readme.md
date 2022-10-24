@@ -32,3 +32,7 @@ Parameter 0 of method modifyResponseBodyGatewayFilterFactory in org.springframew
 
 Action:
 Consider defining a bean of type 'org.springframework.http.codec.ServerCodecConfigurer' in your configuration.
+
+
+## 网关配置 限流
+参考： https://segmentfault.com/a/1190000040643472

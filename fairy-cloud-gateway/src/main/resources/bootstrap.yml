@@ -67,6 +67,26 @@ spring:
           uri: lb://authorication-admin
           predicates:
             - Path=/admin/**
+          filters:
+#            - RewritePath=/user(?<segment>/?.*), $\{segment}
+            - name: RequestRateLimiter
+              args:
+                # 如果返回的key是空的话，则不进行限流
+                deny-empty-key: false
+                # 每秒产生多少个令牌
+                redis-rate-limiter.replenishRate: 1  #对应 RedisRateLimiter
+                # 1秒内最大的令牌，即在1s内可以允许的突发流程，设置为0，表示阻止所有的请求
+                redis-rate-limiter.burstCapacity: 1
+                # 每次请求申请几个令牌
+                redis-rate-limiter.requestedTokens: 1
+                #SPEL表达式去的对应的bean 自定义限流规则
+                rate-limiter: "#{@defaultGatewayRateLimiter}"
+                # 返回限流的key
+                key-resolver: "#{@defaultGatewayKeyResolver}"
+                # 限流后向客户端返回的响应码429,请求太多
+                status-code: TOO_MANY_REQUESTS
+                # 每次请求申请几个令牌  default-gateway-rate-limiter 的值是在 defaultGatewayRateLimiter 中定义的。
+                default-gateway-rate-limiter.requestedTokens: 1
         - id: authorication-server
           uri: lb://authorication-server
           predicates:
