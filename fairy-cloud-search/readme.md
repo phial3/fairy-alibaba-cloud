@@ -145,7 +145,15 @@ MeterRegistryCustomizer<MeterRegistry> configurer(@Value("${spring.application.n
 return registry -> registry.config().commonTags("application",applicationName);
 }
 ```
-启动应用，访问 http://localhost:8088/actuator/prometheus ，可以看到应用的一些 metrics 信息
+启动应用，访问 [http://localhost:8086/pms/actuator/prometheus](http://localhost:8086/pms/actuator/prometheus) ，可以看到应用的一些 metrics 信息
+
+![输入图片说明](../images/promethus/metric%E4%BF%A1%E6%81%AFimage.png)
+
+
+给 grafana 添加数据源与Dashboard，添加操作请参考 Grafana可视化图形界面，导入时请使用Dashboard Id为 4701，导入后马上看到 JVM 的情况
+import 4701 dashboard
+
+![输入图片说明](../images/promethus/dashboardimage.png)
 
 
 
