@@ -31,7 +31,7 @@ public class DefaultGatewayRateLimiter extends AbstractRateLimiter<DefaultGatewa
     private RateLimiter rateLimiter = RateLimiter.create(1);
 
     protected DefaultGatewayRateLimiter(ConfigurationService configurationService) {
-        super(DefaultGatewayRateLimiter.Config.class, CONFIGURATION_PROPERTY_NAME, configurationService);
+        super(Config.class, CONFIGURATION_PROPERTY_NAME, configurationService);
     }
 
     @Override

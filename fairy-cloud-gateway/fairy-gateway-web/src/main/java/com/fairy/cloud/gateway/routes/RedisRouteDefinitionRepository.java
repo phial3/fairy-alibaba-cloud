@@ -1,4 +1,4 @@
-//package com.fairy.cloud.gateway.routes;
+package com.fairy.cloud.gateway.routes;//package com.fairy.cloud.gateway.routes;
 //
 //import com.fairy.cloud.gateway.service.IRouteService;
 //import com.fairy.cloud.gateway.service.impl.RouteService;

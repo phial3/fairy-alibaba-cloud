@@ -1,4 +1,4 @@
-package com.fairy;
+package fairy;
 
 import com.fairy.cloud.gateway.GateWayApp;
 import com.fairy.cloud.gateway.config.LocalCache;

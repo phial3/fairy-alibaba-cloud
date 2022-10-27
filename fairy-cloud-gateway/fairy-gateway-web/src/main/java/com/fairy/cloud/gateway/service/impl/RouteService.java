@@ -3,24 +3,17 @@ package com.fairy.cloud.gateway.service.impl;
 import com.fairy.cloud.gateway.config.LocalCache;
 import com.fairy.cloud.gateway.service.IRouteService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.omg.CORBA.DefinitionKind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j

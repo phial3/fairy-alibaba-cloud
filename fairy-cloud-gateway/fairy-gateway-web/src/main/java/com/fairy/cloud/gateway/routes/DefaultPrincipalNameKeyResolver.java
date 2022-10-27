@@ -1,4 +1,4 @@
-//package com.fairy.cloud.gateway.routes;
+package com.fairy.cloud.gateway.routes;//package com.fairy.cloud.gateway.routes;
 //
 //import org.springframework.cloud.gateway.filter.ratelimit.PrincipalNameKeyResolver;
 //import org.springframework.context.annotation.Configuration;

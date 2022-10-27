@@ -1,4 +1,4 @@
-//package com.fairy.cloud.gateway.exception.gateway;
+package com.fairy.cloud.gateway.exception.gateway;//package com.fairy.cloud.gateway.exception.gateway;
 //
 //import com.fairy.common.exception.GateWayException;
 //import com.fairy.common.response.Result;

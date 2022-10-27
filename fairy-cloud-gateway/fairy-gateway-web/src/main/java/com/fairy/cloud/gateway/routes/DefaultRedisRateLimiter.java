@@ -1,4 +1,4 @@
-//package com.fairy.cloud.gateway.routes;
+package com.fairy.cloud.gateway.routes;//package com.fairy.cloud.gateway.routes;
 //
 //import com.fasterxml.jackson.annotation.JsonAutoDetect;
 //import com.fasterxml.jackson.annotation.PropertyAccessor;

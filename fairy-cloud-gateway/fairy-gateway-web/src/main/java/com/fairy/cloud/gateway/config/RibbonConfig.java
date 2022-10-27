@@ -3,7 +3,6 @@ package com.fairy.cloud.gateway.config;
 import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import com.alibaba.cloud.sentinel.rest.SentinelClientHttpResponse;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.fairy.common.enums.SentinelErrorEnum;
 import com.fairy.common.response.Result;
 import com.fasterxml.jackson.core.JsonProcessingException;
