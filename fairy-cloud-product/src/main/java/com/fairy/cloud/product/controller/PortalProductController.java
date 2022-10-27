@@ -9,6 +9,9 @@ import com.fairy.cloud.mbg.model.pojo.PmsProductPO;
 import com.fairy.cloud.product.constant.Constants;
 import com.fairy.cloud.product.service.PmsProductService;
 import com.fairy.common.response.Result;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.DistributionSummary;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URISyntaxException;
 import java.security.Principal;
@@ -38,6 +42,11 @@ public class PortalProductController {
 
 
     Logger log = LoggerFactory.getLogger(PortalProductController.class);
+
+    @Autowired
+    private MeterRegistry registry;
+    private Counter counter;
+    private DistributionSummary summary;
 
     @Autowired
     private PmsProductService pmsProductService;

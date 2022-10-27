@@ -45,6 +45,11 @@ management:
     health:
       show-details: always
 
+  #采集数据
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 #zk配置
 zk:
   curator:
