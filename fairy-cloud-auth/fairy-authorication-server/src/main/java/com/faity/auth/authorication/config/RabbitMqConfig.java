@@ -33,9 +33,13 @@ public class RabbitMqConfig {
     @Value("${spring.application.name}")
     private String appName;
 
+    @Value("${rabbitmq.queue}")
+    private String queue;
+
     @Bean
     Queue resourceQueue() {
-        String queueName = new Base64UrlNamingStrategy(appName + ".").generateName() + RESOURCE_QUEUE_SUFFIX;
+//        String queueName = new Base64UrlNamingStrategy(appName + ".").generateName() + RESOURCE_QUEUE_SUFFIX;
+        String queueName = appName + "#" + queue;
         log.info("resource queue name:{}", queueName);
         return new Queue(queueName, false);
     }
