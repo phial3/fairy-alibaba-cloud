@@ -132,3 +132,6 @@ management:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+rabbitmq:
+  queue: queue

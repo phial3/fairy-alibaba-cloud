@@ -26,5 +26,15 @@
         <module>fairy-cloud-common</module>
         <module>fairy-cloud-admin</module>
         <module>fairy-cloud-zipkin</module>
+        <module>fairy-gateway</module>
     </modules>
+
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+    </build>
 </project>
