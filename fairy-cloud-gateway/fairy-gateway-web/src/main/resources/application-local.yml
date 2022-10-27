@@ -50,6 +50,14 @@ spring:
     password: admin
     publisher-confirm-type: correlated
     virtual-host: /
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 5
+        max-concurrency: 10
+        acknowledge-mode: manual
+        retry:
+          max-attempts: 3
   zipkin:
     enabled: true
     sender:
@@ -81,9 +89,10 @@ mybatis-plus:
       id-type: auto
 logging:
   level:
+    root: INFO
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
-    org.springframework.cloud.gateway.filter: trace
+    org.springframework.cloud.gateway.filter: TRACE
   file:
     max-size: 1GB
 
@@ -96,3 +105,6 @@ cloud:
       - /static/qrcode/
       - /open/
       - /v2/api-docs
+
+rabbitmq:
+  queue: rabbitMq#Queue

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
@@ -30,9 +31,12 @@ public class BusConfig {
     @Value("${spring.application.name}")
     private String appName;
 
+    @Value("${rabbitmq.queue}")
+    private String queueName;
+
     @Bean
     Queue queue() {
-        String queueName = new Base64UrlNamingStrategy(appName + ".").generateName();
+//        String queueName = new Base64UrlNamingStrategy(appName + ".").generateName();
         log.info("queue name:{}", queueName);
         return new Queue(queueName, false);
     }
@@ -52,11 +56,24 @@ public class BusConfig {
     @Bean
     SimpleMessageListenerContainer simpleMessageListenerContainer(ConnectionFactory connectionFactory, MessageListenerAdapter messageListenerAdapter, Queue queue) {
         log.info("init simpleMessageListenerContainer: {}", queue.getName());
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setQueueNames(queue.getName());
         container.setMessageListener(messageListenerAdapter);
+        container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        container.setConnectionFactory(connectionFactory);
+        container.setConcurrency("3");
+        container.setMaxConcurrentConsumers(4);
         return container;
     }
+
+//    @Bean
+//    public SimpleRabbitListenerContainerFactory getSimpleRabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+//        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+//        factory.setMaxConcurrentConsumers(4);
+//        factory.setConnectionFactory(connectionFactory);
+//        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);//手动确认
+//        return factory;
+//    }
 
     @Bean
     MessageListenerAdapter messageListenerAdapter(BusReceiver busReceiver, MessageConverter messageConverter) {
