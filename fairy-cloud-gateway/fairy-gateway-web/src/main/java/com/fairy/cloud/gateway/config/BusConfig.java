@@ -25,14 +25,14 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class BusConfig {
 
-    private static final String EXCHANGE_NAME = "spring-boot-exchange";
-    private static final String ROUTING_KEY = "gateway-route";
-
-    @Value("${spring.application.name}")
-    private String appName;
-
     @Value("${rabbitmq.queue}")
     private String queueName;
+
+    @Value("${rabbitmq.routingKey}")
+    private String routingKey;
+
+    @Value("${rabbitmq.exchange}")
+    private String exchange;
 
     @Bean
     Queue queue() {
@@ -43,14 +43,14 @@ public class BusConfig {
 
     @Bean
     TopicExchange exchange() {
-        log.info("exchange:{}", EXCHANGE_NAME);
-        return new TopicExchange(EXCHANGE_NAME);
+        log.info("exchange:{}", exchange);
+        return new TopicExchange(exchange);
     }
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        log.info("binding {} to {} with {}", queue, exchange, ROUTING_KEY);
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+        log.info("binding {} to {} with {}", queue, exchange, routingKey);
+        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 
     @Bean

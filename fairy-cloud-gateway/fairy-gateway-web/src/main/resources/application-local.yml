@@ -107,4 +107,6 @@ cloud:
       - /v2/api-docs
 
 rabbitmq:
-  queue: rabbitMq#Queue
+  queue: gateway-web-Queue
+  exchange: gateway-web-exchange
+  routingKey: gateway-web-route
