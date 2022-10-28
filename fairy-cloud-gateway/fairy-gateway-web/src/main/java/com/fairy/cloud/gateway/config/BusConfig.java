@@ -25,32 +25,29 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class BusConfig {
 
+    @Value("${rabbitmq.exchange}")
+    private String exchangeName;
+    @Value("${rabbitmq.routingKey}")
+    private String rountingKey;
     @Value("${rabbitmq.queue}")
     private String queueName;
 
-    @Value("${rabbitmq.routingKey}")
-    private String routingKey;
-
-    @Value("${rabbitmq.exchange}")
-    private String exchange;
-
     @Bean
     Queue queue() {
-//        String queueName = new Base64UrlNamingStrategy(appName + ".").generateName();
         log.info("queue name:{}", queueName);
         return new Queue(queueName, false);
     }
 
     @Bean
     TopicExchange exchange() {
-        log.info("exchange:{}", exchange);
-        return new TopicExchange(exchange);
+        log.info("exchange:{}", exchangeName);
+        return new TopicExchange(exchangeName);
     }
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        log.info("binding {} to {} with {}", queue, exchange, routingKey);
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+        log.info("binding {} to {} with {}", queue, exchange, rountingKey);
+        return BindingBuilder.bind(queue).to(exchange).with(rountingKey);
     }
 
     @Bean
