@@ -14,6 +14,9 @@ import java.util.Date;
 @Data
 public class BasePo implements Serializable {
 
+    @TableField(exist = false)
+    public static final String DEFAULT_USERNAME = "system";
+
     @TableField(fill = FieldFill.INSERT)
     private String creator;
 
