@@ -1,0 +1,161 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: node01:8848
+        namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+      config:
+        server-addr: node01:8848
+        file-extension: yml
+        namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+        refresh-enabled: true
+        enabled: true
+    sentinel:
+      transport:
+        port: 8720
+        dashboard: node01:8858
+      datasource:
+        # 名称随意
+        gw-flow:
+          nacos:
+            server-addr: node01:8848
+            dataId: ${spring.application.name}-flow
+            groupId: SENTINEL_GROUP
+            rule-type: gw-flow
+            namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+            #默认json格式
+            dataType: json
+            username: nacos
+            password: nacos
+        gw-api-group:
+          nacos:
+            server-addr: node01:8848
+            dataId: ${spring.application.name}-api
+            groupId: SENTINEL_GROUP
+            rule-type: gw-api-group
+            namespace: d98a5ebc-15cd-41b6-bdb0-225760f2c50d
+            #默认json格式
+            dataType: json
+            username: nacos
+            password: nacos
+    gateway:
+      httpclient:
+        pool:
+          max-idle-time: 10000
+      discovery:
+        locator:
+          lower-case-service-id: true  #小写
+          enabled: true
+      enabled: true
+      routes:
+        - id: authorization-server
+          #uri: http://localhost:8082
+          uri: lb://authorization-server  #开启从注册中心动态创建路由的功能，利用微服务名进行路由
+          predicates:
+            - Path=/auth/authorization/**
+          filters:
+            - StripPrefix=1
+        - id: authorication-client
+          uri: lb://authorication-client
+          predicates:
+            - Path=/auth/client/**
+          filters:
+            - StripPrefix=1
+        - id: authorication-admin
+          uri: lb://authorication-admin
+          predicates:
+            - Path=/admin/**
+          filters:
+#            - RewritePath=/user(?<segment>/?.*), $\{segment}
+            - name: RequestRateLimiter
+              args:
+                # 如果返回的key是空的话，则不进行限流
+                deny-empty-key: false
+                # 每秒产生多少个令牌
+                redis-rate-limiter.replenishRate: 1  #对应 RedisRateLimiter
+                # 1秒内最大的令牌，即在1s内可以允许的突发流程，设置为0，表示阻止所有的请求
+                redis-rate-limiter.burstCapacity: 1
+                # 每次请求申请几个令牌
+                redis-rate-limiter.requestedTokens: 1
+                #SPEL表达式去的对应的bean 自定义限流规则
+                rate-limiter: "#{@defaultGatewayRateLimiter}"
+                # 返回限流的key
+                key-resolver: "#{@defaultGatewayKeyResolver}"
+                # 限流后向客户端返回的响应码429,请求太多
+                status-code: TOO_MANY_REQUESTS
+                # 每次请求申请几个令牌  default-gateway-rate-limiter 的值是在 defaultGatewayRateLimiter 中定义的。
+                default-gateway-rate-limiter.requestedTokens: 1
+        - id: authorication-server
+          uri: lb://authorication-server
+          predicates:
+            - Path=/auth/authorication/**
+          filters:
+            - StripPrefix=1
+        - id: fairy-cloud-member
+          uri: lb://fairy-cloud-member
+          predicates:
+            - Path=/member/**
+        - id: fairy-cloud-stock
+          uri: lb://fairy-cloud-stock
+          predicates:
+            - Path=/stock/**
+        - id: fairy-cloud-order
+          uri: lb://fairy-cloud-order
+          predicates:
+            - Path=/order/**
+        - id: fairy-cloud-product
+          uri: lb://fairy-cloud-product
+          predicates:
+            - Path=/pms/**
+        - id: fairy-cloud-portal
+          uri: lb://fairy-cloud-portal
+          predicates:
+            - Path=/portal/**
+#      default-filters:
+#        - name: Retry
+#          args:
+#            retries: 3
+#            statuses: BAD_GATEWAY
+#        - name: RequestRateLimiter
+#          args:
+#            redis-rate-limiter.replenishRate: 2  #流速 每秒
+#            redis-rate-limiter.burstCapacity: 10   #令牌桶的容积
+#            rate-limiter: "#{@defaultRedisRateLimiter}"  #SPEL表达式去的对应的bean
+#            key-resolver: "#{@defaultPrincipalNameKeyResolver}" #SPEL表达式去的对应的bean
+#是否开启@SentinelRestTemplate注解
+resttemplate:
+  sentinel:
+    enabled: true
+
+#sentinel整合feign
+feign:
+  sentinel:
+    enabled: true
+  okhttp:
+    enabled: true
+
+
+jetcache:
+  statIntervalMinutes: 1
+  areaInCacheName: false
+  hidePackages: com.springboot.cloud
+  local:
+    # 默认永久本地缓存
+    default:
+      type: caffeine
+      keyConvertor: fastjson
+  remote:
+    # 默认永久的远程缓存
+    default:
+      type: redis
+      keyConvertor: fastjson
+      valueEncoder: kryo
+      valueDecoder: kryo
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      host: ${REDIS_HOST:node01}
+      port: ${REDIS_PORT:63379}

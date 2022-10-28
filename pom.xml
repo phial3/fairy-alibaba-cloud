@@ -26,9 +26,21 @@
         <module>fairy-cloud-common</module>
         <module>fairy-cloud-admin</module>
         <module>fairy-cloud-zipkin</module>
-        <module>fairy-gateway</module>
     </modules>
 
+    <properties>
+        <jetcache-redis.version>2.6.0</jetcache-redis.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alicp.jetcache</groupId>
+                <artifactId>jetcache-starter-redis</artifactId>
+                <version>${jetcache-redis.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
     <plugins>
         <plugin>

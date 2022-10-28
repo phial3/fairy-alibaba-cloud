@@ -1,0 +1,110 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://node01:33306/fairy-cloud?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: root
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: druid
+        login-password: druid
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+  redis:
+    database: 0
+    host: node01
+    port: 63379
+    password:
+    timeout: 5000
+    lettuce:
+      pool:
+        max-wait: -1
+        max-idle: 10
+        min-idle: 0
+        max-active: 10
+        command-time: 5000
+  rabbitmq:
+    host: node01
+    port: 5672
+    username: admin
+    password: admin
+    publisher-confirm-type: correlated
+    virtual-host: /
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 5
+        max-concurrency: 10
+        acknowledge-mode: manual
+        retry:
+          max-attempts: 3
+  zipkin:
+    enabled: true
+    sender:
+      type: rabbit
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true
+  security:
+    oauth2:
+      jwt:
+        signingKey: 123123
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+mybatis-plus:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath:mapper/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+logging:
+  level:
+    root: INFO
+    com.alibaba.cloud.nacos.client: ERROR
+    com.fairy.cloud.mbg.mapper: DEBUG
+    org.springframework.cloud.gateway.filter: TRACE
+  file:
+    max-size: 1GB
+
+cloud:
+  gateway:
+    shouldSkipUrls:
+      - /auth/authorization/oauth/
+      - /sso/
+      - /home/
+      - /static/qrcode/
+      - /open/
+      - /v2/api-docs
+
+rabbitmq:
+  queue: rabbitMq#Queue
