@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class RouteService implements IRouteService {
+public class RedisRouteService implements IRouteService {
 
     private static final String GATEWAY_ROUTES = "gateway_routes#";
 

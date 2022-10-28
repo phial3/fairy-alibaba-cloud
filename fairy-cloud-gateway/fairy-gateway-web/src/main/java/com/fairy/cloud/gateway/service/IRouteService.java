@@ -1,6 +1,7 @@
 package com.fairy.cloud.gateway.service;
 
 import org.springframework.cloud.gateway.route.RouteDefinition;
+import reactor.core.publisher.Flux;
 
 import java.util.Collection;
 
@@ -24,4 +25,6 @@ public interface IRouteService {
      * @return
      */
     boolean delete(String routeId);
+
+    Flux<RouteDefinition> findByRouteId(String id);
 }
