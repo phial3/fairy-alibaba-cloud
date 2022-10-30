@@ -1,15 +1,16 @@
 package fairy;
 
 import com.fairy.cloud.gateway.GateWayApp;
-import com.fairy.cloud.gateway.config.LocalCache;
-import com.fairy.cloud.gateway.service.impl.RouteService;
+import com.fairy.cloud.gateway.config.RouteLocalCache;
+import com.fairy.cloud.gateway.routes.repository.RedisRouteDefinitionRepository;
+import com.fairy.cloud.gateway.service.impl.RedisRouteService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
-import org.springframework.cloud.gateway.route.InMemoryRouteDefinitionRepository;
-import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
+import org.springframework.cloud.gateway.route.*;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import reactor.core.publisher.Flux;
@@ -18,6 +19,7 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -33,16 +35,18 @@ public class gateWayTest {
 
     @Resource
     private RouteDefinitionLocator definitionLocator;
+//
+//    @Resource
+//    private InMemoryRouteDefinitionRepository routeDefinitionRepository;
 
+    @Autowired
+    private RouteLocator routeLocator;
     @Resource
-    private InMemoryRouteDefinitionRepository routeDefinitionRepository;
-
+    private RedisRouteService routeService;
     @Resource
-    private RouteService routeService;
-    //    @Resource
-//    private RedisRouteDefinitionRepository routeDefinitionRepository;
+    private RedisRouteDefinitionRepository routeDefinitionRepository;
     @Resource
-    private LocalCache cache;
+    private RouteLocalCache cache;
 
     @Test
     public void testGateWayRoute() {
@@ -50,12 +54,28 @@ public class gateWayTest {
 
         //新增
         RouteDefinition routeDefinition = new RouteDefinition();
-        routeDefinition.setId("gateway121");
+        routeDefinition.setId("authorication-admin");
         List<PredicateDefinition> predicateDefinitionList = new ArrayList<>();
-        PredicateDefinition predicateDefinition = new PredicateDefinition("Path=/gateway/authorization/**");
+        PredicateDefinition predicateDefinition = new PredicateDefinition("Path=/admin/**");
         predicateDefinitionList.add(predicateDefinition);
         routeDefinition.setPredicates(predicateDefinitionList);
-        routeDefinition.setUri(URI.create("lb://fairy-cloud-gateway"));
+        routeDefinition.setUri(URI.create("lb://authorication-admin"));
+
+        List< FilterDefinition > filters = new ArrayList<>();
+        FilterDefinition filterDefinition = new FilterDefinition();
+        filterDefinition.setName("RequestRateLimiter");
+        HashMap map = new HashMap();
+        map.put("deny-empty-key","false");
+        map.put("redis-rate-limiter.replenishRate","1");
+        map.put("redis-rate-limiter.burstCapacity","1");
+        map.put("redis-rate-limiter.requestedTokens","1");
+        map.put("key-resolver","#{@defaultGatewayKeyResolver}");
+
+        filterDefinition.setArgs(map);
+
+        filters.add(filterDefinition);
+//        routeDefinition.setFilters(filters);
+
         routeDefinitionRepository.save(Mono.just(routeDefinition));
 
         routeService.save(routeDefinition);

@@ -5,7 +5,7 @@ package com.fairy.cloud.gateway.config;
  * @author 鹿少年
  * @date 2022/10/18 20:38
  */
-import com.fairy.cloud.gateway.service.impl.RouteService;
+import com.fairy.cloud.gateway.service.IRouteService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
     public static final String API_URI = "/v2/api-docs";
 
     @Autowired
-    private final RouteService routeService;
+    private final IRouteService routeService;
 
     @Override
     public List<SwaggerResource> get() {

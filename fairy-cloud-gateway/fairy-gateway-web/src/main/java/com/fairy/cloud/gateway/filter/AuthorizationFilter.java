@@ -27,18 +27,18 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * 认证过滤器,根据url判断用户请求是要经过认证 才能访问
- */
-@Component
+///**
+// * 认证过滤器,根据url判断用户请求是要经过认证 才能访问
+// */
+//@Component
 @Slf4j
-@ComponentScan(basePackages = "com.fairy.auth.authorication.client")
 public class AuthorizationFilter implements GlobalFilter, Ordered {
     private static final String BEARER = "Bearer ";
     private static final String X_CLIENT_TOKEN_USER = "x-client-token-user";
@@ -46,8 +46,8 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
     @Value("${spring.security.oauth2.jwt.signingKey}")
     private String signingKey;
     @Autowired
-    private NotAuthUrlProperties properties;
-    @Autowired
+    private NotAuthUrlProperties notAuthUrlProperties;
+    @Resource
     private UmsPermissionMapper permissionMapper;
 
     private AntPathMatcher pathMatcher = new AntPathMatcher();
@@ -61,7 +61,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
         String currentUrl = request.getPath().value();
         log.info("url:{},method:{},headers:{}", currentUrl, method, request.getHeaders());
         //1:不需要认证的url
-        boolean rs = properties.getShouldSkipUrls().stream().anyMatch(ignoreUrl -> currentUrl.startsWith(StringUtils.trim(ignoreUrl)));
+        boolean rs = notAuthUrlProperties.getShouldSkipUrls().stream().anyMatch(ignoreUrl -> currentUrl.startsWith(StringUtils.trim(ignoreUrl)));
         if (rs) {
             return chain.filter(exchange);
         }

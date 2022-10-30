@@ -1,6 +1,6 @@
 package com.fairy.cloud.gateway.service.impl;
 
-import com.fairy.cloud.gateway.config.LocalCache;
+import com.fairy.cloud.gateway.config.RouteLocalCache;
 import com.fairy.cloud.gateway.service.IRouteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,7 @@ import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import reactor.core.publisher.Flux;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -22,11 +23,10 @@ public class RedisRouteService implements IRouteService {
     private static final String GATEWAY_ROUTES = "gateway_routes#";
 
     @Resource
-    private LocalCache cache;
+    private RouteLocalCache cache;
 
     @Autowired
     private RedisTemplate redisTemplate;
-
 
 
     @PostConstruct
@@ -38,7 +38,7 @@ public class RedisRouteService implements IRouteService {
         }
         log.info("预计初使化路由, gatewayKeys：{}", gatewayKeys);
         List<RouteDefinition> list = redisTemplate.opsForValue().multiGet(gatewayKeys);
-        list.stream().forEach(routeDefinition -> cache.put(routeDefinition.getId(),routeDefinition));
+        list.stream().forEach(routeDefinition -> cache.put(routeDefinition.getId(), routeDefinition));
         // 去掉key的前缀
 //        Set<String> gatewayKeyIds = gatewayKeys.stream().map(key -> {
 //            return key.replace(GATEWAY_ROUTES, StringUtils.EMPTY);
@@ -67,7 +67,7 @@ public class RedisRouteService implements IRouteService {
     @Override
     public boolean save(RouteDefinition routeDefinition) {
         cache.put(routeDefinition.getId(), routeDefinition);
-        redisTemplate.opsForValue().set(GATEWAY_ROUTES+routeDefinition.getId(),routeDefinition);
+        redisTemplate.opsForValue().set(GATEWAY_ROUTES + routeDefinition.getId(), routeDefinition);
         log.info("新增路由1条：{},目前路由共{}条", routeDefinition, cache.getRouteMaps().size());
         return true;
     }
@@ -75,9 +75,14 @@ public class RedisRouteService implements IRouteService {
     @Override
     public boolean delete(String routeId) {
         cache.remove(routeId);
-        redisTemplate.delete(GATEWAY_ROUTES+routeId);
+        redisTemplate.delete(GATEWAY_ROUTES + routeId);
         log.info("删除路由1条：{},目前路由共{}条", routeId, cache.getRouteMaps().size());
         return true;
+    }
+
+    @Override
+    public Flux<RouteDefinition> findByRouteId(String id) {
+        return null;
     }
 
 }

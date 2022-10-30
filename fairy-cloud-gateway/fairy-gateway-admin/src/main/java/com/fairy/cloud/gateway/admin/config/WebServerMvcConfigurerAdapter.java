@@ -1,6 +1,6 @@
 package com.fairy.cloud.gateway.admin.config;
 
-import com.springboot.cloud.common.web.interceptor.UserInterceptor;
+import com.fairy.cloud.gateway.admin.interceptor.UserInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;

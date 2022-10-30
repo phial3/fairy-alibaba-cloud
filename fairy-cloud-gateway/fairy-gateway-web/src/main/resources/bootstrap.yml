@@ -50,69 +50,69 @@ spring:
           enabled: true
       enabled: true
       routes:
-        - id: authorization-server
-          #uri: http://localhost:8082
-          uri: lb://authorization-server  #开启从注册中心动态创建路由的功能，利用微服务名进行路由
-          predicates:
-            - Path=/auth/authorization/**
-          filters:
-            - StripPrefix=1
-        - id: authorication-client
-          uri: lb://authorication-client
-          predicates:
-            - Path=/auth/client/**
-          filters:
-            - StripPrefix=1
-        - id: authorication-admin
-          uri: lb://authorication-admin
-          predicates:
-            - Path=/admin/**
-          filters:
-#            - RewritePath=/user(?<segment>/?.*), $\{segment}
-            - name: RequestRateLimiter
-              args:
-                # 如果返回的key是空的话，则不进行限流
-                deny-empty-key: false
-                # 每秒产生多少个令牌
-                redis-rate-limiter.replenishRate: 1  #对应 RedisRateLimiter
-                # 1秒内最大的令牌，即在1s内可以允许的突发流程，设置为0，表示阻止所有的请求
-                redis-rate-limiter.burstCapacity: 1
-                # 每次请求申请几个令牌
-                redis-rate-limiter.requestedTokens: 1
-                #SPEL表达式去的对应的bean 自定义限流规则
-                rate-limiter: "#{@defaultGatewayRateLimiter}"
-                # 返回限流的key
-                key-resolver: "#{@defaultGatewayKeyResolver}"
-                # 限流后向客户端返回的响应码429,请求太多
-                status-code: TOO_MANY_REQUESTS
-                # 每次请求申请几个令牌  default-gateway-rate-limiter 的值是在 defaultGatewayRateLimiter 中定义的。
-                default-gateway-rate-limiter.requestedTokens: 1
-        - id: authorication-server
-          uri: lb://authorication-server
-          predicates:
-            - Path=/auth/authorication/**
-          filters:
-            - StripPrefix=1
-        - id: fairy-cloud-member
-          uri: lb://fairy-cloud-member
-          predicates:
-            - Path=/member/**
-        - id: fairy-cloud-stock
-          uri: lb://fairy-cloud-stock
-          predicates:
-            - Path=/stock/**
-        - id: fairy-cloud-order
-          uri: lb://fairy-cloud-order
-          predicates:
-            - Path=/order/**
-        - id: fairy-cloud-product
-          uri: lb://fairy-cloud-product
-          predicates:
-            - Path=/pms/**
-        - id: fairy-cloud-portal
-          uri: lb://fairy-cloud-portal
-          predicates:
-            - Path=/portal/**
+#        - id: authorization-server
+#          #uri: http://localhost:8082
+#          uri: lb://authorization-server  #开启从注册中心动态创建路由的功能，利用微服务名进行路由
+#          predicates:
+#            - Path=/auth/authorization/**
+#          filters:
+#            - StripPrefix=1
+#        - id: authorication-client
+#          uri: lb://authorication-client
+#          predicates:
+#            - Path=/auth/client/**
+#          filters:
+#            - StripPrefix=1
+#        - id: authorication-admin
+#          uri: lb://authorication-admin
+#          predicates:
+#            - Path=/admin/**
+#          filters:
+##            - RewritePath=/user(?<segment>/?.*), $\{segment}
+#            - name: RequestRateLimiter
+#              args:
+#                # 如果返回的key是空的话，则不进行限流
+#                deny-empty-key: false
+#                # 每秒产生多少个令牌
+#                redis-rate-limiter.replenishRate: 1  #对应 RedisRateLimiter
+#                # 1秒内最大的令牌，即在1s内可以允许的突发流程，设置为0，表示阻止所有的请求
+#                redis-rate-limiter.burstCapacity: 1
+#                # 每次请求申请几个令牌
+#                redis-rate-limiter.requestedTokens: 1
+#                #SPEL表达式去的对应的bean 自定义限流规则
+#                rate-limiter: "#{@defaultGatewayRateLimiter}"
+#                # 返回限流的key
+#                key-resolver: "#{@defaultGatewayKeyResolver}"
+#                # 限流后向客户端返回的响应码429,请求太多
+#                status-code: TOO_MANY_REQUESTS
+#                # 每次请求申请几个令牌  default-gateway-rate-limiter 的值是在 defaultGatewayRateLimiter 中定义的。
+#                default-gateway-rate-limiter.requestedTokens: 1
+#        - id: authorication-server
+#          uri: lb://authorication-server
+#          predicates:
+#            - Path=/auth/authorication/**
+#          filters:
+#            - StripPrefix=1
+#        - id: fairy-cloud-member
+#          uri: lb://fairy-cloud-member
+#          predicates:
+#            - Path=/member/**
+#        - id: fairy-cloud-stock
+#          uri: lb://fairy-cloud-stock
+#          predicates:
+#            - Path=/stock/**
+#        - id: fairy-cloud-order
+#          uri: lb://fairy-cloud-order
+#          predicates:
+#            - Path=/order/**
+#        - id: fairy-cloud-product
+#          uri: lb://fairy-cloud-product
+#          predicates:
+#            - Path=/pms/**
+#        - id: fairy-cloud-portal
+#          uri: lb://fairy-cloud-portal
+#          predicates:
+#            - Path=/portal/**
 #      default-filters:
 #        - name: Retry
 #          args:

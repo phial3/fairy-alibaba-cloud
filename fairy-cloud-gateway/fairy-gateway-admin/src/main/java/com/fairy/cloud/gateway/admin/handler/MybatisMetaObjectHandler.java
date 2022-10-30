@@ -1,17 +1,25 @@
-package com.fairy.cloud.gateway.admin.config;
+package com.fairy.cloud.gateway.admin.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.fairy.common.entity.po.BasePo;
 import com.fairy.common.util.UserContextHolder;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.reflection.MetaObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+/**
+ * @author 鹿少年
+ * @date 2022/10/28 20:00
+ */
 @Component
-public class MyMetaObjectHandler implements MetaObjectHandler {
+public class MybatisMetaObjectHandler implements MetaObjectHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MybatisMetaObjectHandler.class);
 
     /**
      * 获取当前交易的用户，为空返回默认system

@@ -15,10 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author 鹿少年
- * @date 2022/10/21 20:33
+ * @date 2022/10/30 15:12
  */
 @Configuration
-public class LocalCache {
+public class RouteLocalCache {
 
     /**
      * map 缓存 动态路由信息
