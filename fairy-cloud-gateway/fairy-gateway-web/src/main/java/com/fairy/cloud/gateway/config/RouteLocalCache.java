@@ -34,7 +34,7 @@ public class RouteLocalCache {
                 .maximumSize(500)
                 .concurrencyLevel(10)
                 //设置访问缓存后多久过期
-                .expireAfterAccess(60, TimeUnit.SECONDS)
+//                .expireAfterAccess(60, TimeUnit.SECONDS)
                 //设置写缓存后多少秒过期
                 .expireAfterWrite(60, TimeUnit.SECONDS)
                 .build();

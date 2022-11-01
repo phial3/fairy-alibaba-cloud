@@ -4,14 +4,18 @@ import com.fairy.cloud.gateway.GateWayApp;
 import com.fairy.cloud.gateway.config.RouteLocalCache;
 import com.fairy.cloud.gateway.routes.repository.RedisRouteDefinitionRepository;
 import com.fairy.cloud.gateway.service.impl.RedisRouteService;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.cloud.gateway.route.*;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -47,6 +51,9 @@ public class gateWayTest {
     private RedisRouteDefinitionRepository routeDefinitionRepository;
     @Resource
     private RouteLocalCache cache;
+    @Resource
+    private ApplicationEventPublisher applicationEventPublisher;
+
 
     @Test
     public void testGateWayRoute() {
@@ -78,6 +85,14 @@ public class gateWayTest {
 
         routeDefinitionRepository.save(Mono.just(routeDefinition));
 
-        routeService.save(routeDefinition);
+        routeDefinitionRepository.delete(Mono.just(routeDefinition.getId()));
+
+        routeDefinitionRepository.save(Mono.just(routeDefinition));
+
+//        routeService.save(routeDefinition);
+
+        applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+
+
     }
 }
