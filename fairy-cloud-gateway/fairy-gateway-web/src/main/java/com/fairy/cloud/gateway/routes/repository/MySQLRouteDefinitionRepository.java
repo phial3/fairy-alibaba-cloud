@@ -51,8 +51,8 @@ public class MySQLRouteDefinitionRepository implements RouteDefinitionRepository
             return Mono.error(new IllegalArgumentException("id may not be empty"));
         }
         GatewayRoutePO routePO = GatewayRoutePO.toGatewayRoute(definition);
-        List<GatewayRouteArgsPO> filter = GatewayRouteArgsPO.toGatewayRouteFilterArgs(definition.getFilters());
-        List<GatewayRouteArgsPO> predicate = GatewayRouteArgsPO.toGatewayRoutePredictArgs(definition.getPredicates());
+        List<GatewayRouteArgsPO> filter = GatewayRouteArgsPO.toGatewayRouteFilterArgs(definition.getFilters(),definition.getId());
+        List<GatewayRouteArgsPO> predicate = GatewayRouteArgsPO.toGatewayRoutePredictArgs(definition.getPredicates(),definition.getId());
         //1:先查询
         GatewayRoutePO gatewayRoutePOS = gatewayRouteDao.findGatewayRouteByRouteId(definition.getId());
         if (!Objects.isNull(gatewayRoutePOS)) {

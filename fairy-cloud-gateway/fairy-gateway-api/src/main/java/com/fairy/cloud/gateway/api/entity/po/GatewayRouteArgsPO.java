@@ -71,11 +71,11 @@ public class GatewayRouteArgsPO extends BasePo {
         return definition;
     }
 
-    public static List<GatewayRouteArgsPO> toGatewayRouteFilterArgs(List<FilterDefinition> filters) {
+    public static List<GatewayRouteArgsPO> toGatewayRouteFilterArgs(List<FilterDefinition> filters,String  routId) {
         List<GatewayRouteArgsPO> list = new ArrayList<>();
         filters.stream().forEach(filterDefinition -> {
             try {
-                list.add(GatewayRouteArgsPO.builder().name(filterDefinition.getName()).type(RoteTypeEnums.FILTER.getId()).args(mapper.writeValueAsString(filterDefinition.getArgs())).build());
+                list.add(GatewayRouteArgsPO.builder().routeId(routId).name(filterDefinition.getName()).type(RoteTypeEnums.FILTER.getId()).args(mapper.writeValueAsString(filterDefinition.getArgs())).build());
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -83,11 +83,11 @@ public class GatewayRouteArgsPO extends BasePo {
         return list;
     }
 
-    public static List<GatewayRouteArgsPO> toGatewayRoutePredictArgs(List<PredicateDefinition> predicates) {
+    public static List<GatewayRouteArgsPO> toGatewayRoutePredictArgs(List<PredicateDefinition> predicates,String  routId) {
         List<GatewayRouteArgsPO> list = new ArrayList<>();
         predicates.stream().forEach(predicateDefinition -> {
             try {
-                list.add(GatewayRouteArgsPO.builder().name(predicateDefinition.getName()).type(RoteTypeEnums.PREDICT.getId()).args(mapper.writeValueAsString(predicateDefinition.getArgs())).build());
+                list.add(GatewayRouteArgsPO.builder().routeId(routId).name(predicateDefinition.getName()).type(RoteTypeEnums.PREDICT.getId()).args(mapper.writeValueAsString(predicateDefinition.getArgs())).build());
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

@@ -93,6 +93,8 @@ logging:
     com.alibaba.cloud.nacos.client: ERROR
     com.fairy.cloud.mbg.mapper: DEBUG
     org.springframework.cloud.gateway.filter: TRACE
+    com.fairy.cloud.gateway.api.mapper: DEBUG
+
   file:
     max-size: 1GB
 
