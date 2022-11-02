@@ -10,6 +10,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
+import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,43 +46,51 @@ public class MySQLRouteDefinitionRepository implements RouteDefinitionRepository
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Mono<Void> save(Mono<RouteDefinition> route) {
-        return route.flatMap(r -> {
-            if (ObjectUtils.isEmpty(r.getId())) {
-                return Mono.error(new IllegalArgumentException("id may not be empty"));
-            }
-            GatewayRoutePO routePO = GatewayRoutePO.toGatewayRoute(r);
-            List<GatewayRouteArgsPO> filter = GatewayRouteArgsPO.toGatewayRouteFilterArgs(r.getFilters());
-            List<GatewayRouteArgsPO> predicate = GatewayRouteArgsPO.toGatewayRoutePredictArgs(r.getPredicates());
-            //1:先查询
-            GatewayRoutePO gatewayRoutePOS = gatewayRouteDao.findGatewayRouteByRouteId(r.getId());
-            if (!Objects.isNull(gatewayRoutePOS)) {
-                //更新
-                gatewayRouteDao.updateGatewayRoute(routePO);
-                gatewayRouteArgsDao.batchUpdateGatewayArgs(filter);
-                gatewayRouteArgsDao.batchUpdateGatewayArgs(predicate);
-            } else {
-                //2: 保存
-                gatewayRouteDao.saveGatewayRoute(routePO);
-                gatewayRouteArgsDao.bathSaveGatewayArgs(filter);
-                gatewayRouteArgsDao.bathSaveGatewayArgs(predicate);
-            }
+        RouteDefinition definition = route.block();
+        if (ObjectUtils.isEmpty(definition.getId())) {
+            return Mono.error(new IllegalArgumentException("id may not be empty"));
+        }
+        GatewayRoutePO routePO = GatewayRoutePO.toGatewayRoute(definition);
+        List<GatewayRouteArgsPO> filter = GatewayRouteArgsPO.toGatewayRouteFilterArgs(definition.getFilters());
+        List<GatewayRouteArgsPO> predicate = GatewayRouteArgsPO.toGatewayRoutePredictArgs(definition.getPredicates());
+        //1:先查询
+        GatewayRoutePO gatewayRoutePOS = gatewayRouteDao.findGatewayRouteByRouteId(definition.getId());
+        if (!Objects.isNull(gatewayRoutePOS)) {
+            //更新
+            gatewayRouteDao.updateGatewayRoute(routePO);
+            gatewayRouteArgsDao.batchUpdateGatewayArgs(filter);
+            gatewayRouteArgsDao.batchUpdateGatewayArgs(predicate);
+        } else {
+            //2: 保存
+            gatewayRouteDao.saveGatewayRoute(routePO);
+            gatewayRouteArgsDao.bathSaveGatewayArgs(filter);
+            gatewayRouteArgsDao.bathSaveGatewayArgs(predicate);
+        }
 
-            return Mono.empty();
-        });
+        return Mono.empty();
     }
 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Mono<Void> delete(Mono<String> routeId) {
-        return  routeId.flatMap(r -> {
-            if (ObjectUtils.isEmpty(r)) {
-                return Mono.error(new IllegalArgumentException("id may not be empty"));
-            }
-            //删除路由以及路由 参数
-            gatewayRouteDao.deleteRoute(r);
-            return Mono.empty();
-        });
+//        return routeId.flatMap(r -> {
+//            if (ObjectUtils.isEmpty(r)) {
+//                return Mono.error(new IllegalArgumentException("id may not be empty"));
+//            }
+//            //删除路由以及路由 参数
+//            gatewayRouteDao.deleteRoute(r);
+//            return Mono.empty();
+//        });
+
+        String routId = routeId.block();
+        if (ObjectUtils.isEmpty(routId)) {
+            return Mono.defer(() -> Mono.error(
+                new NotFoundException("RouteDefinition not found: " + routeId)));
+        }
+        gatewayRouteDao.deleteRoute(routId);
+        return Mono.empty();
     }
+
 
 }
