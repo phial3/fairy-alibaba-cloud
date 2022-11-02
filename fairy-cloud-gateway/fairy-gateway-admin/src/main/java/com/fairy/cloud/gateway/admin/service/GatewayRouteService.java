@@ -1,8 +1,9 @@
 package com.fairy.cloud.gateway.admin.service;
 
-import com.fairy.cloud.gateway.admin.entity.dto.GatewayRouteDTO;
-import com.fairy.cloud.gateway.admin.entity.po.GatewayRoutePO;
-import com.fairy.cloud.gateway.admin.entity.query.GatewayRouteQueryParam;
+
+import com.fairy.cloud.gateway.api.entity.dto.GatewayRouteDTO;
+import com.fairy.cloud.gateway.api.entity.po.GatewayRoutePO;
+import com.fairy.cloud.gateway.api.entity.query.GatewayRouteQueryParam;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface GatewayRouteService {
      * @param gatewayRoutForm 网关路由信息
      * @return
      */
-    boolean saveRouteInfo(GatewayRouteDTO gatewayRoutForm);
+    void saveRouteInfo(GatewayRouteDTO gatewayRouteDTO);
 
     /**
      * 删除路由信息
@@ -25,7 +26,7 @@ public interface GatewayRouteService {
      * @param routId
      * @return
      */
-    boolean deleteRoute(String routId);
+    void deleteRoute(String routId);
 
     /**
      * 更新路由信息
@@ -33,7 +34,7 @@ public interface GatewayRouteService {
      * @param gatewayRouteDTO
      * @return
      */
-    boolean updateRoute(GatewayRouteDTO gatewayRouteDTO);
+    void updateRoute(GatewayRouteDTO gatewayRouteDTO);
 
     /**
      * 查询路由
@@ -41,7 +42,7 @@ public interface GatewayRouteService {
      * @param routId
      * @return
      */
-    GatewayRoutePO getRoute(String routId);
+    GatewayRoutePO getRouteByRouteId(String routId);
 
     /**
      * 条件查询
@@ -49,5 +50,5 @@ public interface GatewayRouteService {
      * @param build
      * @return
      */
-    List<GatewayRoutePO> query(GatewayRouteQueryParam build);
+    List<GatewayRoutePO> query(GatewayRouteQueryParam param);
 }

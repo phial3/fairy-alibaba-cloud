@@ -1,35 +1,23 @@
 package com.fairy.cloud.gateway.routes.repository;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.fairy.cloud.gateway.dao.GatewayRouteArgsDao;
-import com.fairy.cloud.gateway.dao.GatewayRouteDao;
-import com.fairy.cloud.gateway.entity.GatewayRouteArgsPO;
-import com.fairy.cloud.gateway.entity.GatewayRouteDefinition;
-import com.fairy.cloud.gateway.entity.GatewayRoutePO;
-import com.fairy.cloud.gateway.util.GatewayContant;
+import com.fairy.cloud.gateway.api.dao.GatewayRouteArgsDao;
+import com.fairy.cloud.gateway.api.dao.GatewayRouteDao;
+import com.fairy.cloud.gateway.api.entity.po.GatewayRouteArgsPO;
+import com.fairy.cloud.gateway.api.entity.po.GatewayRouteDefinition;
+import com.fairy.cloud.gateway.api.entity.po.GatewayRoutePO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.gateway.filter.FilterDefinition;
-import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
-import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
-import java.net.URI;
-import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 @Slf4j
 @Repository
@@ -65,7 +53,7 @@ public class MySQLRouteDefinitionRepository implements RouteDefinitionRepository
             List<GatewayRouteArgsPO> filter = GatewayRouteArgsPO.toGatewayRouteFilterArgs(r.getFilters());
             List<GatewayRouteArgsPO> predicate = GatewayRouteArgsPO.toGatewayRoutePredictArgs(r.getPredicates());
             //1:先查询
-            GatewayRoutePO gatewayRoutePOS = gatewayRouteDao.findGatewayRouteById(r.getId());
+            GatewayRoutePO gatewayRoutePOS = gatewayRouteDao.findGatewayRouteByRouteId(r.getId());
             if (!Objects.isNull(gatewayRoutePOS)) {
                 //更新
                 gatewayRouteDao.updateGatewayRoute(routePO);
@@ -92,10 +80,6 @@ public class MySQLRouteDefinitionRepository implements RouteDefinitionRepository
             }
             //删除路由以及路由 参数
             gatewayRouteDao.deleteRoute(r);
-
-            //分别删除
-            gatewayRouteDao.deleteRouteByRouteId(r);
-            gatewayRouteArgsDao.deleteRouteArgsByRouteId(r);
             return Mono.empty();
         });
     }

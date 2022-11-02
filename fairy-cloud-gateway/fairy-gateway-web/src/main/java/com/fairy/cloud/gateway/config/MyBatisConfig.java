@@ -10,6 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan({"com.fairy.cloud.mbg.mapper"})
+@MapperScan({"com.fairy.cloud.gateway.api.mapper","com.fairy.cloud.gateway.api.mapper"})
 public class MyBatisConfig {
 }

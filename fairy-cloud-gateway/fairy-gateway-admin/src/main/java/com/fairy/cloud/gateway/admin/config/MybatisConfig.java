@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement
 @Configuration
-@MapperScan({"com.fairy.cloud.mbg.mapper"})
+@MapperScan({"com.fairy.cloud.mbg.mapper","com.fairy.cloud.gateway.api.mapper"})
 public class MybatisConfig {
     /**
      * 分页插件

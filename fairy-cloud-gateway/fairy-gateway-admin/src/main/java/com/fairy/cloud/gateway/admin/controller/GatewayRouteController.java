@@ -1,9 +1,9 @@
 package com.fairy.cloud.gateway.admin.controller;
 
-import com.fairy.cloud.gateway.admin.entity.dto.GatewayRouteDTO;
-import com.fairy.cloud.gateway.admin.entity.po.GatewayRoutePO;
-import com.fairy.cloud.gateway.admin.entity.query.GatewayRouteQueryParam;
 import com.fairy.cloud.gateway.admin.service.GatewayRouteService;
+import com.fairy.cloud.gateway.api.entity.dto.GatewayRouteDTO;
+import com.fairy.cloud.gateway.api.entity.po.GatewayRoutePO;
+import com.fairy.cloud.gateway.api.entity.query.GatewayRouteQueryParam;
 import com.fairy.common.response.Result;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -35,7 +35,8 @@ public class GatewayRouteController {
     @PostMapping("/add")
     public Result add(@Valid @RequestBody GatewayRouteDTO gatewayRouteDTO) {
         LOGGER.info("新增网关路由: {}", gatewayRouteDTO);
-        return Result.success(gatewayRoutService.saveRouteInfo(gatewayRouteDTO));
+        gatewayRoutService.saveRouteInfo(gatewayRouteDTO);
+        return Result.success("新增网关路由成功");
     }
 
     @ApiOperation(value = "删除网关路由", notes = "根据url的id来指定删除对象")
@@ -43,7 +44,8 @@ public class GatewayRouteController {
     @DeleteMapping(value = "/delete/{id}")
     public Result delete(@PathVariable(name = "id") String routId) {
         LOGGER.info("删除网关路由id: {}", routId);
-        return Result.success(gatewayRoutService.deleteRoute(routId));
+        gatewayRoutService.deleteRoute(routId);
+        return Result.success("删除网关路由id成功");
     }
 
     @ApiOperation(value = "更新网关路由", notes = "修改指定网关路由信息")
@@ -53,7 +55,8 @@ public class GatewayRouteController {
     @PutMapping(value = "/update")
     public Result update(@Valid @RequestBody GatewayRouteDTO gatewayRouteDTO) {
         LOGGER.info("更新网关路由: {}", gatewayRouteDTO);
-        return Result.success(gatewayRoutService.updateRoute(gatewayRouteDTO));
+        gatewayRoutService.updateRoute(gatewayRouteDTO);
+        return Result.success("更新网关路由成功");
     }
 
     @ApiOperation(value = "获取网关路由", notes = "根据id获取指定网关路由信息")
@@ -61,7 +64,7 @@ public class GatewayRouteController {
     @GetMapping(value = "/get/{id}")
     public Result get(@PathVariable(name = "id") String routId) {
         LOGGER.info("get with id:{}", routId);
-        return Result.success(gatewayRoutService.getRoute(routId));
+        return Result.success(gatewayRoutService.getRouteByRouteId(routId));
     }
 
     @ApiOperation(value = "根据uri获取网关路由", notes = "根据uri获取网关路由信息，简单查询")

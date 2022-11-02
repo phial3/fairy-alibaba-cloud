@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fairy.cloud.gateway.api.mapper.GatewayRouteMapper">
+
+
+    <delete id="deleteRoute">
+        DELETE gr.*,gra.*
+        FROM
+        gateway_route gr  LEFT JOIN gateway_route_args gra ON gr.route_id = gra.route_id
+        where gr.route_id = #{routeId}
+    </delete>
+
+
+    <select id="getGatewayRoute" resultType="com.fairy.cloud.gateway.api.entity.po.GatewayRouteDefinition">
+        select gr.route_id as id, gr.ordered , gr.uri , gra.`name` ,gra.args
+        from
+        gateway_route gr left join gateway_route_args gra on gr.route_id = gra.route_id
+    </select>
+</mapper>

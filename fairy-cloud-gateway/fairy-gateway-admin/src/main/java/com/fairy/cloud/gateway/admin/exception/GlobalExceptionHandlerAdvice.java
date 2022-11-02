@@ -6,7 +6,6 @@ import com.fairy.common.error.ServiceException;
 import com.fairy.common.response.Result;
 import io.netty.channel.ConnectTimeoutException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,13 +29,13 @@ public class GlobalExceptionHandlerAdvice {
         log.error("connect timeout exception:{}", ex.getMessage());
         return Result.fail(SystemErrorEnum.GATEWAY_CONNECT_TIME_OUT);
     }
-
-    @ExceptionHandler(value = {NotFoundException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Result handle(NotFoundException ex) {
-        log.error("not found exception:{}", ex.getMessage());
-        return Result.fail(SystemErrorEnum.GATEWAY_NOT_FOUND_SERVICE);
-    }
+//
+//    @ExceptionHandler(value = {NotFoundException.class})
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public Result handle(NotFoundException ex) {
+//        log.error("not found exception:{}", ex.getMessage());
+//        return Result.fail(SystemErrorEnum.GATEWAY_NOT_FOUND_SERVICE);
+//    }
 
     @ExceptionHandler(value = {SignatureException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -73,9 +72,7 @@ public class GlobalExceptionHandlerAdvice {
             return handle((ResponseStatusException) throwable);
         } else if (throwable instanceof ConnectTimeoutException) {
             return handle((ConnectTimeoutException) throwable);
-        } else if (throwable instanceof NotFoundException) {
-            return handle((NotFoundException) throwable);
-        } else if (throwable instanceof ServiceException) {
+        }  else if (throwable instanceof ServiceException) {
             return handle((ServiceException) throwable);
         } else if (throwable instanceof RuntimeException) {
             return handle((RuntimeException) throwable);

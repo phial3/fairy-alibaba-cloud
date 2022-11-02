@@ -46,16 +46,19 @@
             <artifactId>lettuce-core</artifactId>
             <version>6.1.0.RELEASE</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
         <!--以前的版本是 配置一个adapter 不需要在配置 自带了一个 SentinelSCGAutoConfiguration配置会自动导入 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
         </dependency>
-        <dependency>
+     <!--   <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
-        </dependency>
+        </dependency>-->
         <!--- 解决流控链路不生效的问题-->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
@@ -78,14 +81,8 @@
 
         <dependency>
             <groupId>com.fairy</groupId>
-            <artifactId>fairy-cloud-mbg</artifactId>
+            <artifactId>fairy-gateway-api</artifactId>
             <version>1.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
