@@ -9,6 +9,7 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,7 +34,7 @@ public class GatewayRouteController {
     @ApiOperation(value = "新增网关路由", notes = "新增一个网关路由")
     @ApiImplicitParam(name = "gatewayRouteDTO", value = "新增网关路由form表单", required = true, dataType = "GatewayRouteDTO")
     @PostMapping("/add")
-    public Result add(@Valid @RequestBody GatewayRouteDTO gatewayRouteDTO) {
+    public Result add(@Validated @RequestBody GatewayRouteDTO gatewayRouteDTO) {
         LOGGER.info("新增网关路由: {}", gatewayRouteDTO);
         gatewayRoutService.saveRouteInfo(gatewayRouteDTO);
         return Result.success("新增网关路由成功");
@@ -53,7 +54,7 @@ public class GatewayRouteController {
             @ApiImplicitParam(name = "gatewayRouteDTO", value = "网关路由实体", required = true, dataType = "GatewayRouteDTO")
     })
     @PutMapping(value = "/update")
-    public Result update(@Valid @RequestBody GatewayRouteDTO gatewayRouteDTO) {
+    public Result update(@Validated @RequestBody GatewayRouteDTO gatewayRouteDTO) {
         LOGGER.info("更新网关路由: {}", gatewayRouteDTO);
         gatewayRoutService.updateRoute(gatewayRouteDTO);
         return Result.success("更新网关路由成功");
@@ -84,7 +85,7 @@ public class GatewayRouteController {
             @ApiResponse(code = 200, message = "处理成功", response = Result.class)
     )
     @PostMapping(value = "/conditions")
-    public Result search(@Valid @RequestBody GatewayRouteQueryParam gatewayRouteQueryParam) {
+    public Result search(@Validated @RequestBody GatewayRouteQueryParam gatewayRouteQueryParam) {
         return Result.success(gatewayRoutService.query(gatewayRouteQueryParam));
     }
 

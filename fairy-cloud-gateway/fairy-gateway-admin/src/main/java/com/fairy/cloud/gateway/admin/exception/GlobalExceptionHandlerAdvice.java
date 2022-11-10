@@ -7,12 +7,19 @@ import com.fairy.common.response.Result;
 import io.netty.channel.ConnectTimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.ConstraintViolationException;
 import java.security.SignatureException;
+
+import static com.fairy.common.enums.SystemErrorEnum.ARGUMENT_NOT_VALID;
 
 @RestControllerAdvice
 @Slf4j
@@ -65,6 +72,29 @@ public class GlobalExceptionHandlerAdvice {
         return Result.fail(ex);
     }
 
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result handle(MethodArgumentNotValidException ex) {
+        log.error("requestBody参数校验不通过异常,msg:{}", ex.getMessage());
+        BindingResult result = ex.getBindingResult();
+        StringBuilder sb = new StringBuilder("参数校验出错： ");
+        for (FieldError error: result.getFieldErrors()){
+            sb.append(error.getField()).append(":").append(error.getDefaultMessage()).append(",");
+        }
+        if(StringUtils.hasText(ex.getMessage())){
+            return Result.fail(ARGUMENT_NOT_VALID,ex.getMessage());
+        }
+        return Result.fail(ARGUMENT_NOT_VALID);
+    }
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result handle(ConstraintViolationException ex) {
+        log.error("requestparam pathvariable 参数校验不通过异常,msg:{}", ex.getMessage());
+        if(StringUtils.hasText(ex.getMessage())){
+            return Result.fail(ARGUMENT_NOT_VALID,ex.getMessage());
+        }
+        return Result.fail(ARGUMENT_NOT_VALID);
+    }
     @ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result handle(Throwable throwable) {
@@ -76,7 +106,9 @@ public class GlobalExceptionHandlerAdvice {
             return handle((ServiceException) throwable);
         } else if (throwable instanceof RuntimeException) {
             return handle((RuntimeException) throwable);
-        } else if (throwable instanceof Exception) {
+        } else if (throwable instanceof MethodArgumentNotValidException) {
+            return handle((MethodArgumentNotValidException) throwable);
+        }else if (throwable instanceof Exception) {
             return handle((Exception) throwable);
         } else {
             return Result.fail();
