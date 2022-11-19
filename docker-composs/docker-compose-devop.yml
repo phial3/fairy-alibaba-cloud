@@ -1,0 +1,205 @@
+version: '3'
+#networks:
+#  elastic-work:
+###    external: false
+services:
+  rabbitmq:
+    image: rabbitmq:3.8.16-management
+    container_name: rabbitmq
+    restart: always
+    privileged: true
+    hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBIT_MQ_HOST=rabbitmq
+      - RABBIT_MQ_PORT=5672
+      - RABBITMQ_DEFAULT_VHOST=/
+      - TZ=Asia/Shanghai
+      - LANG= en_US.UTF-8
+#    networks:
+#      - elastic-work
+    ports:
+      - 5670-5672:5670-5672
+      - 15670-15672:15670-15672
+      - 15692:15692
+#    volumes:
+#      - /mydata/rabbitma/plugins:/plugins
+
+  zipkin-server:
+    image: openzipkin/zipkin
+    container_name: zipkin-server
+    restart: always
+#    volumes:
+#      - /mydata/zipkin/logs:/var/logs
+#    networks:
+#      - elastic-work
+    ports:
+      - 9411:9411
+    environment:
+      - RABBIT_ADDRESSES=192.168.36.138:5672
+      - RABBIT_PASSWORD=admin
+      - RABBIT_USER=admin
+      #- RABBIT_VIRTUAL_HOST=/rabbitmq
+      - RABBIT_QUEUE=zipkin
+      - STORAGE_TYPE=elasticsearch
+      - ES_HOSTS=192.168.36.138:9200
+#      - STORAGE_TYPE=mysql
+#      - MYSQL_DB=zipkin
+#      - MYSQL_USER=root
+#      - MYSQL_PASS=root
+#      - MYSQL_HOST=192.168.36.139
+#      - MYSQL_TCP_PORT=3306
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch:7.6.1
+    container_name: elasticsearch
+    restart: always
+    environment:
+#      - cluster.name=elastic-nodes
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.name=node02
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /mydata/elasticsearch/config:/usr/share/elasticsearch/config
+      - /mydata/elasticsearch/data:/usr/share/elasticsearch/data
+      - /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+      - /mydata/elasticsearch/logs:/usr/share/elasticsearch/logs
+#    networks:
+#      - elastic-work
+    ports:
+      - 9200:9200
+
+#  skywalking-oap:
+#    image: apache/skywalking-oap-server
+#    container_name: skywalking-oap
+#    networks:
+#      - elastic-work
+#    depends_on:
+#      - elasticsearch
+#    links:
+#      - elasticsearch
+#    restart: always
+#    ports:
+#      - 11800:11800
+#      - 12800:12800
+#    volumes:
+#      - ./devops/skywalking/config:/apache-skywalking-apm-bin/config:ro
+#
+#  skywalking-ui:
+#    image: wutang/skywalking-ui:6.1.0
+#    container_name: skywalking-ui
+#    networks:
+#      - sc-net
+#    depends_on:
+#      - skywalking-oap
+#    links:
+#      - skywalking-oap
+#    restart: always
+#    ports:
+#      - 8080:8080
+#    environment:
+#      collector.ribbon.listOfServers: skywalking-oap:12800
+
+  kibana:
+    image: kibana:7.6.1
+    container_name: kibana
+    restart: always
+    environment:
+      - ELASTICSEARCH_URL=http://node02:9200
+#    networks:
+#      - elastic-work
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+  elasticHead:
+    image: mobz/elasticsearch-head:5
+    container_name: elasticHead
+    restart: always
+    ports:
+      - 9300:9300
+#    networks:
+#      - elastic-work
+    depends_on:
+      - elasticsearch
+    volumes:
+      - /mydata/elasticHead/app/_site:/usr/src/app/_site  
+      - /mydata/elasticHead/app/Gruntfile.js:/usr/src/app/Gruntfile.js
+  sentinel:
+    image: bladex/sentinel-dashboard
+    container_name: sentinel
+    restart: always
+    environment:
+      - JAVA_OPTS: "-Dserver.port=8858 -Dcsp.sentinel.dashboard.server=192.168.36.138:8858 -Dproject.name=sentinel-dashboard -Dauth.enabled=true -Dserver.servlet.session.timeout=7200 Dcsp.sentinel.log.dir=/root/logs  Dlogging.file=/root/logs/sentinel-dashboard.log -Dcsp.sentinel.api.port=8720  -Dcsp.sentinel.app.type=1"
+#    networks:
+#      - elastic-work
+    ports:
+      - 8858:8858
+      - 8720:8720
+    environment:
+      - auth.enabled:true
+    volumes:
+      - /mydata/sentinal/logs:/root/logs 
+  zkzookeeper:
+    image: zookeeper
+    container_name: zkzookeeper
+#    networks:
+#      - elastic-work
+    restart: always
+    ports:
+      - 22181:2181
+    volumes:
+      - /mydata/zookeeper/data:/data
+      - /mydata/zookeeper/conf:/conf
+      - /mydata/zookeeper/logs:/datalog
+    environment:
+      TZ: Asia/Shanghai
+#  nacos:
+#    image: nacos/nacos-server:1.4.2
+#    container_name: nacos
+#    networks:
+#      - elastic-work
+#    restart: always
+#    ports:
+#      - 8848:8848
+#    volumes:
+#      - /mydata/nacos/logs:/home/nacos/logs
+#      - /mydata/nacos/init.d/application.properties:/home/nacos/init.d/custom.properties
+#      - /mydata/nacos/conf/application.properties:/home/nacos/conf/application.properties
+#    environment:
+#      - TZ=Asia/Shanghai
+#      - JVM_XMS=1g
+#      - JVM_XMX=1g
+#      - JVM_XMN=512m
+#      - MODE=standalone
+#      - PREFER_HOST_MODE=hostname
+#    privileged: true
+#    depends_on:
+#      - mysql
+#  mysql:
+#    image: mysql:8.0.28
+#    container_name: mysql
+#    networks:
+#      - elastic-work
+#    restart: always
+#    privileged: true
+#    ports:
+#      - 33306:3306
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+#      - TZ=Asia/Shanghai
+#    volumes:
+#      - /mydata/mysql/data:/var/lib/mysql
+#      - /mydata/mysql/conf/my.cnf:/etc/mysql/my.cnf
+#      - /mydata/mysql/conf/conf.d:/etc/mysql/conf.d
+#      - /mydata/mysql/logs:/var/log/mysql
+#      - /mydata/mysql/lib/mysql:/usr/lib/mysql

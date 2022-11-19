@@ -31,7 +31,7 @@ docker启动 node-exporter进入容器
 ```
  docker exec -it node_exporter /bin/sh
 ```
-![输入图片说明](../images/promethus/node-export%E5%AE%B9%E5%99%A8image.png)
+![输入图片说明](../images//node-export%E5%AE%B9%E5%99%A8image.png)
 
 进入prometheus容器
 

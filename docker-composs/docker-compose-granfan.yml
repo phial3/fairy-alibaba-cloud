@@ -1,0 +1,44 @@
+version: '2'
+services:
+  prometheus:
+    image: prom/prometheus
+    hostname: prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - /mydata/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG= en_US.UTF-8
+  grafana:
+    image: grafana/grafana
+    hostname: grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG= en_US.UTF-8
+#    volumes:
+#      - /mydata/grafana/grafana/:/var/lib/grafana/
+    restart: always
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node_exporter
+    restart: always
+    ports:
+      - 9100:9100
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG= en_US.UTF-8
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+
